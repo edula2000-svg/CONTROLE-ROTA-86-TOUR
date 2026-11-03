@@ -28,56 +28,75 @@ small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 .quick-alerts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.alert{border-radius:13px;background:#fff1dc;color:#784500;padding:12px;font-size:.88rem;font-weight:700}
 .registry-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.stats-grid,.quick-alerts,.registry-columns{grid-template-columns:1fr}.navbtn{font-size:.85rem;padding:10px}}
 </style></head><body>
-<header><div class="wrap"><h1>ð¶ Controle Rota 86 Tour</h1><p>Agenda, reservas e acompanhamento financeiro</p></div></header>
+<header><div class="wrap"><h1>🛶 Controle Rota 86 Tour</h1><p>Agenda, reservas e acompanhamento financeiro</p></div></header>
 <main>
 <nav class="app-nav">
-<button class="navbtn active" data-view="home">â Resumo</button><button class="navbtn" data-view="agenda">â¤ Passeios</button><button class="navbtn" data-view="form">ï¼ Cadastrar</button><button class="navbtn" data-view="registries">â Cadastros</button><button class="navbtn" data-view="reports">â¥ RelatÃ³rios</button>
+<button class="navbtn active" data-view="home">⌂ Resumo</button><button class="navbtn" data-view="agenda">▤ Passeios</button><button class="navbtn" data-view="form">＋ Cadastrar</button><button class="navbtn" data-view="registries">♙ Cadastros</button><button class="navbtn" data-view="finance">R$ Financeiro</button><button class="navbtn" data-view="reports">▥ Relatórios</button>
 </nav>
 <section id="view-home" class="view">
-<div class="dash-head"><div><h2>Resumo do mÃªs</h2><p id="monthLabel"></p></div><input id="monthPick" type="month"></div>
-<div class="stats-grid"><div class="stat"><small>Faturamento previsto</small><strong id="statRevenue">R$ 0,00</strong></div><div class="stat"><small>JÃ¡ recebido</small><strong id="statReceived">R$ 0,00</strong></div><div class="stat"><small>Saldo a receber</small><strong id="statDue">R$ 0,00</strong></div><div class="stat"><small>Passeios no mÃªs</small><strong id="statTours">0</strong></div></div>
-<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">PrÃ³ximos passeios</h2><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
+<div class="dash-head"><div><h2>Resumo do mês</h2><p id="monthLabel"></p></div><input id="monthPick" type="month"></div>
+<div class="stats-grid"><div class="stat"><small>Faturamento previsto</small><strong id="statRevenue">R$ 0,00</strong></div><div class="stat"><small>Já recebido</small><strong id="statReceived">R$ 0,00</strong></div><div class="stat"><small>Saldo a receber</small><strong id="statDue">R$ 0,00</strong></div><div class="stat"><small>Passeios no mês</small><strong id="statTours">0</strong></div></div>
+<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">Próximos passeios</h2><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
 <section id="view-form" class="view" hidden><section class="panel"><h2 id="formTitle">Cadastrar passeio</h2><form id="tourForm"><div class="form-grid">
-<div><label for="date">Data do passeio *</label><input id="date" type="date" required></div><div><label for="time">HorÃ¡rio</label><input id="time" type="time"></div>
-<div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustaÃ§Ã£o (compartilhado)">Barco + caiaque + degustaÃ§Ã£o (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
+<div><label for="date">Data do passeio *</label><input id="date" type="date" required></div><div><label for="time">Horário</label><input id="time" type="time"></div>
+<div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustação (compartilhado)">Barco + caiaque + degustação (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
 <div><label for="customer">Cliente / grupo</label><input id="customer" placeholder="Nome do cliente ou grupo"></div><div><label for="phone">Contato</label><input id="phone" type="tel" placeholder="WhatsApp"></div>
-<div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div><div><label for="freePeople">Cortesias / nÃ£o pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
-<div><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div><label for="received">Total jÃ¡ recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
-<div><label for="guide">Guia</label><input id="guide" placeholder="Ex.: MÃ¡rcio"></div><div><label for="partner">Parceiro / vendedor</label><input id="partner" placeholder="Nome do parceiro"></div><div class="wide"><label for="notes">ObservaÃ§Ãµes</label><textarea id="notes"></textarea></div></div>
-<small class="hint">A entrada registrada no campo âTotal jÃ¡ recebidoâ confirma o passeio. Cortesias nÃ£o geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar ediÃ§Ã£o</button></div></form></section></section>
-<section id="view-agenda" class="view" hidden><section class="panel"><div class="topline"><div><h2 style="margin:0">Passeios por data</h2><div class="count" id="count">Ordenados por data</div></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">ConcluÃ­dos</option></select></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div></section></section>
+<div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div><div><label for="freePeople">Cortesias / não pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
+<div><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div><label for="received">Total já recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
+<div><label for="guide">Guia</label><input id="guide" placeholder="Ex.: Márcio"></div><div><label for="partner">Parceiro / vendedor</label><input id="partner" placeholder="Nome do parceiro"></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
+<small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
+<section id="view-agenda" class="view" hidden><section class="panel"><div class="topline"><div><h2 style="margin:0">Passeios por data</h2><div class="count" id="count">Ordenados por data</div></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div></section></section>
 <section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div></section></section>
-<section id="view-reports" class="view" hidden><section class="panel"><h2>RelatÃ³rio mensal</h2><p id="reportSummary"></p><div id="reportLines"></div></section></section>
-<section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares serÃ¡ necessÃ¡rio conectar um banco de dados.</small></section>
+<section id="view-finance" class="view" hidden><section class="panel"><h2>Adicionar receita ou despesa</h2><form id="financeForm"><div class="form-grid">
+<div><label for="finType">Tipo</label><select id="finType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div>
+<div><label for="finDate">Data</label><input id="finDate" type="date" required></div>
+<div><label for="finCategory">Categoria</label><input id="finCategory" placeholder="Ex.: combustível, guia, passeio" required></div>
+<div><label for="finAmount">Valor (R$)</label><input id="finAmount" type="number" min="0.01" step=".01" required></div>
+<div class="wide"><label for="finDescription">Descrição</label><input id="finDescription" placeholder="Detalhes do lançamento"></div>
+</div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
+<section class="panel"><h2>Movimentações financeiras</h2><p id="finTotals"></p><ul id="financeList"></ul></section></section>
+<section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div></section></section>
+<section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares será necessário conectar um banco de dados.</small></section>
 </main>
 <script>
 const $ = id => document.getElementById(id);
 let tours = JSON.parse(localStorage.getItem('rota86_tours_test') || '[]');
 let editingId = null;
+let financeEntries=JSON.parse(localStorage.getItem('rota86_finance')||'[]');
+function saveFinance(){localStorage.setItem('rota86_finance',JSON.stringify(financeEntries));renderFinance();}
+function renderFinance(){
+ const income=financeEntries.filter(x=>x.type==='receita').reduce((a,x)=>a+Number(x.amount||0),0);
+ const expenses=financeEntries.filter(x=>x.type==='despesa').reduce((a,x)=>a+Number(x.amount||0),0);
+ $('finTotals').textContent=`Receitas: ${money(income)} | Despesas: ${money(expenses)} | Saldo: ${money(income-expenses)}`;
+ $('financeList').innerHTML=financeEntries.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<li>${esc(x.date)} — <b>${x.type==='receita'?'Receita':'Despesa'}</b> ${esc(x.category)}: ${money(x.amount)} ${esc(x.description||'')} <button class="danger" onclick="deleteFinance('${x.id}')">Excluir</button></li>`).join('')||'<li>Nenhum lançamento ainda.</li>';
+}
+window.deleteFinance=id=>{if(confirm('Excluir este lançamento?')){financeEntries=financeEntries.filter(x=>x.id!==id);saveFinance();}};
+$('financeForm').addEventListener('submit',e=>{e.preventDefault();financeEntries.push({id:crypto.randomUUID(),type:$('finType').value,date:$('finDate').value,category:$('finCategory').value.trim(),amount:Number($('finAmount').value),description:$('finDescription').value.trim()});$('financeForm').reset();$('finDate').value=new Date().toISOString().slice(0,10);saveFinance();});
+
 const money = n => Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const totalFor = t => Number(t.paidPeople||0)*Number(t.price||0);
 const balanceFor = t => Math.max(0,totalFor(t)-Number(t.received||0));
 function save(){localStorage.setItem('rota86_tours_test',JSON.stringify(tours));render();}
 function paymentStatus(t){if(Number(t.received||0)<=0)return 'pending';if(balanceFor(t)>0.009)return 'debt';return 'paid';}
 function labelStatus(t){
- if(t.done)return ['Passeio concluÃ­do','green'];
+ if(t.done)return ['Passeio concluído','green'];
  const p=paymentStatus(t);
  if(p==='pending')return ['Aguardando entrada','orange'];
- if(p==='debt')return ['Confirmado Â· saldo devedor','orange'];
- return ['Confirmado Â· quitado','green'];
+ if(p==='debt')return ['Confirmado · saldo devedor','orange'];
+ return ['Confirmado · quitado','green'];
 }
-function dateLabel(d){if(!d)return 'Data nÃ£o informada';const [y,m,day]=d.split('-');return `${day}/${m}/${y}`;}
+function dateLabel(d){if(!d)return 'Data não informada';const [y,m,day]=d.split('-');return `${day}/${m}/${y}`;}
 function monthKey(){return $('monthPick').value || new Date().toISOString().slice(0,7);}
 function dashboard(){
  const m=monthKey(), a=tours.filter(t=>(t.date||'').startsWith(m));
  const rev=a.reduce((s,t)=>s+totalFor(t),0),got=a.reduce((s,t)=>s+Number(t.received||0),0),due=a.reduce((s,t)=>s+balanceFor(t),0);
  $('monthLabel').textContent=new Date(m+'-02T12:00:00').toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
  $('statRevenue').textContent=money(rev);$('statReceived').textContent=money(got);$('statDue').textContent=money(due);$('statTours').textContent=a.length;
- $('alerts').innerHTML=`<div class="alert">â· ${a.filter(t=>!t.done&&Number(t.received||0)<=0).length} aguardando entrada</div><div class="alert">ð¶ ${a.filter(t=>!t.done).length} passeio(s) a realizar</div>`;
+ $('alerts').innerHTML=`<div class="alert">◷ ${a.filter(t=>!t.done&&Number(t.received||0)<=0).length} aguardando entrada</div><div class="alert">🛶 ${a.filter(t=>!t.done).length} passeio(s) a realizar</div>`;
  const next=[...tours].filter(t=>!t.done).sort((x,y)=>(x.date+(x.time||'')).localeCompare(y.date+(y.time||''))).slice(0,4);
- $('homeList').innerHTML=next.length?next.map(t=>`<article class="tour-card"><div class="tour-main"><div class="tour-date">ð ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo nÃ£o informado')} Â· ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div></article>`).join(''):'<div class="empty">Nenhum passeio futuro cadastrado.</div>';
+ $('homeList').innerHTML=next.length?next.map(t=>`<article class="tour-card"><div class="tour-main"><div class="tour-date">📅 ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo não informado')} · ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div></article>`).join(''):'<div class="empty">Nenhum passeio futuro cadastrado.</div>';
  $('reportSummary').textContent=`${$('monthLabel').textContent}: ${a.length} passeio(s); previsto ${money(rev)}, recebido ${money(got)}, a receber ${money(due)}.`;
- $('reportLines').innerHTML=`<p>Pagantes: ${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</p><p>Cortesias: ${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</p><p>ConcluÃ­dos: ${a.filter(t=>t.done).length}</p>`;
+ $('reportLines').innerHTML=`<p>Pagantes: ${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</p><p>Cortesias: ${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</p><p>Concluídos: ${a.filter(t=>t.done).length}</p>`;
 }
 window.showView=v=>{document.querySelectorAll('.view').forEach(el=>el.hidden=el.id!=='view-'+v);document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));window.scrollTo({top:0,behavior:'smooth'});};
 function render(){
@@ -86,7 +105,7 @@ function render(){
  let arr=[...tours].sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
  if(filter==='done')arr=arr.filter(t=>t.done);
- $('count').textContent=`${arr.length} passeio(s) Â· ordenados pela data de realizaÃ§Ã£o`;
+ $('count').textContent=`${arr.length} passeio(s) · ordenados pela data de realização`;
  const list=$('tourList');
  if(!arr.length){list.innerHTML='<div class="empty">Nenhum passeio nesta lista ainda.<br>Cadastre o primeiro passeio acima.</div>';return;}
  list.innerHTML=arr.map(t=>{
@@ -94,18 +113,18 @@ function render(){
   const paid=Number(t.paidPeople||0),free=Number(t.freePeople||0),expected=totalFor(t),received=Number(t.received||0),balance=balanceFor(t);
   return `<article class="tour-card">
    <div class="tour-main">
-    <div class="topline"><div class="tour-date">ð ${dateLabel(t.date)}${t.time?' Â· '+t.time:''}</div><span class="badge ${cls}">${t.done?'â ':paymentStatus(t)==='pending'?'â· ':'â '}${status}</span></div>
+    <div class="topline"><div class="tour-date">📅 ${dateLabel(t.date)}${t.time?' · '+t.time:''}</div><span class="badge ${cls}">${t.done?'✓ ':paymentStatus(t)==='pending'?'◷ ':'✓ '}${status}</span></div>
     <div class="tour-title">${esc(t.type)}</div>
-    <div class="tour-meta">${esc(t.customer||'Cliente/grupo nÃ£o informado')}<br>${paid} pagante(s) Â· ${free} cortesia(s) Â· ${paid+free} pessoa(s)</div>
+    <div class="tour-meta">${esc(t.customer||'Cliente/grupo não informado')}<br>${paid} pagante(s) · ${free} cortesia(s) · ${paid+free} pessoa(s)</div>
     <div class="badges"><span class="badge">Previsto: ${money(expected)}</span><span class="badge">Recebido: ${money(received)}</span>${balance>0.009?`<span class="badge red">Deve: ${money(balance)}</span>`:''}</div>
    </div>
-   <div class="card-bottom"><span class="count">${t.done?'Registro finalizado':paymentStatus(t)==='pending'?'Aguardando pagamento da entrada':balance>0.009?'Pagamento parcial':'Pagamento quitado'}</span><button class="secondary" type="button" onclick="toggleDetail('${t.id}')">Ver detalhesâ</button></div>
+   <div class="card-bottom"><span class="count">${t.done?'Registro finalizado':paymentStatus(t)==='pending'?'Aguardando pagamento da entrada':balance>0.009?'Pagamento parcial':'Pagamento quitado'}</span><button class="secondary" type="button" onclick="toggleDetail('${t.id}')">Ver detalhes⌄</button></div>
    <div class="detail" id="detail-${t.id}">
     <div class="detail-grid">
-     <div class="detail-item"><small>Contato</small>${esc(t.phone||'â')}</div><div class="detail-item"><small>Valor por pagante</small>${money(t.price)}</div>
-     <div class="detail-item"><small>Guia</small>${esc(t.guide||'â')}</div><div class="detail-item"><small>Parceiro / vendedor</small>${esc(t.partner||'â')}</div>
-     <div class="detail-item"><small>Saldo restante</small>${money(balance)}</div><div class="detail-item"><small>SituaÃ§Ã£o</small>${esc(status)}</div>
-     <div class="detail-item" style="grid-column:1/-1"><small>ObservaÃ§Ãµes</small>${esc(t.notes||'â')}</div>
+     <div class="detail-item"><small>Contato</small>${esc(t.phone||'—')}</div><div class="detail-item"><small>Valor por pagante</small>${money(t.price)}</div>
+     <div class="detail-item"><small>Guia</small>${esc(t.guide||'—')}</div><div class="detail-item"><small>Parceiro / vendedor</small>${esc(t.partner||'—')}</div>
+     <div class="detail-item"><small>Saldo restante</small>${money(balance)}</div><div class="detail-item"><small>Situação</small>${esc(status)}</div>
+     <div class="detail-item" style="grid-column:1/-1"><small>Observações</small>${esc(t.notes||'—')}</div>
     </div>
     <div class="detail-actions">
       <button class="secondary" onclick="editTour('${t.id}')">Editar</button>
@@ -124,14 +143,14 @@ window.deleteTour=id=>{if(confirm('Excluir este passeio?')){tours=tours.filter(x
 window.editTour=id=>{
  const t=tours.find(x=>x.id===id);if(!t)return;editingId=id;
  ['date','time','type','customer','phone','paidPeople','freePeople','price','received','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
- $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alteraÃ§Ãµes';$('cancelEdit').hidden=false;
+ $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
  window.scrollTo({top:0,behavior:'smooth'});
 };
 function resetForm(){editingId=null;$('tourForm').reset();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
 $('tourForm').addEventListener('submit',e=>{
  e.preventDefault();
  const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:Number($('received').value||0),guide:$('guide').value.trim(),partner:$('partner').value.trim(),notes:$('notes').value.trim(),done:false};
- if(t.received>totalFor(t)){if(!confirm('O valor recebido Ã© maior que o total previsto. Deseja salvar assim?'))return;}
+ if(t.received>totalFor(t)){if(!confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?'))return;}
  if(editingId){const old=tours.find(x=>x.id===editingId);t.done=old?.done||false;tours=tours.map(x=>x.id===editingId?t:x);}else tours.push(t);
  resetForm();save();
 });
@@ -145,7 +164,7 @@ document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>s
 $('monthPick').value=new Date().toISOString().slice(0,7);$('monthPick').addEventListener('change',dashboard);
 $('addGuide').onclick=()=>{let n=$('newGuide').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_guides')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_guides',JSON.stringify(a));$('guideList').innerHTML=a.map(x=>'<li>'+esc(x)+'</li>').join();$('newGuide').value='';}};
 $('addPartner').onclick=()=>{let n=$('newPartner').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_partners')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_partners',JSON.stringify(a));$('partnerList').innerHTML=a.map(x=>'<li>'+esc(x)+'</li>').join();$('newPartner').value='';}};
-$('guideList').innerHTML=JSON.parse(localStorage.getItem('rota86_guides')||'["MÃ¡rcio","Eduardo"]').map(x=>'<li>'+esc(x)+'</li>').join();
+$('guideList').innerHTML=JSON.parse(localStorage.getItem('rota86_guides')||'["Márcio","Eduardo"]').map(x=>'<li>'+esc(x)+'</li>').join();
 $('partnerList').innerHTML=JSON.parse(localStorage.getItem('rota86_partners')||'[]').map(x=>'<li>'+esc(x)+'</li>').join();
-render();showView('home');
+$('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render();showView('home');
 </script></body></html>
