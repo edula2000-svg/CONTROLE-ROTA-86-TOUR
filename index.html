@@ -43,7 +43,8 @@ small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 <div><label for="customer">Cliente / grupo</label><input id="customer" placeholder="Nome do cliente ou grupo"></div><div><label for="phone">Contato</label><input id="phone" type="tel" placeholder="WhatsApp"></div>
 <div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div><div><label for="freePeople">Cortesias / não pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
 <div><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div><label for="received">Total já recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
-<div><label for="guide">Guia</label><input id="guide" placeholder="Ex.: Márcio"></div><div><label for="partner">Parceiro / vendedor</label><input id="partner" placeholder="Nome do parceiro"></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
+<div><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
+<div><label for="guidePay">Pagamento do guia (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div><label for="partnerCommission">Comissão do parceiro (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
 <small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
 <section id="view-agenda" class="view" hidden><section class="panel"><div class="topline"><div><h2 style="margin:0">Passeios por data</h2><div class="count" id="count">Ordenados por data</div></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div></section></section>
 <section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div></section></section>
@@ -62,6 +63,19 @@ small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 const $ = id => document.getElementById(id);
 let tours = JSON.parse(localStorage.getItem('rota86_tours_test') || '[]');
 let editingId = null;
+function refreshRegistrySelects(){
+ const gs=JSON.parse(localStorage.getItem('rota86_guides')||'["Márcio","Eduardo"]');
+ const ps=JSON.parse(localStorage.getItem('rota86_partners')||'[]');
+ const fill=(id,arr)=>{const el=$(id),v=el.value;el.innerHTML='<option value="">Selecione</option>'+arr.map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');if(arr.includes(v))el.value=v;};
+ fill('guide',gs);fill('partner',ps);
+}
+function commissionDefaults(){
+ const type=$('type').value.toLowerCase();
+ $('guidePay').value=type.includes('coletivo')?'200':'30';
+ $('partnerCommission').value=type.includes('coletivo')?'20':'25';
+}
+$('type').addEventListener('change',commissionDefaults);
+
 let financeEntries=JSON.parse(localStorage.getItem('rota86_finance')||'[]');
 function saveFinance(){localStorage.setItem('rota86_finance',JSON.stringify(financeEntries));renderFinance();}
 function renderFinance(){
@@ -146,10 +160,10 @@ window.editTour=id=>{
  $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
  window.scrollTo({top:0,behavior:'smooth'});
 };
-function resetForm(){editingId=null;$('tourForm').reset();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
+function resetForm(){editingId=null;$('tourForm').reset();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;refreshRegistrySelects();commissionDefaults();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
 $('tourForm').addEventListener('submit',e=>{
  e.preventDefault();
- const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:Number($('received').value||0),guide:$('guide').value.trim(),partner:$('partner').value.trim(),notes:$('notes').value.trim(),done:false};
+ const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:Number($('received').value||0),guide:$('guide').value,partner:$('partner').value,guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),notes:$('notes').value.trim(),done:false};
  if(t.received>totalFor(t)){if(!confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?'))return;}
  if(editingId){const old=tours.find(x=>x.id===editingId);t.done=old?.done||false;tours=tours.map(x=>x.id===editingId?t:x);}else tours.push(t);
  resetForm();save();
@@ -162,9 +176,27 @@ $('exportBtn').addEventListener('click',()=>{
 });
 document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
 $('monthPick').value=new Date().toISOString().slice(0,7);$('monthPick').addEventListener('change',dashboard);
-$('addGuide').onclick=()=>{let n=$('newGuide').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_guides')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_guides',JSON.stringify(a));$('guideList').innerHTML=a.map(x=>'<li>'+esc(x)+'</li>').join();$('newGuide').value='';}};
-$('addPartner').onclick=()=>{let n=$('newPartner').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_partners')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_partners',JSON.stringify(a));$('partnerList').innerHTML=a.map(x=>'<li>'+esc(x)+'</li>').join();$('newPartner').value='';}};
-$('guideList').innerHTML=JSON.parse(localStorage.getItem('rota86_guides')||'["Márcio","Eduardo"]').map(x=>'<li>'+esc(x)+'</li>').join();
-$('partnerList').innerHTML=JSON.parse(localStorage.getItem('rota86_partners')||'[]').map(x=>'<li>'+esc(x)+'</li>').join();
+
+function renderRegistry(kind){
+ const key=kind==='guide'?'rota86_guides':'rota86_partners';
+ const list=$(kind==='guide'?'guideList':'partnerList');
+ const arr=JSON.parse(localStorage.getItem(key)||(kind==='guide'?'["Márcio","Eduardo"]':'[]'));
+ list.innerHTML=arr.map((n,i)=>'<li>'+esc(n)+' <button type="button" class="secondary" onclick="editRegistry(\''+kind+'\','+i+')">Editar</button> <button type="button" class="secondary" onclick="deleteRegistry(\''+kind+'\','+i+')">Excluir</button></li>').join('');
+ refreshRegistrySelects();
+}
+window.editRegistry=(kind,i)=>{
+ const key=kind==='guide'?'rota86_guides':'rota86_partners';
+ const arr=JSON.parse(localStorage.getItem(key)||(kind==='guide'?'["Márcio","Eduardo"]':'[]'));
+ const value=prompt('Editar nome:',arr[i]);if(value===null)return;
+ const name=value.trim();if(!name)return;arr[i]=name;localStorage.setItem(key,JSON.stringify(arr));renderRegistry(kind);
+};
+window.deleteRegistry=(kind,i)=>{
+ if(!confirm('Excluir este cadastro?'))return;
+ const key=kind==='guide'?'rota86_guides':'rota86_partners';
+ const arr=JSON.parse(localStorage.getItem(key)||(kind==='guide'?'["Márcio","Eduardo"]':'[]'));arr.splice(i,1);localStorage.setItem(key,JSON.stringify(arr));renderRegistry(kind);
+};
+$('addGuide').onclick=()=>{let n=$('newGuide').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_guides')||'["Márcio","Eduardo"]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_guides',JSON.stringify(a));$('newGuide').value='';renderRegistry('guide');}};
+$('addPartner').onclick=()=>{let n=$('newPartner').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_partners')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_partners',JSON.stringify(a));$('newPartner').value='';renderRegistry('partner');}};
+renderRegistry('guide');renderRegistry('partner');
 $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render();showView('home');
 </script></body></html>
