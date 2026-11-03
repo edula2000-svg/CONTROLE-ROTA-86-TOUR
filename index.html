@@ -55,7 +55,7 @@ small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 <div><label for="finAmount">Valor (R$)</label><input id="finAmount" type="number" min="0.01" step=".01" required></div>
 <div class="wide"><label for="finDescription">Descrição</label><input id="finDescription" placeholder="Detalhes do lançamento"></div>
 </div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
-<section class="panel"><h2>Movimentações financeiras</h2><p id="finTotals"></p><ul id="financeList"></ul><h2>Fluxo de caixa do mês</h2><div id="cashFlowReport"></div></section></section>
+<section class="panel"><h2>Movimentações financeiras</h2><p id="finTotals"></p><ul id="financeList"></ul><div class="topline"><h2 style="margin:0">Fluxo de caixa do mês</h2><button type="button" class="primary" onclick="viewPrintCashFlow()">Visualizar / Imprimir / PDF</button></div><div id="cashFlowReport"></div></section></section>
 <section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p></section></section>
 <section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares será necessário conectar um banco de dados.</small></section>
 </main>
@@ -121,6 +121,24 @@ function labelStatus(t){
 }
 function dateLabel(d){if(!d)return 'Data não informada';const [y,m,day]=d.split('-');return `${day}/${m}/${y}`;}
 function monthKey(){return $('monthPick').value || new Date().toISOString().slice(0,7);}
+
+window.viewPrintCashFlow=function(){
+ const m=monthKey();
+ const label=new Date(m+'-02T12:00:00').toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+ const monthTours=tours.filter(t=>(t.date||'').startsWith(m));
+ const entries=financeEntries.filter(x=>(x.date||'').startsWith(m));
+ const tourIncome=monthTours.reduce((sum,t)=>sum+Number(t.received||0),0);
+ const otherIncome=entries.filter(x=>x.type==='receita').reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const expenses=entries.filter(x=>x.type==='despesa').reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const rows=[
+  ...monthTours.filter(t=>Number(t.received||0)>0).map(t=>({date:t.date,type:'Receita de passeio',desc:t.customer||t.type,amount:Number(t.received||0),income:true})),
+  ...entries.map(x=>({date:x.date,type:x.type==='receita'?'Outra receita':'Despesa',desc:(x.category||'')+' '+(x.description||''),amount:Number(x.amount||0),income:x.type==='receita'}))
+ ].sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+ const fmt=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+ const tr=rows.map(r=>'<tr><td>'+esc(r.date)+'</td><td>'+esc(r.type)+'</td><td>'+esc(r.desc)+'</td><td class="num">'+(r.income?fmt(r.amount):'—')+'</td><td class="num">'+(!r.income?fmt(r.amount):'—')+'</td></tr>').join('');
+ const html='<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fluxo de caixa - '+esc(label)+'</title><style>body{font:14px Arial,sans-serif;color:#17212b;margin:28px}h1{font-size:22px}p{margin:7px 0}.summary{display:flex;gap:20px;flex-wrap:wrap;margin:20px 0}table{width:100%;border-collapse:collapse;margin-top:18px}th,td{border:1px solid #bbb;padding:8px;text-align:left}th{background:#edf2f6}.num{text-align:right;white-space:nowrap}.balance{font-size:18px;font-weight:bold;margin-top:20px}@media print{body{margin:12mm}.no-print{display:none}}</style></head><body><button class="no-print" onclick="window.print()">Imprimir / Salvar em PDF</button><h1>Controle Rota 86 Tour — Fluxo de caixa</h1><p>Período: '+esc(label)+'</p><div class="summary"><p>Recebimentos dos passeios: <b>'+fmt(tourIncome)+'</b></p><p>Outras receitas: <b>'+fmt(otherIncome)+'</b></p><p>Despesas pagas: <b>'+fmt(expenses)+'</b></p></div><table><thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Entradas</th><th>Saídas</th></tr></thead><tbody>'+tr+'</tbody></table><p class="balance">Saldo do mês: '+fmt(tourIncome+otherIncome-expenses)+'</p></body></html>';
+ const w=window.open('','_blank');if(!w){alert('Permita a abertura de pop-ups para visualizar o relatório.');return;}w.document.open();w.document.write(html);w.document.close();
+};
 function dashboard(){
  const m=monthKey(), a=tours.filter(t=>(t.date||'').startsWith(m));
  const rev=a.reduce((s,t)=>s+totalFor(t),0),got=a.reduce((s,t)=>s+Number(t.received||0),0),due=a.reduce((s,t)=>s+balanceFor(t),0);
