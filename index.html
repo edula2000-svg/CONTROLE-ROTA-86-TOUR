@@ -276,6 +276,23 @@ header h1,header p{text-align:center!important}
  .finance-total strong{font-size:.83rem}
 }
 </style>
+
+<style>
+.section-band{margin:0 0 12px!important;padding:13px 15px;background:#e4edf7;border-left:7px solid #105078;border-radius:14px;color:#18283b;font-size:1.05rem!important}
+.finance-total-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:8px 0 0}
+.finance-total{display:flex;flex-direction:column;gap:5px;padding:12px 10px;border-radius:15px;font-size:.85rem;font-weight:750}
+.finance-total strong{font-size:1.08rem;overflow-wrap:anywhere}
+.income-total{background:#e7f5e9;color:#08732c}.expense-total{background:#fde9e8;color:#c12a1c}.balance-total{background:#e2efff;color:#0759b4}
+.cash-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 4px;border-bottom:1px solid #e1e7ee;font-size:.92rem}
+.cash-row span{display:flex;align-items:center;gap:9px}
+.cash-positive{color:#08732c}.cash-negative{color:#c12a1c}
+.cash-arrow{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;color:#fff;font-size:1.2rem}
+.cash-arrow.up{background:#279d54}.cash-arrow.down{background:#d93422}
+.cash-balance{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;padding:15px;background:#e2efff;border-radius:14px;color:#073b91;font-weight:850}
+.cash-balance strong{font-size:1.25rem;overflow-wrap:anywhere}
+.cash-print-button{margin-top:12px;width:100%}
+@media(max-width:560px){.finance-total-grid{gap:6px}.finance-total{padding:10px 7px;font-size:.72rem}.finance-total strong{font-size:.83rem}.cash-row{font-size:.83rem}.cash-balance{font-size:.9rem}.cash-balance strong{font-size:1rem}}
+</style>
 </head><body>
 <header><div class="wrap"><h1>Rota 86 Tour</h1><p>Controle de passeios · Reservas e financeiro</p></div></header>
 <main>
@@ -285,7 +302,24 @@ header h1,header p{text-align:center!important}
 <section id="view-home" class="view">
 <div class="dash-head"><div><h2>Resumo do mês</h2><p id="monthLabel"></p></div><input id="monthPick" type="month"></div>
 <div class="stats-grid"><div class="stat"><small>Faturamento previsto</small><strong id="statRevenue">R$ 0,00</strong></div><div class="stat"><small>Já recebido</small><strong id="statReceived">R$ 0,00</strong></div><div class="stat"><small>Saldo a receber</small><strong id="statDue">R$ 0,00</strong></div><div class="stat"><small>Passeios no mês</small><strong id="statTours">0</strong></div></div>
-<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">Próximos passeios</h2><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
+<div class="quick-alerts" id="alerts"></div>
+<section class="panel home-finance-panel">
+  <h2 class="section-band">Movimentações financeiras</h2>
+  <div class="finance-total-grid">
+    <div class="finance-total income-total"><span>Receitas</span><strong id="homeFinIncome">R$ 0,00</strong></div>
+    <div class="finance-total expense-total"><span>Despesas</span><strong id="homeFinExpenses">R$ 0,00</strong></div>
+    <div class="finance-total balance-total"><span>Saldo</span><strong id="homeFinBalance">R$ 0,00</strong></div>
+  </div>
+</section>
+<section class="panel home-cash-panel">
+  <h2 class="section-band">Fluxo de caixa do mês</h2>
+  <div class="cash-row"><span><b class="cash-arrow up">↑</b> Recebimentos dos passeios</span><strong class="cash-positive" id="homeCashTours">R$ 0,00</strong></div>
+  <div class="cash-row"><span><b class="cash-arrow up">↑</b> Outras receitas</span><strong class="cash-positive" id="homeCashOther">R$ 0,00</strong></div>
+  <div class="cash-row"><span><b class="cash-arrow down">↓</b> Despesas pagas</span><strong class="cash-negative" id="homeCashExpenses">R$ 0,00</strong></div>
+  <div class="cash-balance"><span>▤ Saldo do mês</span><strong id="homeCashBalance">R$ 0,00</strong></div>
+  <button type="button" class="primary cash-print-button" onclick="viewPrintCashFlow()">▣ Visualizar / Imprimir / PDF</button>
+</section>
+<section class="panel"><div class="topline"><h2 style="margin:0">Próximos passeios</h2><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
 <section id="view-form" class="view" hidden><section class="panel"><h2 id="formTitle">Cadastrar passeio</h2><form id="tourForm"><div class="form-grid">
 <div><label for="date">Data do passeio *</label><input id="date" type="date" required></div><div><label for="time">Horário</label><input id="time" type="time"></div>
 <div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustação (compartilhado)">Barco + caiaque + degustação (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
@@ -393,6 +427,17 @@ function dashboard(){
  const rev=a.reduce((s,t)=>s+totalFor(t),0),got=a.reduce((s,t)=>s+Number(t.received||0),0),due=a.reduce((s,t)=>s+balanceFor(t),0);
  $('monthLabel').textContent=new Date(m+'-02T12:00:00').toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
  $('statRevenue').textContent=money(rev);$('statReceived').textContent=money(got);$('statDue').textContent=money(due);$('statTours').textContent=a.length;
+ const monthlyEntries=financeEntries.filter(x=>(x.date||'').startsWith(m));
+ const extraIncome=monthlyEntries.filter(x=>x.type==='receita').reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const monthlyExpenses=monthlyEntries.filter(x=>x.type==='despesa').reduce((sum,x)=>sum+Number(x.amount||0),0);
+ $('homeFinIncome').textContent=money(extraIncome);
+ $('homeFinExpenses').textContent=money(monthlyExpenses);
+ $('homeFinBalance').textContent=money(extraIncome-monthlyExpenses);
+ $('homeCashTours').textContent=money(got);
+ $('homeCashOther').textContent=money(extraIncome);
+ $('homeCashExpenses').textContent=money(monthlyExpenses);
+ $('homeCashBalance').textContent=money(got+extraIncome-monthlyExpenses);
+
  $('alerts').innerHTML=`<div class="alert">◷ ${a.filter(t=>!t.done&&Number(t.received||0)<=0).length} aguardando entrada</div><div class="alert">🛶 ${a.filter(t=>!t.done).length} passeio(s) a realizar</div>`;
  const next=[...tours].filter(t=>!t.done).sort((x,y)=>(x.date+(x.time||'')).localeCompare(y.date+(y.time||''))).slice(0,4);
  $('homeList').innerHTML=next.length?next.map(t=>`<article class="tour-card"><div class="tour-main"><div class="tour-date">📅 ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo não informado')} · ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div></article>`).join(''):'<div class="empty">Nenhum passeio futuro cadastrado.</div>';
