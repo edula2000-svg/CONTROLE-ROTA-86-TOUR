@@ -72,8 +72,101 @@ button{border-radius:14px;padding:13px 17px}
  .card-bottom{align-items:center}
 }
 </style>
+
+<style>
+/* Compact typography and clear internal section hierarchy */
+body{font-size:14px}
+header h1{font-size:1.35rem;letter-spacing:.01em}
+header p{font-size:.86rem}
+.panel{padding:16px}
+.panel h2{font-size:1rem;margin:0 0 12px;padding:10px 12px;border-radius:12px;background:#e9eff4;color:#294156;border-left:5px solid #143f5b}
+.panel h3{font-size:.92rem;margin:16px 0 10px;color:#34485d}
+label{font-size:.78rem}
+input,select,textarea{font-size:15px;padding:10px 12px}
+button{font-size:.88rem;padding:10px 13px}
+.navbtn{font-size:.88rem}
+.stat small{font-size:.74rem}
+.stat strong{font-size:1.08rem}
+.tour-date{font-size:.78rem}
+.tour-title{font-size:.98rem}
+.tour-meta{font-size:.82rem}
+.badge{font-size:.7rem;padding:4px 8px}
+.detail-item{font-size:.82rem}
+.count,.empty{font-size:.82rem}
+.quick-alerts .alert{font-size:.83rem;padding:12px}
+.card-bottom{font-size:.82rem}
+#cashFlowReport p{font-size:.88rem;margin:8px 0}
+#cashFlowReport h3{font-size:1rem;padding:10px 12px;background:#e7f6ed;color:#17663a;border-left:5px solid #16834a;border-radius:12px}
+#finTotals{font-size:.9rem}
+#statRevenue{color:#145da0}
+#statReceived{color:#16834a}
+#statPending{color:#a65b00}
+#statExpense{color:#b42318}
+.positive,.income,.revenue{color:#16834a}
+.negative,.expense{color:#b42318}
+.balance,.cash-balance{color:#145da0}
+@media(max-width:560px){
+ .panel{padding:13px}
+ .panel h2{font-size:.94rem;padding:9px 10px}
+ .panel h3{font-size:.88rem}
+ .tour-title{font-size:.93rem}
+ .tour-meta{font-size:.8rem}
+ .navbtn{font-size:.82rem;padding:10px 12px}
+ input,select,textarea{font-size:15px}
+}
+</style>
+
+<style>
+/* Final visual pass matching the approved mobile preview */
+:root{--bg:#f3f5f9;--card:#fff;--ink:#253247;--muted:#788596;--line:#e2e8ef;--blue:#0d4b73;--green:#18833f;--orange:#a65b00;--red:#c92c1c}
+body{font-size:14px;background:var(--bg)}
+header{background:#a2c342;color:#fff;padding:18px 14px 20px}
+header h1{font-size:1.38rem;margin:0 0 4px;font-weight:800}
+header p{font-size:.86rem;color:#f7faed}
+main{max-width:980px;padding:12px;gap:15px}
+.panel,.tour-card{border-radius:20px;border:1px solid #e1e7ee;box-shadow:0 4px 14px rgba(27,43,63,.07)}
+.panel{padding:15px}
+.panel h2{font-size:.98rem;background:#e6edf5;color:#263b50;border-left:5px solid #0d4b73;border-radius:12px;padding:10px 12px;margin:0 0 12px}
+.panel h3{font-size:.88rem;color:#30465b;margin:14px 0 9px}
+.navbtn{background:#e6edf4;color:#304154;border-radius:15px;font-size:.82rem;padding:10px 12px}
+.navbtn.active{background:#0d4b73;color:white}
+.app-nav{gap:7px;background:var(--bg);padding:4px 0 8px}
+.stats-grid{gap:9px}
+.stat{border-radius:15px;padding:13px}
+.stat small{font-size:.72rem}
+.stat strong{font-size:1.02rem}
+input,select,textarea{font-size:15px;padding:10px 11px;border-radius:12px}
+label{font-size:.76rem}
+button{font-size:.84rem;padding:10px 12px;border-radius:12px}
+.primary{background:#0d4b73;color:white}
+.secondary{background:#e8eff5;color:#2c4257}
+.danger{background:#fff0ee;color:#bd2a1c}
+.tour-list{gap:12px}
+.tour-main{padding:14px}
+.tour-date{font-size:.76rem}
+.tour-title{font-size:.94rem}
+.tour-meta{font-size:.8rem}
+.badge{font-size:.68rem;padding:4px 7px}
+.detail{padding:12px;background:#f8fafc}
+.detail-item{font-size:.8rem}
+.card-bottom{padding:11px 14px;background:#f7f9fc;font-size:.8rem}
+#cashFlowReport p{font-size:.84rem;margin:8px 0}
+#cashFlowReport h3{background:#e2efff;color:#0b4b9b;border-left:5px solid #1768c4;border-radius:12px;padding:10px 12px}
+#finTotals{font-size:.86rem}
+#statRevenue{color:#145da0}#statReceived{color:#18833f}#statPending{color:#a65b00}#statExpense{color:#c92c1c}
+@media(max-width:560px){
+ main{padding:10px;gap:13px}
+ .panel{padding:12px}
+ .panel h2{font-size:.9rem;padding:9px 10px}
+ .navbtn{font-size:.78rem;padding:9px 10px}
+ .stats-grid{grid-template-columns:1fr 1fr}
+ .tour-main{padding:13px}
+ .tour-title{font-size:.9rem}
+ .tour-meta{font-size:.78rem}
+}
+</style>
 </head><body>
-<header><div class="wrap"><h1>🛶 Controle Rota 86 Tour</h1><p>Agenda, reservas e acompanhamento financeiro</p></div></header>
+<header><div class="wrap"><h1>Rota 86 Tour</h1><p>Controle de passeios · Reservas e financeiro</p></div></header>
 <main>
 <nav class="app-nav">
 <button class="navbtn active" data-view="home">⌂ Resumo</button><button class="navbtn" data-view="agenda">▤ Passeios</button><button class="navbtn" data-view="form">＋ Cadastrar</button><button class="navbtn" data-view="registries">♙ Cadastros</button><button class="navbtn" data-view="finance">R$ Financeiro</button><button class="navbtn" data-view="reports">▥ Relatórios</button>
