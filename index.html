@@ -27,7 +27,52 @@ small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 .stat small{display:block;color:var(--muted);font-size:.8rem}.stat strong{display:block;font-size:1.1rem;margin-top:5px}
 .quick-alerts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.alert{border-radius:13px;background:#fff1dc;color:#784500;padding:12px;font-size:.88rem;font-weight:700}
 .registry-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.stats-grid,.quick-alerts,.registry-columns{grid-template-columns:1fr}.navbtn{font-size:.85rem;padding:10px}}
-</style></head><body>
+</style>
+<style>
+/* Visual refresh: mobile-first dashboard cards inspired by the reference screenshot */
+:root{--bg:#f1f4f7;--card:#fff;--ink:#263344;--muted:#8994a4;--line:#e5eaf0;--blue:#143f5b;--green:#a2c342;--red:#d93422}
+body{background:#f1f4f7;color:#303b4d}
+header{background:#a2c342;color:#fff;padding:20px 16px 24px}
+header h1{font-size:1.55rem;letter-spacing:-.02em}
+header p{font-size:1rem;color:#f4f8e8}
+main{max-width:1000px;padding:14px;gap:18px}
+.panel,.tour-card{border-radius:22px;border:1px solid #dfe6ed;box-shadow:0 4px 18px rgba(34,50,70,.06)}
+.panel{padding:20px}
+.panel h2{font-size:1.22rem;letter-spacing:-.02em}
+.app-nav{margin:0 -1px 4px;padding:4px 0 10px;gap:9px;background:#f1f4f7}
+.navbtn{background:#e6edf3;color:#34465a;border-radius:18px;padding:13px 16px;font-size:.96rem;font-weight:750}
+.navbtn.active{background:#123f5b;color:#fff}
+.stats-grid{gap:12px}
+.stat{border-radius:18px;padding:17px;border:1px solid #e0e6ed;box-shadow:0 3px 12px rgba(34,50,70,.04)}
+.stat strong{font-size:1.25rem}
+.quick-alerts{gap:12px}
+.alert{border-radius:17px;padding:16px;font-size:.95rem}
+.tour-list{gap:15px}
+.tour-card{border-radius:20px}
+.tour-main{padding:18px}
+.tour-date{font-size:.92rem;color:#72849a}
+.tour-title{font-size:1.12rem}
+.card-bottom{padding:14px 18px;background:#f8fafc}
+.detail{background:#f8fafc}
+input,select,textarea{border-radius:13px;padding:13px}
+button{border-radius:14px;padding:13px 17px}
+.primary{background:#24669d}
+.secondary{background:#e9eff4;color:#2c4053}
+.danger{background:#fff0ee;color:#bf2b1c}
+#view-finance .panel:nth-child(2),#view-reports .panel{border-radius:22px}
+@media(max-width:560px){
+ main{padding:12px;gap:14px}
+ header{padding:18px 14px 22px}
+ header h1{font-size:1.35rem}
+ .panel{padding:16px}
+ .navbtn{font-size:.88rem;padding:12px 14px}
+ .stats-grid{grid-template-columns:1fr 1fr}
+ .quick-alerts{grid-template-columns:1fr}
+ .tour-main{padding:16px}
+ .card-bottom{align-items:center}
+}
+</style>
+</head><body>
 <header><div class="wrap"><h1>🛶 Controle Rota 86 Tour</h1><p>Agenda, reservas e acompanhamento financeiro</p></div></header>
 <main>
 <nav class="app-nav">
