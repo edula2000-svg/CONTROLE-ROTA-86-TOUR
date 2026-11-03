@@ -120,7 +120,7 @@ button{font-size:.88rem;padding:10px 13px}
 /* Final visual pass matching the approved mobile preview */
 :root{--bg:#f3f5f9;--card:#fff;--ink:#253247;--muted:#788596;--line:#e2e8ef;--blue:#0d4b73;--green:#18833f;--orange:#a65b00;--red:#c92c1c}
 body{font-size:14px;background:var(--bg)}
-header{background:#a2c342;color:#fff;padding:18px 14px 20px}
+header{background:#a2c342;color:#fff;padding:18px 14px 20px;text-align:center}
 header h1{font-size:1.38rem;margin:0 0 4px;font-weight:800}
 header p{font-size:.86rem;color:#f7faed}
 main{max-width:980px;padding:12px;gap:15px}
@@ -209,11 +209,39 @@ button{font-size:.84rem;padding:10px 12px;border-radius:12px}
  .app-nav .navbtn{min-height:43px!important;padding:11px 14px!important;font-size:.84rem!important;border-radius:16px!important}
 }
 </style>
+
+<style>
+/* Menu visual aprovado: ícones maiores, rótulos abaixo e navegação em blocos */
+.app-nav{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:9px!important;
+ overflow:visible!important;padding:12px 0 16px!important;margin:0 0 16px!important;background:transparent!important}
+.app-nav .navbtn{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+ gap:5px!important;min-width:0!important;min-height:82px!important;padding:10px 5px!important;
+ white-space:normal!important;text-align:center!important;border-radius:17px!important;
+ background:#e7edf5!important;color:#2c3e53!important;border:1px solid #dce5ef!important;
+ font-size:.77rem!important;font-weight:750!important;line-height:1.1!important}
+.app-nav .navbtn .nav-icon{font-size:1.45rem!important;line-height:1.1!important;font-weight:800!important}
+.app-nav .navbtn .nav-label{font-size:.77rem!important}
+.app-nav .navbtn.active{background:#104d73!important;color:#fff!important;border-color:#104d73!important;box-shadow:0 5px 12px #104d7330!important}
+.panel h2{display:block!important;width:100%;box-sizing:border-box;background:#e4edf7!important;color:#263b50!important;
+ border-left:6px solid #104d73!important;border-radius:14px!important;padding:12px 15px!important;margin:0 0 14px!important}
+header .wrap{max-width:100%!important}
+header h1,header p{text-align:center!important}
+#cashFlowReport .flow-row{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid #e1e7ef}
+#cashFlowReport .flow-row .flow-icon{width:32px;height:32px;flex:0 0 32px;border-radius:50%;display:grid;place-items:center;font-size:1.1rem;font-weight:900}
+#cashFlowReport .flow-row.in .flow-icon{background:#dff3e5;color:#18833f}
+#cashFlowReport .flow-row.out .flow-icon{background:#fde6e5;color:#c92c1c}
+#cashFlowReport .flow-row .amount{margin-left:auto;font-weight:800}
+#cashFlowReport .flow-row.in .amount{color:#18833f}
+#cashFlowReport .flow-row.out .amount{color:#c92c1c}
+#cashFlowReport .flow-row.balance{background:#e3efff;border-radius:12px;padding:13px;margin-top:10px;color:#104d9a;font-weight:850}
+@media(max-width:560px){.app-nav{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+.app-nav .navbtn{min-height:70px!important;font-size:.74rem!important}.app-nav .navbtn .nav-icon{font-size:1.35rem!important}}
+</style>
 </head><body>
 <header><div class="wrap"><h1>Rota 86 Tour</h1><p>Controle de passeios · Reservas e financeiro</p></div></header>
 <main>
 <nav class="app-nav">
-<button class="navbtn active" data-view="home">⌂ Resumo</button><button class="navbtn" data-view="agenda">▤ Passeios</button><button class="navbtn" data-view="form">＋ Cadastrar</button><button class="navbtn" data-view="registries">♙ Cadastros</button><button class="navbtn" data-view="finance">R$ Financeiro</button><button class="navbtn" data-view="reports">▥ Relatórios</button>
+<button class="navbtn active" data-view="home"><span class="nav-icon">⌂</span><span class="nav-label">Resumo</span></button><button class="navbtn" data-view="agenda"><span class="nav-icon">☷</span><span class="nav-label">Passeios</span></button><button class="navbtn" data-view="form"><span class="nav-icon">＋</span><span class="nav-label">Cadastrar</span></button><button class="navbtn" data-view="registries"><span class="nav-icon">♙</span><span class="nav-label">Cadastros</span></button><button class="navbtn" data-view="finance"><span class="nav-icon">R$</span><span class="nav-label">Financeiro</span></button><button class="navbtn" data-view="reports"><span class="nav-icon">▥</span><span class="nav-label">Relatórios</span></button>
 </nav>
 <section id="view-home" class="view">
 <div class="dash-head"><div><h2>Resumo do mês</h2><p id="monthLabel"></p></div><input id="monthPick" type="month"></div>
