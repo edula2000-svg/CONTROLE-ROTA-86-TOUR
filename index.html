@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agenda de Passeios | Rota 86 Tour</title>
-<style>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Controle Rota 86 Tour</title><style>
 :root{--bg:#f4f6f8;--card:#fff;--ink:#17212b;--muted:#687582;--line:#e1e6eb;--blue:#145da0;--green:#16834a;--orange:#a65b00;--red:#b42318}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink)}
 header{background:#123b56;color:#fff;padding:22px 16px}header .wrap,main{max-width:850px;margin:auto}header h1{font-size:1.35rem;margin:0 0 5px}header p{margin:0;color:#d9e7f1;font-size:.92rem}
@@ -24,48 +18,37 @@ button{border:0;border-radius:11px;padding:12px 15px;font:inherit;font-weight:70
 .empty{padding:24px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #cbd4dc;border-radius:14px}
 small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 @media(max-width:560px){.form-grid,.detail-grid{grid-template-columns:1fr}.wide{grid-column:auto}.panel,.tour-main{padding:13px}.filters{width:100%}.filters select{flex:1;min-width:0}.card-bottom{align-items:flex-start}.card-bottom button{padding:10px 12px}}
-</style>
-</head>
-<body>
-<header><div class="wrap"><h1>ð¶ Agenda de Passeios</h1><p>Rota 86 Tour Â· Controle simples para celular</p></div></header>
+</style><style>
+.app-nav{display:flex;gap:7px;overflow-x:auto;padding:3px 0 7px;position:sticky;top:0;background:var(--bg);z-index:5}
+.navbtn{white-space:nowrap;background:#e7edf2;color:#334455;padding:10px 12px;border-radius:12px}.navbtn.active{background:#123b56;color:white}
+.view{display:grid;gap:15px}.view[hidden]{display:none!important}.dash-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dash-head h2{margin:0}.dash-head p{margin:4px 0;color:var(--muted)}.dash-head input{width:auto;max-width:170px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat small{display:block;color:var(--muted);font-size:.8rem}.stat strong{display:block;font-size:1.1rem;margin-top:5px}
+.quick-alerts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.alert{border-radius:13px;background:#fff1dc;color:#784500;padding:12px;font-size:.88rem;font-weight:700}
+.registry-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.stats-grid,.quick-alerts,.registry-columns{grid-template-columns:1fr}.navbtn{font-size:.85rem;padding:10px}}
+</style></head><body>
+<header><div class="wrap"><h1>ð¶ Controle Rota 86 Tour</h1><p>Agenda, reservas e acompanhamento financeiro</p></div></header>
 <main>
-<section class="panel">
-  <h2 id="formTitle">Cadastrar passeio</h2>
-  <form id="tourForm">
-    <div class="form-grid">
-      <div><label for="date">Data do passeio *</label><input id="date" type="date" required></div>
-      <div><label for="time">HorÃ¡rio</label><input id="time" type="time"></div>
-      <div class="wide"><label for="type">Tipo de passeio *</label>
-        <select id="type" required>
-          <option value="Passeio de barco + caiaque + degustaÃ§Ã£o (compartilhado)">Barco + caiaque + degustaÃ§Ã£o (compartilhado)</option>
-          <option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option>
-          <option value="Outro passeio">Outro passeio</option>
-        </select>
-      </div>
-      <div><label for="customer">Cliente / grupo</label><input id="customer" placeholder="Nome do cliente ou grupo"></div>
-      <div><label for="phone">Contato</label><input id="phone" type="tel" placeholder="WhatsApp"></div>
-      <div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div>
-      <div><label for="freePeople">Cortesias / nÃ£o pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
-      <div><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step="0.01" value="250" required></div>
-      <div><label for="received">Total jÃ¡ recebido (R$)</label><input id="received" type="number" min="0" step="0.01" value="0"></div>
-      <div><label for="guide">Guia</label><input id="guide" placeholder="Ex.: MÃ¡rcio"></div>
-      <div><label for="partner">Parceiro / vendedor</label><input id="partner" placeholder="Nome do parceiro"></div>
-      <div class="wide"><label for="notes">ObservaÃ§Ãµes</label><textarea id="notes" placeholder="InformaÃ§Ãµes importantes do passeio"></textarea></div>
-    </div>
-    <small class="hint">O total previsto Ã© calculado pelos participantes pagantes. Cortesias contam no total de pessoas, mas nÃ£o geram receita.</small>
-    <div class="actions"><button class="primary" type="submit" id="saveBtn">Salvar passeio</button><button class="secondary" type="button" id="cancelEdit" hidden>Cancelar ediÃ§Ã£o</button></div>
-  </form>
-</section>
-<section class="panel">
-  <div class="topline"><div><h2 style="margin-bottom:4px">PrÃ³ximos passeios</h2><div class="count" id="count">Ordenados por data</div></div>
-    <div class="filters"><select id="statusFilter" aria-label="Filtrar por situaÃ§Ã£o"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">ConcluÃ­dos</option></select></div>
-  </div>
-  <div class="tour-list" id="tourList" style="margin-top:14px"></div>
-</section>
-<section class="panel">
-  <div class="topline"><h2 style="margin:0">Dados do teste</h2><button class="secondary" id="exportBtn" type="button">Exportar backup</button></div>
-  <small class="hint">Esta versÃ£o salva os dados neste navegador e aparelho. Para compartilhar com Paulinho ou sincronizar entre celulares, serÃ¡ necessÃ¡rio conectar um banco de dados depois.</small>
-</section>
+<nav class="app-nav">
+<button class="navbtn active" data-view="home">â Resumo</button><button class="navbtn" data-view="agenda">â¤ Passeios</button><button class="navbtn" data-view="form">ï¼ Cadastrar</button><button class="navbtn" data-view="registries">â Cadastros</button><button class="navbtn" data-view="reports">â¥ RelatÃ³rios</button>
+</nav>
+<section id="view-home" class="view">
+<div class="dash-head"><div><h2>Resumo do mÃªs</h2><p id="monthLabel"></p></div><input id="monthPick" type="month"></div>
+<div class="stats-grid"><div class="stat"><small>Faturamento previsto</small><strong id="statRevenue">R$ 0,00</strong></div><div class="stat"><small>JÃ¡ recebido</small><strong id="statReceived">R$ 0,00</strong></div><div class="stat"><small>Saldo a receber</small><strong id="statDue">R$ 0,00</strong></div><div class="stat"><small>Passeios no mÃªs</small><strong id="statTours">0</strong></div></div>
+<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">PrÃ³ximos passeios</h2><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
+<section id="view-form" class="view" hidden><section class="panel"><h2 id="formTitle">Cadastrar passeio</h2><form id="tourForm"><div class="form-grid">
+<div><label for="date">Data do passeio *</label><input id="date" type="date" required></div><div><label for="time">HorÃ¡rio</label><input id="time" type="time"></div>
+<div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustaÃ§Ã£o (compartilhado)">Barco + caiaque + degustaÃ§Ã£o (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
+<div><label for="customer">Cliente / grupo</label><input id="customer" placeholder="Nome do cliente ou grupo"></div><div><label for="phone">Contato</label><input id="phone" type="tel" placeholder="WhatsApp"></div>
+<div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div><div><label for="freePeople">Cortesias / nÃ£o pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
+<div><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div><label for="received">Total jÃ¡ recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
+<div><label for="guide">Guia</label><input id="guide" placeholder="Ex.: MÃ¡rcio"></div><div><label for="partner">Parceiro / vendedor</label><input id="partner" placeholder="Nome do parceiro"></div><div class="wide"><label for="notes">ObservaÃ§Ãµes</label><textarea id="notes"></textarea></div></div>
+<small class="hint">A entrada registrada no campo âTotal jÃ¡ recebidoâ confirma o passeio. Cortesias nÃ£o geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar ediÃ§Ã£o</button></div></form></section></section>
+<section id="view-agenda" class="view" hidden><section class="panel"><div class="topline"><div><h2 style="margin:0">Passeios por data</h2><div class="count" id="count">Ordenados por data</div></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">ConcluÃ­dos</option></select></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div></section></section>
+<section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div></section></section>
+<section id="view-reports" class="view" hidden><section class="panel"><h2>RelatÃ³rio mensal</h2><p id="reportSummary"></p><div id="reportLines"></div></section></section>
+<section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares serÃ¡ necessÃ¡rio conectar um banco de dados.</small></section>
 </main>
 <script>
 const $ = id => document.getElementById(id);
@@ -84,7 +67,21 @@ function labelStatus(t){
  return ['Confirmado Â· quitado','green'];
 }
 function dateLabel(d){if(!d)return 'Data nÃ£o informada';const [y,m,day]=d.split('-');return `${day}/${m}/${y}`;}
+function monthKey(){return $('monthPick').value || new Date().toISOString().slice(0,7);}
+function dashboard(){
+ const m=monthKey(), a=tours.filter(t=>(t.date||'').startsWith(m));
+ const rev=a.reduce((s,t)=>s+totalFor(t),0),got=a.reduce((s,t)=>s+Number(t.received||0),0),due=a.reduce((s,t)=>s+balanceFor(t),0);
+ $('monthLabel').textContent=new Date(m+'-02T12:00:00').toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+ $('statRevenue').textContent=money(rev);$('statReceived').textContent=money(got);$('statDue').textContent=money(due);$('statTours').textContent=a.length;
+ $('alerts').innerHTML=`<div class="alert">â· ${a.filter(t=>!t.done&&Number(t.received||0)<=0).length} aguardando entrada</div><div class="alert">ð¶ ${a.filter(t=>!t.done).length} passeio(s) a realizar</div>`;
+ const next=[...tours].filter(t=>!t.done).sort((x,y)=>(x.date+(x.time||'')).localeCompare(y.date+(y.time||''))).slice(0,4);
+ $('homeList').innerHTML=next.length?next.map(t=>`<article class="tour-card"><div class="tour-main"><div class="tour-date">ð ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo nÃ£o informado')} Â· ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div></article>`).join(''):'<div class="empty">Nenhum passeio futuro cadastrado.</div>';
+ $('reportSummary').textContent=`${$('monthLabel').textContent}: ${a.length} passeio(s); previsto ${money(rev)}, recebido ${money(got)}, a receber ${money(due)}.`;
+ $('reportLines').innerHTML=`<p>Pagantes: ${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</p><p>Cortesias: ${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</p><p>ConcluÃ­dos: ${a.filter(t=>t.done).length}</p>`;
+}
+window.showView=v=>{document.querySelectorAll('.view').forEach(el=>el.hidden=el.id!=='view-'+v);document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));window.scrollTo({top:0,behavior:'smooth'});};
 function render(){
+ dashboard();
  const filter=$('statusFilter').value;
  let arr=[...tours].sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
@@ -144,7 +141,11 @@ $('exportBtn').addEventListener('click',()=>{
  const blob=new Blob([JSON.stringify(tours,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='backup-rota86-passeios.json';a.click();URL.revokeObjectURL(url);
 });
-render();
-</script>
-</body>
-</html>
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+$('monthPick').value=new Date().toISOString().slice(0,7);$('monthPick').addEventListener('change',dashboard);
+$('addGuide').onclick=()=>{let n=$('newGuide').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_guides')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_guides',JSON.stringify(a));$('guideList').innerHTML=a.map(x=>'<li>'+esc(x)+'</li>').join();$('newGuide').value='';}};
+$('addPartner').onclick=()=>{let n=$('newPartner').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_partners')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_partners',JSON.stringify(a));$('partnerList').innerHTML=a.map(x=>'<li>'+esc(x)+'</li>').join();$('newPartner').value='';}};
+$('guideList').innerHTML=JSON.parse(localStorage.getItem('rota86_guides')||'["MÃ¡rcio","Eduardo"]').map(x=>'<li>'+esc(x)+'</li>').join();
+$('partnerList').innerHTML=JSON.parse(localStorage.getItem('rota86_partners')||'[]').map(x=>'<li>'+esc(x)+'</li>').join();
+render();showView('home');
+</script></body></html>
