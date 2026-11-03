@@ -55,8 +55,8 @@ small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 <div><label for="finAmount">Valor (R$)</label><input id="finAmount" type="number" min="0.01" step=".01" required></div>
 <div class="wide"><label for="finDescription">Descrição</label><input id="finDescription" placeholder="Detalhes do lançamento"></div>
 </div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
-<section class="panel"><h2>Movimentações financeiras</h2><p id="finTotals"></p><ul id="financeList"></ul></section></section>
-<section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div></section></section>
+<section class="panel"><h2>Movimentações financeiras</h2><p id="finTotals"></p><ul id="financeList"></ul><h2>Fluxo de caixa do mês</h2><div id="cashFlowReport"></div></section></section>
+<section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p></section></section>
 <section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares será necessário conectar um banco de dados.</small></section>
 </main>
 <script>
@@ -77,6 +77,26 @@ function commissionDefaults(){
 $('type').addEventListener('change',commissionDefaults);
 
 let financeEntries=JSON.parse(localStorage.getItem('rota86_finance')||'[]');
+
+let commissionPayments=JSON.parse(localStorage.getItem('rota86_commission_payments')||'[]');
+function saveCommissionPayments(){localStorage.setItem('rota86_commission_payments',JSON.stringify(commissionPayments));}
+function commissionDue(t,kind){const prop=kind==='guide'?'guidePay':'partnerCommission';const amount=Number(t[prop]||0);return kind==='guide'?(amount*(String(t.type||'').toLowerCase().includes('coletivo')?1:Number(t.paidPeople||0))):(amount*(String(t.type||'').toLowerCase().includes('coletivo')?Number(t.paidPeople||0):Number(t.paidPeople||0)));}
+function registerCommissionPayment(kind,name){
+ const amount=Number(document.getElementById('payamount-'+kind+'-'+name).value||0);
+ const date=document.getElementById('paydate-'+kind+'-'+name).value;
+ if(amount<=0||!date){alert('Informe um valor e a data do pagamento.');return;}
+ commissionPayments.push({id:crypto.randomUUID(),kind,name,amount,date});
+ saveCommissionPayments();
+ financeEntries.push({id:crypto.randomUUID(),type:'despesa',date,category:kind==='guide'?'Pagamento de guia':'Comissão de parceiro',amount,description:'Pagamento para '+name,linkedCommission:true});
+ saveFinance();dashboard();
+}
+function renderCommissionRows(kind,records){
+ const grouped={};
+ records.forEach(t=>{const name=t[kind==='guide'?'guide':'partner'];if(!name)return;grouped[name]=(grouped[name]||0)+commissionDue(t,kind);});
+ const paid={};commissionPayments.filter(p=>p.kind===kind).forEach(p=>paid[p.name]=(paid[p.name]||0)+Number(p.amount||0));
+ const names=[...new Set([...Object.keys(grouped),...Object.keys(paid)])];
+ return names.map(name=>`<div class="panel" style="margin:10px 0"><b>${esc(name)}</b><p>Acumulado: ${money(grouped[name]||0)} | Pago: ${money(paid[name]||0)} | Pendente: ${money(Math.max(0,(grouped[name]||0)-(paid[name]||0)))}</p><div class="form-grid"><div><label>Valor pago (R$)</label><input id="payamount-${kind}-${name}" type="number" min=".01" step=".01" placeholder="50,00"></div><div><label>Data do pagamento</label><input id="paydate-${kind}-${name}" type="date"></div></div><button type="button" class="primary" onclick="registerCommissionPayment('${kind}',${JSON.stringify(name).replace(/"/g,'&quot;')})">Registrar pagamento</button></div>`).join('')||'<p>Nenhum valor neste mês.</p>';
+}
 function saveFinance(){localStorage.setItem('rota86_finance',JSON.stringify(financeEntries));renderFinance();}
 function renderFinance(){
  const income=financeEntries.filter(x=>x.type==='receita').reduce((a,x)=>a+Number(x.amount||0),0);
@@ -111,6 +131,17 @@ function dashboard(){
  $('homeList').innerHTML=next.length?next.map(t=>`<article class="tour-card"><div class="tour-main"><div class="tour-date">📅 ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo não informado')} · ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div></article>`).join(''):'<div class="empty">Nenhum passeio futuro cadastrado.</div>';
  $('reportSummary').textContent=`${$('monthLabel').textContent}: ${a.length} passeio(s); previsto ${money(rev)}, recebido ${money(got)}, a receber ${money(due)}.`;
  $('reportLines').innerHTML=`<p>Pagantes: ${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</p><p>Cortesias: ${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</p><p>Concluídos: ${a.filter(t=>t.done).length}</p>`;
+ const gRecords=a.filter(t=>(t.date||'').startsWith(m));
+ $('guideCommissionReport').innerHTML=renderCommissionRows('guide',gRecords);
+ $('partnerCommissionReport').innerHTML=renderCommissionRows('partner',gRecords);
+ const gTotal=gRecords.reduce((sum,t)=>sum+commissionDue(t,'guide'),0),pTotal=gRecords.reduce((sum,t)=>sum+commissionDue(t,'partner'),0);
+ $('commissionTotals').textContent='Total de comissões do mês: '+money(gTotal+pTotal);
+ const other=financeEntries.filter(x=>(x.date||'').startsWith(m));
+ const tourReceived=gRecords.reduce((sum,t)=>sum+Number(t.received||0),0);
+ const extraIncome=other.filter(x=>x.type==='receita').reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const expenses=other.filter(x=>x.type==='despesa').reduce((sum,x)=>sum+Number(x.amount||0),0);
+ $('cashFlowReport').innerHTML=`<p>Recebimentos dos passeios: ${money(tourReceived)}</p><p>Outras receitas: ${money(extraIncome)}</p><p>Despesas pagas: ${money(expenses)}</p><h3>Saldo do mês: ${money(tourReceived+extraIncome-expenses)}</h3>`;
+
 }
 window.showView=v=>{document.querySelectorAll('.view').forEach(el=>el.hidden=el.id!=='view-'+v);document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));window.scrollTo({top:0,behavior:'smooth'});};
 function render(){
