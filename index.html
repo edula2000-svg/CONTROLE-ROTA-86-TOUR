@@ -14,7 +14,7 @@ button{border:0;border-radius:11px;padding:12px 15px;font:inherit;font-weight:70
 .tour-list{display:grid;gap:12px}.tour-card{padding:0;overflow:hidden}.tour-main{padding:15px}.tour-date{font-size:.85rem;font-weight:800;color:#245b7e;letter-spacing:.02em}.tour-title{font-size:1.02rem;font-weight:750;margin:7px 0}.tour-meta{color:var(--muted);font-size:.9rem;line-height:1.55}
 .badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;font-size:.77rem;font-weight:750;background:#eef2f5;color:#475569}.badge.green{background:#e7f6ed;color:#17663a}.badge.orange{background:#fff1dc;color:#8a4c00}.badge.red{background:#fde9e7;color:#a32118}
 .card-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding:11px 15px;background:#fbfcfd}
-.detail{display:none;padding:14px 15px;border-top:1px solid var(--line);background:#fafcfe}.detail.open{display:block}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.detail-item{font-size:.9rem}.detail-item small{display:block;color:var(--muted);margin-bottom:2px}.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.detail{display:none;padding:14px 15px;border-top:1px solid var(--line);background:#fafcfe}.detail.open{display:block}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.detail-item{font-size:.9rem}.detail-item small{display:block;color:var(--muted);margin-bottom:2px}.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.share-tour-btn{background:#e3f6e9;color:#168447}.share-tour-btn:hover{background:#d3efdc}
 .empty{padding:24px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #cbd4dc;border-radius:14px}
 small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 @media(max-width:560px){.form-grid,.detail-grid{grid-template-columns:1fr}.wide{grid-column:auto}.panel,.tour-main{padding:13px}.filters{width:100%}.filters select{flex:1;min-width:0}.card-bottom{align-items:flex-start}.card-bottom button{padding:10px 12px}}
@@ -324,7 +324,7 @@ body.authenticated #loginScreen{display:none!important}
 .auth-bar button{padding:7px 11px;font-size:.78rem}
 body.team-mode #view-registries .form-grid{display:none!important}
 body.team-mode #view-form #guidePay,body.team-mode #view-form #partnerCommission{background:#f1f4f7}
-</style>\n<style>
+</style><style>
 .contact-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .contact-icon{display:inline-flex;align-items:center;justify-content:center;width:31px;height:31px;border-radius:9px;text-decoration:none;transition:transform .15s ease,filter .15s ease}
 .contact-icon:hover{transform:translateY(-1px);filter:brightness(.96)}
@@ -332,11 +332,11 @@ body.team-mode #view-form #guidePay,body.team-mode #view-form #partnerCommission
 .whatsapp-link{background:#e3f6e9;color:#168447}
 .phone-link{background:#e6f0fb;color:#145da0}
 </style>
-\n<style>
+<style>
 .commission-summary-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;margin:8px 0;border:1px solid #e1e8f0;border-radius:10px;background:#f8fafc}
 .commission-summary-row strong{color:#124f73}
 </style>
-\n<style>
+<style>
 .commission-person h4{margin:0 0 12px;color:#124f73}
 .commission-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:10px 0}
 .commission-metrics>div{background:#f2f6fa;border-radius:9px;padding:10px;display:flex;flex-direction:column;gap:5px}
@@ -360,7 +360,7 @@ body.team-mode #view-form #guidePay,body.team-mode #view-form #partnerCommission
 #view-registries h4{margin:12px 0 8px}
 #finCategory{width:100%}
 </style>
-\n<style>
+<style>
 /* Isola cada tela do menu: somente a seção selecionada pode aparecer. */
 main > section.view[hidden]{display:none!important}
 main > section.view:not([hidden]){display:grid}
@@ -546,6 +546,7 @@ function render(){
      <div class="detail-item" style="grid-column:1/-1"><small>Observações</small>${esc(t.notes||'—')}</div>
     </div>
     <div class="detail-actions">
+      <button class="share-tour-btn" type="button" onclick="shareTourWhatsApp('${t.id}')">📲 Compartilhar no WhatsApp</button>
       <button class="secondary" onclick="editTour('${t.id}')">Editar</button>
       ${!t.done?`<button class="primary" onclick="markDone('${t.id}')">Marcar passeio realizado</button>`:`<button class="secondary" onclick="undoDone('${t.id}')">Reabrir passeio</button>`}
       <button class="danger" onclick="deleteTour('${t.id}')">Excluir</button>
@@ -556,6 +557,30 @@ function render(){
 }
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 window.toggleDetail=id=>{$('detail-'+id).classList.toggle('open');};
+window.shareTourWhatsApp=id=>{
+ const t=tours.find(x=>String(x.id)===String(id));
+ if(!t){showError('Não foi possível localizar este passeio.');return;}
+ const paid=Number(t.paidPeople||0), free=Number(t.freePeople||0), total=totalFor(t), received=Number(t.received||0), balance=balanceFor(t);
+ const lines=[
+  '*ROTA 86 TOUR — DETALHES DO PASSEIO*',
+  '',
+  '*Passeio:* '+(t.type||'Não informado'),
+  '*Data:* '+dateLabel(t.date)+(t.time?' às '+t.time:''),
+  '*Cliente / grupo:* '+(t.customer||'Não informado'),
+  '*Participantes:* '+(paid+free)+' pessoa(s) — '+paid+' pagante(s) e '+free+' cortesia(s)',
+  '*Guia:* '+(t.guide||'A definir'),
+  '*Valor por pagante:* '+money(t.price),
+  '*Valor total previsto:* '+money(total),
+  '*Valor recebido:* '+money(received),
+  '*Saldo pendente:* '+money(balance),
+  '*Situação:* '+(t.done?'Passeio realizado':balance>0.009?'Pagamento pendente/parcial':'Pagamento quitado')
+ ];
+ if(t.notes&&String(t.notes).trim()) lines.push('', '*Observações:* '+String(t.notes).trim());
+ lines.push('', '_Informações enviadas pelo sistema Rota 86 Tour._');
+ const url='https://wa.me/?text='+encodeURIComponent(lines.join('\n'));
+ const win=window.open(url,'_blank','noopener,noreferrer');
+ if(!win) window.location.href=url;
+};
 window.markDone=id=>{const t=tours.find(x=>x.id===id);if(t){t.done=true;save();}};
 window.undoDone=id=>{const t=tours.find(x=>x.id===id);if(t){t.done=false;save();}};
 window.deleteTour=id=>{if(confirm('Excluir este passeio?')){tours=tours.filter(x=>x.id!==id);if(editingId===id)resetForm();save();}};
@@ -967,7 +992,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   function applyRoleUI(){
     if(!ready)return;
     document.querySelectorAll('.app-nav .navbtn[data-view="registries"]').forEach(el=>{el.hidden=!isAdmin();});
-    document.querySelectorAll('#tourList .detail-actions').forEach(el=>{if(!isAdmin())el.innerHTML='<span class="hint">Apenas o administrador pode editar ou excluir passeios.</span>';});
+    document.querySelectorAll('#tourList .detail-actions').forEach(el=>{if(!isAdmin()){const share=el.querySelector('.share-tour-btn');el.innerHTML='<span class="hint">Apenas o administrador pode editar ou excluir passeios.</span>';if(share)el.prepend(share);}});
     document.querySelectorAll('#financeList button').forEach(el=>{if(!isAdmin())el.remove();});
     document.querySelectorAll('#guideList .edit-icon,#guideList .delete-icon,#partnerList .edit-icon,#partnerList .delete-icon').forEach(el=>{if(!isAdmin())el.remove();});
     $('view-registries').hidden=!isAdmin();
