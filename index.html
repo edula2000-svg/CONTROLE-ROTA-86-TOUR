@@ -530,6 +530,22 @@ button{font-family:inherit!important;box-shadow:none}
 @media(max-width:600px){.assistant-fab{right:14px;bottom:86px;padding:13px 15px}}
 
 </style>
+
+<style id="rota86-user-admin-styles">
+.user-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.user-admin-card{border:1px solid #e7ebef;border-radius:13px;padding:14px;background:#fff;margin:10px 0}
+.user-admin-card h3{margin:0 0 12px!important}
+.user-admin-options{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0}
+.user-admin-options label{display:flex;align-items:center;gap:7px;margin:0}
+.user-admin-options input{width:auto}
+.user-admin-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(115px,.8fr) minmax(100px,.7fr) auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #edf1f4}
+.user-admin-row:last-child{border-bottom:0}
+.user-admin-row small{display:block;color:#778391}
+.user-admin-row select{font-size:13px;padding:8px}
+.user-admin-row .user-check{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.user-admin-row .user-check input{width:auto}
+@media(max-width:700px){.user-admin-grid{grid-template-columns:1fr}.user-admin-row{grid-template-columns:1fr 1fr;gap:8px}.user-admin-row>div:first-child{grid-column:1/-1}.user-admin-row button{justify-self:start}}
+</style>
 </head><body>
 <section id="loginScreen" class="login-screen">
   <form id="loginForm" class="login-card">
@@ -578,12 +594,27 @@ button{font-family:inherit!important;box-shadow:none}
 <small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
 <section id="view-agenda" class="view" hidden><section class="panel"><div class="topline"><div><h2 style="margin:0">Passeios por data</h2><div class="count" id="count">Ordenados por data</div></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div></section></section>
 <section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2>
-<div class="assistant-permission-card" id="assistantPermissionPanel">
-  <h3 style="margin:0 0 5px">Equipe e permissões</h3>
-  <p class="hint">Autorize individualmente quem poderá utilizar o Assistente IA. Essa autorização não altera o perfil nem as demais permissões do usuário.</p>
-  <div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div>
-  <small class="hint" id="assistantPermissionStatus" role="status"></small>
-</div><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div><hr><h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div></section></section>
+<section class="user-admin-card" id="userAdminPanel">
+   <h3>Gerenciamento de usuários</h3>
+   <p class="hint">Cadastre colaboradores e defina o perfil e as permissões de cada acesso.</p>
+   <form id="userCreateForm">
+    <div class="user-admin-grid">
+     <div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div>
+     <div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div>
+     <div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div>
+     <div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div>
+    </div>
+    <div class="user-admin-options">
+     <label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label>
+     <label><input id="newUserAssistant" type="checkbox"> Pode usar Assistente IA</label>
+    </div>
+    <div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div>
+   </form>
+   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div>
+   <h3>Usuários cadastrados</h3>
+   <div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div>
+ </section>
+ <small class="hint" id="assistantPermissionStatus" role="status"></small><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div><hr><h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div></section></section>
 <section id="view-finance" class="view" hidden><section class="panel"><h2>Adicionar receita ou despesa</h2><form id="financeForm"><div class="form-grid">
 <div><label for="finType">Tipo</label><select id="finType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div>
 <div><label for="finDate">Data</label><input id="finDate" type="date" required></div>
@@ -842,26 +873,43 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     $('assistantFab').style.display=canUseAssistant?'inline-flex':'none';
   }
 
+  async function callAdminUsers(payload){
+    const {data,error}=await db.functions.invoke('admin-users',{body:payload});
+    if(error) throw new Error(error.message||'Falha ao comunicar com o serviço de usuários.');
+    if(data?.error) throw new Error(data.error);
+    return data;
+  }
+
   async function loadAssistantUsers(){
     if(!isAdmin()) return;
     const list=$('assistantUsersList'),status=$('assistantPermissionStatus');
     list.innerHTML='<small class="hint">Carregando usuários...</small>';status.textContent='';
-    const {data,error}=await db.from('perfis').select('id,nome,funcao,ativo,pode_usar_assistente').order('nome');
-    if(error){list.innerHTML='<p class="hint">Não foi possível carregar a equipe: '+esc(error.message)+'</p>';return;}
-    if(!data?.length){list.innerHTML='<p class="hint">Nenhum usuário cadastrado.</p>';return;}
-    list.innerHTML=data.map(u=>{
-      const admin=u.funcao==='ADMINISTRADOR';
-      const checked=admin||u.pode_usar_assistente===true;
-      return `<div class="assistant-user-row"><div class="assistant-user-meta"><strong>${esc(u.nome||'Usuário sem nome')}</strong><small>${esc(u.funcao||'')} · ${u.ativo?'Ativo':'Inativo'}${admin?' · Acesso administrativo':''}</small></div><label style="display:flex;align-items:center;gap:7px;white-space:nowrap;font-size:.85rem"><input class="assistant-toggle" type="checkbox" data-assistant-user="${esc(u.id)}" ${checked?'checked':''} ${admin||!u.ativo?'disabled':''}> Pode usar IA</label></div>`;
-    }).join('');
-    list.querySelectorAll('[data-assistant-user]').forEach(input=>input.addEventListener('change',async()=>{
-      const id=input.dataset.assistantUser,enabled=input.checked;
-      input.disabled=true;status.textContent='Salvando autorização...';
-      const {error:updateError}=await db.from('perfis').update({pode_usar_assistente:enabled}).eq('id',id);
-      if(updateError){input.checked=!enabled;status.textContent='Não foi possível salvar. Verifique as políticas de segurança do Supabase: '+updateError.message;}
-      else status.textContent='Permissão atualizada com sucesso.';
-      input.disabled=false;
-    }));
+    try{
+      const result=await callAdminUsers({action:'list'});
+      const users=result.users||[];
+      if(!users.length){list.innerHTML='<p class="hint">Nenhum usuário cadastrado.</p>';return;}
+      list.innerHTML=users.map(u=>{
+        const admin=u.funcao==='ADMINISTRADOR';
+        const checked=admin||u.pode_usar_assistente===true;
+        return `<div class="user-admin-row" data-user-row="${esc(u.id)}">
+          <div><strong>${esc(u.nome||'Usuário sem nome')}</strong><small>${esc(u.email||'E-mail não disponível')} · ${admin?'Administrador':'Equipe'} · ${u.ativo?'Ativo':'Inativo'}</small></div>
+          <div><label for="role-${esc(u.id)}">Perfil</label><select id="role-${esc(u.id)}" data-user-role="${esc(u.id)}" ${u.id===currentUser.id?'disabled':''}><option value="EQUIPE" ${!admin?'selected':''}>Equipe</option><option value="ADMINISTRADOR" ${admin?'selected':''}>Administrador</option></select></div>
+          <label class="user-check"><input type="checkbox" data-user-active="${esc(u.id)}" ${u.ativo?'checked':''} ${u.id===currentUser.id?'disabled':''}> Ativo</label>
+          <label class="user-check"><input type="checkbox" data-assistant-user="${esc(u.id)}" ${checked?'checked':''} ${admin||!u.ativo?'disabled':''}> Pode usar IA</label>
+          <button class="secondary" type="button" data-save-user="${esc(u.id)}">Salvar</button>
+        </div>`;
+      }).join('');
+      list.querySelectorAll('[data-save-user]').forEach(button=>button.addEventListener('click',async()=>{
+        const id=button.dataset.saveUser,row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`);
+        const role=row.querySelector('[data-user-role]').value;
+        const active=row.querySelector('[data-user-active]').checked;
+        const assistant=row.querySelector('[data-assistant-user]').checked;
+        if(id===currentUser.id && (!active || role!=='ADMINISTRADOR')){status.textContent='Não é permitido desativar ou rebaixar seu próprio usuário.';return;}
+        button.disabled=true;button.textContent='Salvando...';status.textContent='Atualizando permissões...';
+        try{await callAdminUsers({action:'update',id,funcao:role,ativo:active,pode_usar_assistente:assistant});status.textContent='Usuário atualizado com sucesso.';await loadAssistantUsers();}
+        catch(err){status.textContent='Não foi possível atualizar: '+err.message;button.disabled=false;button.textContent='Salvar';}
+      }));
+    }catch(err){list.innerHTML='<p class="hint">Não foi possível carregar usuários: '+esc(err.message)+'</p>';}
   }
 
   const toTour = r => ({
@@ -991,6 +1039,26 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     currentUser=data.user;
     try { await loadApp(); }
     catch(err){ await db.auth.signOut(); currentUser=null; $('loginError').textContent='Falha ao carregar os dados: '+(err.message||'verifique as permissões do banco.'); button.disabled=false;button.textContent='Entrar'; }
+  });
+
+  $('userCreateForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(!requireAdmin()) return;
+    const button=$('createUserButton'),status=$('userAdminStatus');
+    const payload={
+      action:'create',nome:$('newUserName').value.trim(),email:$('newUserEmail').value.trim(),
+      password:$('newUserPassword').value,funcao:$('newUserRole').value,
+      ativo:$('newUserActive').checked,pode_usar_assistente:$('newUserAssistant').checked
+    };
+    if(!payload.nome||!payload.email||payload.password.length<8){status.textContent='Preencha nome, e-mail e senha com pelo menos 8 caracteres.';return;}
+    button.disabled=true;button.textContent='Criando usuário...';status.textContent='Criando acesso com segurança...';
+    try{
+      await callAdminUsers(payload);
+      $('userCreateForm').reset();$('newUserActive').checked=true;$('newUserRole').value='EQUIPE';
+      status.textContent='Usuário criado com sucesso. Ele já pode entrar com o e-mail e a senha inicial.';
+      await loadAssistantUsers();
+    }catch(err){status.textContent='Não foi possível criar o usuário: '+err.message;}
+    finally{button.disabled=false;button.textContent='Adicionar usuário';}
   });
 
   $('assistantFab').addEventListener('click',()=>{
