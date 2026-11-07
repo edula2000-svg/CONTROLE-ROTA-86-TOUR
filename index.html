@@ -518,18 +518,7 @@ button{font-family:inherit!important;box-shadow:none}
 </style>
 
 
-<style>
-/* Assistente ROTA - primeira etapa: controle de autorização */
-.assistant-permission-card{border:1px solid #e5ebef;border-radius:12px;padding:13px;margin:10px 0;background:#fff}
-.assistant-user-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #edf1f4}
-.assistant-user-row:last-child{border-bottom:0}
-.assistant-user-meta{min-width:0}.assistant-user-meta strong{display:block}.assistant-user-meta small{color:#718096}
-.assistant-toggle{width:22px;height:22px;accent-color:#087e8b}
-.assistant-fab{position:fixed;right:22px;bottom:88px;z-index:60;border:0;border-radius:999px;background:#087e8b;color:#fff;padding:14px 18px;box-shadow:0 6px 22px #123b5633;font-weight:700;display:none;align-items:center;gap:9px}
-.assistant-fab svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:600px){.assistant-fab{right:14px;bottom:86px;padding:13px 15px}}
 
-</style>
 
 <style id="rota86-user-admin-styles">
 .user-admin-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -546,48 +535,22 @@ button{font-family:inherit!important;box-shadow:none}
 .user-admin-row .user-check input{width:auto}
 @media(max-width:700px){.user-admin-grid{grid-template-columns:1fr}.user-admin-row{grid-template-columns:1fr 1fr;gap:8px}.user-admin-row>div:first-child{grid-column:1/-1}.user-admin-row button{justify-self:start}}
 </style>
-
-<style>
-/* Assistente ROTA - interface inicial de voz e texto (sem gravação de dados) */
-.assistant-overlay{position:fixed;inset:0;background:rgba(13,31,43,.34);z-index:100;display:none;align-items:flex-end;justify-content:flex-end;padding:18px}
-.assistant-overlay.open{display:flex}
-.assistant-window{width:min(430px,100%);height:min(680px,calc(100dvh - 36px));background:#fff;border:1px solid #dce5eb;border-radius:18px;box-shadow:0 18px 60px rgba(16,45,65,.25);display:flex;flex-direction:column;overflow:hidden;color:#172b3a}
-.assistant-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px;background:#087e8b;color:white}
-.assistant-head h2{font-size:17px;margin:0}.assistant-head p{font-size:12px;margin:3px 0 0;opacity:.9}
-.assistant-close{border:0;background:rgba(255,255,255,.16);color:white;border-radius:9px;width:36px;height:36px;font-size:22px;cursor:pointer}
-.assistant-notice{padding:10px 14px;background:#fff8e8;color:#765414;font-size:12px;line-height:1.45;border-bottom:1px solid #f2e5c5}
-.assistant-messages{padding:15px;display:flex;flex:1;flex-direction:column;gap:12px;overflow:auto;background:#f6f8fa}
-.assistant-message{max-width:88%;padding:11px 13px;border-radius:14px;font-size:14px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
-.assistant-message.bot{align-self:flex-start;background:#fff;border:1px solid #e1e8ee;border-bottom-left-radius:4px}
-.assistant-message.user{align-self:flex-end;background:#e1f3f4;color:#124f59;border-bottom-right-radius:4px}
-.assistant-composer{padding:12px;border-top:1px solid #e4ebef;background:white;display:flex;align-items:flex-end;gap:8px}
-.assistant-composer textarea{flex:1;min-width:0;max-height:110px;min-height:44px;resize:vertical;border:1px solid #d7e1e8;border-radius:12px;padding:11px;font:14px inherit}
-.assistant-icon-btn{flex:0 0 44px;width:44px;height:44px;border:0;border-radius:12px;background:#edf3f5;color:#126575;display:grid;place-items:center;cursor:pointer}
-.assistant-icon-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.assistant-icon-btn.primary-send{background:#087e8b;color:#fff}.assistant-icon-btn.listening{background:#ffe8e8;color:#b42318;box-shadow:0 0 0 3px #ffe8e8}
-.assistant-tools{display:flex;justify-content:space-between;align-items:center;padding:7px 14px 10px;color:#718096;font-size:11px;background:#fff}
-@media(max-width:600px){.assistant-overlay{padding:0;align-items:flex-end}.assistant-window{width:100%;height:min(82dvh,720px);border-radius:18px 18px 0 0}.assistant-fab{bottom:86px}}
+<style id="agenda-calendar-styles">
+.view-switch{display:inline-flex;gap:4px;padding:3px;background:#f1f4f6;border:1px solid #e7ecef;border-radius:10px}
+.view-switch button{padding:8px 11px!important;border-radius:8px!important;font-size:.76rem!important}
+.view-switch button.active{background:#e5f3f4!important;color:#07596d!important;box-shadow:inset 0 0 0 1px #d4e9eb!important}
+.agenda-head,.agenda-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.agenda-controls{justify-content:flex-end}
+#agendaCalendar{margin-top:14px}
+.agenda-cal-event{padding:12px;border:1px solid #e7ecef;border-radius:11px;background:#fff;margin-top:8px}
+.agenda-cal-event strong{display:block;font-size:.84rem;color:#293846}
+.agenda-cal-event small{display:block;color:#778391;margin-top:4px;font-size:.76rem}
+@media(max-width:560px){.agenda-head,.agenda-controls{align-items:stretch}.agenda-controls{width:100%;justify-content:space-between}.agenda-controls .filters{flex:1}.agenda-controls .filters select{width:100%}.agenda-head h2{margin-bottom:3px!important}}
 </style>
 
-<style id="home-upcoming-calendar-styles">
-.home-upcoming-head{align-items:center!important}.home-upcoming-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.view-switch{display:inline-flex;gap:3px;padding:3px;background:#f0f3f5;border:1px solid #e6ebef;border-radius:10px}
-.view-switch button{padding:7px 10px!important;border-radius:7px!important;background:transparent!important;color:#62717e!important;font-size:.76rem!important;font-weight:600!important}
-.view-switch button.active{background:#fff!important;color:#07596d!important;box-shadow:0 1px 4px #1b2b3f18!important}
-.home-calendar{display:grid;gap:12px}.home-cal-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.home-cal-toolbar strong{font-size:.94rem;text-transform:capitalize}.home-cal-toolbar button{padding:7px 10px!important}
-.home-cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
-.home-cal-weekday{text-align:center;color:#82909b;font-size:.68rem;font-weight:650;padding:5px 0}
-.home-cal-day{min-width:0;min-height:55px;padding:7px 3px!important;border:1px solid #e8edf0!important;background:#fff!important;color:#344454!important;border-radius:9px!important;font-size:.78rem!important;font-weight:550!important;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px}
-.home-cal-day.today{border-color:#08758a!important;color:#07596d!important}.home-cal-day.selected{background:#e8f5f5!important;border-color:#08758a!important;color:#07596d!important;font-weight:800!important}
-.home-cal-dots{display:flex;gap:3px;min-height:6px;align-items:center;justify-content:center}.home-cal-dot{width:5px;height:5px;border-radius:50%;background:#08758a}
-.home-cal-count{font-size:.58rem;color:#08758a;font-weight:750;line-height:1}
-.home-cal-selected{border-top:1px solid #e8edf0;padding-top:12px}.home-cal-selected h3{margin:0 0 9px!important;font-size:.86rem!important;font-weight:650}
-.home-cal-event{padding:11px 12px;border:1px solid #e7ecef;border-radius:11px;background:#fff;margin-top:7px}
-.home-cal-event strong{display:block;font-size:.82rem;color:#293846}.home-cal-event small{display:block;color:#778391;margin-top:3px;font-size:.74rem}
-.home-cal-empty{padding:14px;border:1px dashed #dce4e9;border-radius:10px;color:#778391;font-size:.8rem;text-align:center}
-@media(max-width:560px){.home-upcoming-head{align-items:flex-start!important}.home-upcoming-actions{width:100%;justify-content:space-between}.view-switch button{padding:7px 8px!important}.home-cal-day{min-height:48px}}
-</style>
+
+
+
 </head><body>
 <section id="loginScreen" class="login-screen">
   <form id="loginForm" class="login-card">
@@ -624,7 +587,7 @@ button{font-family:inherit!important;box-shadow:none}
 <button type="button" class="shortcut" onclick="showView('agenda')"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span><span>Ver agenda</span></button>
 </div>
 <div class="stats-grid"><div class="stat"><small>Faturamento previsto</small><strong id="statRevenue">R$ 0,00</strong></div><div class="stat"><small>Já recebido</small><strong id="statReceived">R$ 0,00</strong></div><div class="stat"><small>Saldo a receber</small><strong id="statDue">R$ 0,00</strong></div><div class="stat"><small>Passeios no mês</small><strong id="statTours">0</strong></div></div>
-<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline home-upcoming-head"><h2 style="margin:0">Próximos passeios</h2><div class="home-upcoming-actions"><div class="view-switch" role="group" aria-label="Visualização dos próximos passeios"><button type="button" id="homeListMode" class="secondary active" onclick="setHomeUpcomingMode('list')">☷ Lista</button><button type="button" id="homeCalendarMode" class="secondary" onclick="setHomeUpcomingMode('calendar')">▦ Calendário</button></div><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div></div><div class="tour-list" id="homeList"></div><div id="homeCalendar" class="home-calendar" hidden></div></section></section>
+<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">Próximos passeios</h2><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
 <section id="view-form" class="view" hidden><section class="panel"><h2 id="formTitle">Cadastrar passeio</h2><form id="tourForm"><div class="form-grid">
 <div><label for="date">Data do passeio *</label><input id="date" type="date" required></div><div><label for="time">Horário</label><input id="time" type="time"></div>
 <div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustação (compartilhado)">Barco + caiaque + degustação (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
@@ -634,7 +597,7 @@ button{font-family:inherit!important;box-shadow:none}
 <div><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
 <div><label for="guidePay">Pagamento do guia (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div><label for="partnerCommission">Comissão do parceiro (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
 <small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
-<section id="view-agenda" class="view" hidden><section class="panel"><div class="topline"><div><h2 style="margin:0">Passeios por data</h2><div class="count" id="count">Ordenados por data</div></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div></section></section>
+<section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" class="home-calendar" hidden></div></section></section>
 <section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2>
 <section class="user-admin-card" id="userAdminPanel">
    <h3>Gerenciamento de usuários</h3>
@@ -670,26 +633,7 @@ button{font-family:inherit!important;box-shadow:none}
 </main>
 
 
-<div class="assistant-overlay" id="assistantOverlay" aria-hidden="true">
- <section class="assistant-window" role="dialog" aria-modal="true" aria-labelledby="assistantTitle">
-  <header class="assistant-head"><div><h2 id="assistantTitle">Assistente ROTA</h2><p>Conversa por voz e texto</p></div><button class="assistant-close" id="assistantClose" type="button" aria-label="Fechar">×</button></header>
-  <div class="assistant-notice"><strong>Modo de preparação:</strong> nesta etapa você pode testar a interface e a transcrição de voz. A IA ainda não está conectada e nenhuma mensagem será gravada como receita, despesa ou passeio.</div>
-  <div class="assistant-messages" id="assistantMessages" aria-live="polite">
-   <div class="assistant-message bot">Olá! Sou o Assistente ROTA. Você pode digitar uma mensagem ou usar o microfone. Na próxima etapa vou interpretar os pedidos e apresentar um resumo para sua confirmação antes de qualquer lançamento.</div>
-  </div>
-  <div class="assistant-tools"><span id="assistantVoiceStatus">Microfone ainda não iniciado.</span><button type="button" id="assistantSpeakToggle" style="border:0;background:none;color:#087e8b;font-weight:700;cursor:pointer">Voz da resposta: ligada</button></div>
-  <form class="assistant-composer" id="assistantChatForm">
-   <button class="assistant-icon-btn" id="assistantMic" type="button" aria-label="Falar mensagem" title="Falar mensagem"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg></button>
-   <textarea id="assistantText" rows="1" placeholder="Digite ou fale sua mensagem..." aria-label="Mensagem para o Assistente ROTA"></textarea>
-   <button class="assistant-icon-btn primary-send" type="submit" aria-label="Enviar mensagem" title="Enviar mensagem"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
-  </form>
- </section>
-</div>
 
-<button type="button" class="assistant-fab" id="assistantFab" aria-label="Abrir Assistente ROTA">
-  <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg>
-  Assistente ROTA
-</button>
 <script>
 const $ = id => document.getElementById(id);
 let tours = JSON.parse(localStorage.getItem('rota86_tours_test') || '[]');
@@ -770,42 +714,14 @@ window.viewPrintCashFlow=function(){
  const w=window.open('','_blank');if(!w){alert('Permita a abertura de pop-ups para visualizar o relatório.');return;}w.document.open();w.document.write(html);w.document.close();
 };
 
-let homeUpcomingMode='list';
-let homeCalendarMonth=new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0');
-let homeCalendarSelected='';
-window.setHomeUpcomingMode=function(mode){homeUpcomingMode=mode==='calendar'?'calendar':'list';renderHomeUpcoming();};
-window.changeHomeCalendarMonth=function(delta){
- const [y,m]=homeCalendarMonth.split('-').map(Number);
- const d=new Date(y,m-1+delta,1,12);
- homeCalendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
- homeCalendarSelected='';renderHomeUpcoming();
-};
-window.selectHomeCalendarDay=function(date){homeCalendarSelected=date;renderHomeUpcoming();};
 function homeTourCard(t){
  return `<article class="tour-card"><div class="tour-main"><div class="tour-date">📅 ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo não informado')} · ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div></article>`;
 }
 function renderHomeUpcoming(){
- const list=$('homeList'),cal=$('homeCalendar');
- if(!list||!cal)return;
+ const list=$('homeList');if(!list)return;
  const upcoming=[...tours].filter(t=>!t.done).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
- const listBtn=$('homeListMode'),calBtn=$('homeCalendarMode');
- list.hidden=homeUpcomingMode!=='list';cal.hidden=homeUpcomingMode!=='calendar';
- listBtn?.classList.toggle('active',homeUpcomingMode==='list');calBtn?.classList.toggle('active',homeUpcomingMode==='calendar');
- if(homeUpcomingMode==='list'){const showing=upcoming.slice(0,4);list.innerHTML=showing.length?showing.map(homeTourCard).join(''):'<div class="empty">Nenhum passeio futuro cadastrado.</div>';return;}
- const [year,month]=homeCalendarMonth.split('-').map(Number);
- const first=new Date(year,month-1,1,12),lastDay=new Date(year,month,0,12).getDate(),offset=(first.getDay()+6)%7;
- const today=new Date(),todayKey=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
- const monthTours=upcoming.filter(t=>(t.date||'').startsWith(homeCalendarMonth)),counts={};
- monthTours.forEach(t=>counts[t.date]=(counts[t.date]||0)+1);
- const cells=[];for(let i=0;i<offset;i++)cells.push('<div aria-hidden="true"></div>');
- for(let day=1;day<=lastDay;day++){
-  const key=homeCalendarMonth+'-'+String(day).padStart(2,'0'),count=counts[key]||0;
-  cells.push(`<button type="button" class="home-cal-day ${key===todayKey?'today':''} ${key===homeCalendarSelected?'selected':''}" onclick="selectHomeCalendarDay('${key}')"><span>${day}</span><span class="home-cal-dots">${count?'<i class="home-cal-dot"></i>':''}</span><span class="home-cal-count">${count?count+' passeio(s)':'&nbsp;'}</span></button>`);
- }
- if(!homeCalendarSelected||!homeCalendarSelected.startsWith(homeCalendarMonth))homeCalendarSelected=monthTours.length?monthTours[0].date:(todayKey.startsWith(homeCalendarMonth)?todayKey:homeCalendarMonth+'-01');
- const dayTours=monthTours.filter(t=>t.date===homeCalendarSelected).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
- const monthLabel=first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
- cal.innerHTML=`<div class="home-cal-toolbar"><button type="button" class="secondary" onclick="changeHomeCalendarMonth(-1)">‹ Anterior</button><strong>${esc(monthLabel)}</strong><button type="button" class="secondary" onclick="changeHomeCalendarMonth(1)">Próximo ›</button></div><div class="home-cal-grid">${['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=>`<div class="home-cal-weekday">${d}</div>`).join('')}${cells.join('')}</div><div class="home-cal-selected"><h3>Passeios em ${dateLabel(homeCalendarSelected)}</h3>${dayTours.length?dayTours.map(t=>`<div class="home-cal-event"><strong>${esc(t.time||'Horário não informado')} · ${esc(t.type||'Passeio')}</strong><small>${esc(t.customer||'Grupo não informado')} · ${Number(t.paidPeople||0)} pagante(s)</small><small>${money(totalFor(t))} · ${esc(labelStatus(t)[0])}</small><button type="button" class="secondary" style="margin-top:8px" onclick="showView('agenda')">Ver detalhes na agenda</button></div>`).join(''):'<div class="home-cal-empty">Nenhum passeio agendado para este dia.</div>'}</div>`;
+ const showing=upcoming.slice(0,4);
+ list.innerHTML=showing.length?showing.map(homeTourCard).join(''):'<div class="empty">Nenhum passeio futuro cadastrado.</div>';
 }
 
 function dashboard(){
@@ -839,14 +755,49 @@ window.showView=v=>{
   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
   window.scrollTo({top:0,behavior:'smooth'});
 };
+let agendaMode='list';
+let agendaCalendarMonth=new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0');
+let agendaCalendarSelected='';
+window.setAgendaMode=function(mode){agendaMode=mode==='calendar'?'calendar':'list';render();};
+window.changeAgendaCalendarMonth=function(delta){
+ const [y,m]=agendaCalendarMonth.split('-').map(Number);const d=new Date(y,m-1+delta,1,12);
+ agendaCalendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');agendaCalendarSelected='';render();
+};
+window.selectAgendaCalendarDay=function(date){agendaCalendarSelected=date;render();};
+window.openAgendaTour=function(id){
+ agendaMode='list';render();
+ requestAnimationFrame(()=>{const detail=document.getElementById('detail-'+CSS.escape(String(id)));if(detail){detail.classList.add('open');detail.scrollIntoView({behavior:'smooth',block:'center'});}});
+};
+function renderAgendaCalendar(arr){
+ const cal=$('agendaCalendar');if(!cal)return;
+ const [year,month]=agendaCalendarMonth.split('-').map(Number);
+ const first=new Date(year,month-1,1,12),lastDay=new Date(year,month,0,12).getDate(),offset=(first.getDay()+6)%7;
+ const today=new Date(),todayKey=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+ const monthTours=arr.filter(t=>(t.date||'').startsWith(agendaCalendarMonth)),counts={};
+ monthTours.forEach(t=>counts[t.date]=(counts[t.date]||0)+1);
+ const cells=[];for(let i=0;i<offset;i++)cells.push('<div aria-hidden="true"></div>');
+ for(let day=1;day<=lastDay;day++){
+  const key=agendaCalendarMonth+'-'+String(day).padStart(2,'0'),count=counts[key]||0;
+  cells.push(`<button type="button" class="home-cal-day ${key===todayKey?'today':''} ${key===agendaCalendarSelected?'selected':''}" onclick="selectAgendaCalendarDay('${key}')"><span>${day}</span><span class="home-cal-dots">${count?'<i class="home-cal-dot"></i>':''}</span><span class="home-cal-count">${count?count+' passeio(s)':'&nbsp;'}</span></button>`);
+ }
+ if(agendaCalendarSelected&&!agendaCalendarSelected.startsWith(agendaCalendarMonth))agendaCalendarSelected='';
+ const dayTours=agendaCalendarSelected?monthTours.filter(t=>t.date===agendaCalendarSelected).sort((a,b)=>(a.time||'').localeCompare(b.time||'')):[];
+ const monthLabel=first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+ cal.innerHTML=`<div class="home-cal-toolbar"><button type="button" class="secondary" onclick="changeAgendaCalendarMonth(-1)">‹ Anterior</button><strong>${esc(monthLabel)}</strong><button type="button" class="secondary" onclick="changeAgendaCalendarMonth(1)">Próximo ›</button></div><div class="home-cal-grid">${['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=>`<div class="home-cal-weekday">${d}</div>`).join('')}${cells.join('')}</div><div class="home-cal-selected">${agendaCalendarSelected?`<h3>Passeios em ${dateLabel(agendaCalendarSelected)}</h3>`:'<h3>Selecione uma data</h3>'}${!agendaCalendarSelected?'<div class="home-cal-empty">Clique em um dia do calendário para consultar os passeios agendados.</div>':dayTours.length?dayTours.map(t=>`<div class="agenda-cal-event"><strong>${esc(t.time||'Horário não informado')} · ${esc(t.type||'Passeio')}</strong><small>Cliente / grupo: ${esc(t.customer||'Não informado')}</small><small>Participantes: ${Number(t.paidPeople||0)} pagante(s) · ${Number(t.freePeople||0)} cortesia(s)</small><small>Contato: ${esc(t.phone||'—')}</small><small>Guia: ${esc(t.guide||'—')} · Parceiro: ${esc(t.partner||'—')}</small><small>Valor previsto: ${money(totalFor(t))} · Recebido: ${money(Number(t.received||0))}</small><small>Saldo: ${money(balanceFor(t))} · Situação: ${esc(labelStatus(t)[0])}</small>${t.notes?`<small>Observações: ${esc(t.notes)}</small>`:''}<div class="detail-actions"><button type="button" class="secondary" onclick="editTour('${String(t.id).replace(/'/g,"\\'")}')">Editar passeio</button>${!t.done?`<button type="button" class="primary" onclick="markDone('${String(t.id).replace(/'/g,"\\'")}')">Marcar realizado</button>`:''}</div></div>`).join(''):'<div class="home-cal-empty">Nenhum passeio encontrado para este dia com o filtro selecionado.</div>'}</div>`;
+}
+
 function render(){
  dashboard();
  const filter=$('statusFilter').value;
  let arr=[...tours].sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
  if(filter==='done')arr=arr.filter(t=>t.done);
- $('count').textContent=`${arr.length} passeio(s) · ordenados pela data de realização`;
- const list=$('tourList');
+ $('count').textContent=`${arr.length} passeio(s) · ${agendaMode==='calendar'?'visualização em calendário':'ordenados pela data de realização'}`;
+ const list=$('tourList'),cal=$('agendaCalendar');
+ const listBtn=$('agendaListMode'),calBtn=$('agendaCalendarMode');
+ list.hidden=agendaMode!=='list';cal.hidden=agendaMode!=='calendar';
+ listBtn?.classList.toggle('active',agendaMode==='list');calBtn?.classList.toggle('active',agendaMode==='calendar');
+ if(agendaMode==='calendar'){renderAgendaCalendar(arr);return;}
  if(!arr.length){list.innerHTML='<div class="empty">Nenhum passeio nesta lista ainda.<br>Cadastre o primeiro passeio acima.</div>';return;}
  list.innerHTML=arr.map(t=>{
   const [status,cls]=labelStatus(t);
@@ -965,12 +916,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   let ready = false;
   let canUseAssistant = false;
 
-  async function loadAssistantPermission(){
-    const {data,error}=await db.from('perfis').select('pode_usar_assistente').eq('id',currentUser.id).single();
-    if(error) throw new Error('Não foi possível verificar a autorização do Assistente IA. Aplique a atualização do banco de dados primeiro. '+error.message);
-    canUseAssistant=isAdmin() || data?.pode_usar_assistente===true;
-    $('assistantFab').style.display=canUseAssistant?'inline-flex':'none';
-  }
+  async function loadAssistantPermission(){ return; }
 
   async function callAdminUsers(payload){
     const {data,error}=await db.functions.invoke('admin-users',{body:payload});
@@ -1158,11 +1104,6 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
       await loadAssistantUsers();
     }catch(err){status.textContent='Não foi possível criar o usuário: '+err.message;}
     finally{button.disabled=false;button.textContent='Adicionar usuário';}
-  });
-
-  $('assistantFab').addEventListener('click',()=>{
-    if(!canUseAssistant){$('assistantFab').style.display='none';return;}
-    window.dispatchEvent(new Event('rota-assistant-open'));
   });
 
   $('logoutButton').addEventListener('click',async()=>{
@@ -1459,42 +1400,5 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
 })();
 </script>
 
-<script>
-(() => {
- const overlay=document.getElementById('assistantOverlay');
- const messages=document.getElementById('assistantMessages');
- const textBox=document.getElementById('assistantText');
- const mic=document.getElementById('assistantMic');
- const status=document.getElementById('assistantVoiceStatus');
- const speakToggle=document.getElementById('assistantSpeakToggle');
- let speakReplies=true, recognition=null, listening=false;
- const addMessage=(content,kind)=>{const el=document.createElement('div');el.className='assistant-message '+kind;el.textContent=content;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el;};
- const speak=(content)=>{if(!speakReplies||!('speechSynthesis' in window))return;window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(content);utterance.lang='pt-BR';utterance.rate=1;window.speechSynthesis.speak(utterance);};
- const open=()=>{overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');setTimeout(()=>textBox.focus(),80);};
- const close=()=>{overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');if(recognition&&listening)recognition.stop();if('speechSynthesis'in window)window.speechSynthesis.cancel();};
- window.addEventListener('rota-assistant-open',open);
- document.getElementById('assistantClose').addEventListener('click',close);
- overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))close();});
- speakToggle.addEventListener('click',()=>{speakReplies=!speakReplies;speakToggle.textContent='Voz da resposta: '+(speakReplies?'ligada':'desligada');if(!speakReplies&&'speechSynthesis'in window)window.speechSynthesis.cancel();});
- const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
- if(SpeechRecognition){
-   recognition=new SpeechRecognition();recognition.lang='pt-BR';recognition.continuous=false;recognition.interimResults=true;
-   recognition.onstart=()=>{listening=true;mic.classList.add('listening');status.textContent='Ouvindo... fale sua mensagem.';};
-   recognition.onresult=e=>{let finalText='';for(let i=e.resultIndex;i<e.results.length;i++){const part=e.results[i][0].transcript;if(e.results[i].isFinal)finalText+=part;}if(finalText){textBox.value=(textBox.value?textBox.value+' ':'')+finalText;textBox.focus();}};
-   recognition.onerror=e=>{status.textContent=e.error==='not-allowed'?'Permita o acesso ao microfone no navegador.':'Não foi possível reconhecer a fala. Tente novamente ou digite.';};
-   recognition.onend=()=>{listening=false;mic.classList.remove('listening');if(status.textContent==='Ouvindo... fale sua mensagem.')status.textContent='Transcrição concluída. Revise antes de enviar.';};
-   mic.addEventListener('click',()=>{try{if(listening){recognition.stop();}else{status.textContent='Solicitando acesso ao microfone...';recognition.start();}}catch(e){status.textContent='O microfone já está sendo utilizado. Aguarde e tente novamente.';}});
- }else{
-   mic.disabled=true;mic.title='Reconhecimento de voz não disponível neste navegador';status.textContent='Este navegador não oferece reconhecimento de voz. Você ainda pode digitar.';
- }
- document.getElementById('assistantChatForm').addEventListener('submit',e=>{
-   e.preventDefault();const message=textBox.value.trim();if(!message)return;
-   addMessage(message,'user');textBox.value='';
-   const reply='Recebi sua mensagem. A conexão com a inteligência artificial ainda será ativada. Nesta etapa, nenhum dado foi gravado no sistema. Quando a IA estiver conectada, vou interpretar o pedido, mostrar os detalhes e pedir sua confirmação antes de registrar.';
-   addMessage(reply,'bot');speak(reply);
- });
-})();
-</script>
 
 </body></html>
