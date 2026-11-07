@@ -517,6 +517,17 @@ button{font-family:inherit!important;box-shadow:none}
 }
 </style>
 
+
+/* Assistente ROTA - primeira etapa: controle de autorização */
+.assistant-permission-card{border:1px solid #e5ebef;border-radius:12px;padding:13px;margin:10px 0;background:#fff}
+.assistant-user-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #edf1f4}
+.assistant-user-row:last-child{border-bottom:0}
+.assistant-user-meta{min-width:0}.assistant-user-meta strong{display:block}.assistant-user-meta small{color:#718096}
+.assistant-toggle{width:22px;height:22px;accent-color:#087e8b}
+.assistant-fab{position:fixed;right:22px;bottom:88px;z-index:60;border:0;border-radius:999px;background:#087e8b;color:#fff;padding:14px 18px;box-shadow:0 6px 22px #123b5633;font-weight:700;display:none;align-items:center;gap:9px}
+.assistant-fab svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.assistant-fab{right:14px;bottom:86px;padding:13px 15px}}
+
 </head><body>
 <section id="loginScreen" class="login-screen">
   <form id="loginForm" class="login-card">
@@ -564,7 +575,13 @@ button{font-family:inherit!important;box-shadow:none}
 <div><label for="guidePay">Pagamento do guia (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div><label for="partnerCommission">Comissão do parceiro (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
 <small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
 <section id="view-agenda" class="view" hidden><section class="panel"><div class="topline"><div><h2 style="margin:0">Passeios por data</h2><div class="count" id="count">Ordenados por data</div></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div></section></section>
-<section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div><hr><h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div></section></section>
+<section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2>
+<div class="assistant-permission-card" id="assistantPermissionPanel">
+  <h3 style="margin:0 0 5px">Equipe e permissões</h3>
+  <p class="hint">Autorize individualmente quem poderá utilizar o Assistente IA. Essa autorização não altera o perfil nem as demais permissões do usuário.</p>
+  <div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div>
+  <small class="hint" id="assistantPermissionStatus" role="status"></small>
+</div><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div><hr><h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div></section></section>
 <section id="view-finance" class="view" hidden><section class="panel"><h2>Adicionar receita ou despesa</h2><form id="financeForm"><div class="form-grid">
 <div><label for="finType">Tipo</label><select id="finType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div>
 <div><label for="finDate">Data</label><input id="finDate" type="date" required></div>
@@ -576,6 +593,10 @@ button{font-family:inherit!important;box-shadow:none}
 <section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p></section></section>
 <section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares será necessário conectar um banco de dados.</small></section>
 </main>
+<button type="button" class="assistant-fab" id="assistantFab" aria-label="Abrir Assistente ROTA">
+  <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg>
+  Assistente ROTA
+</button>
 <script>
 const $ = id => document.getElementById(id);
 let tours = JSON.parse(localStorage.getItem('rota86_tours_test') || '[]');
@@ -810,6 +831,36 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   let guides = [];
   let partners = [];
   let ready = false;
+  let canUseAssistant = false;
+
+  async function loadAssistantPermission(){
+    const {data,error}=await db.from('perfis').select('pode_usar_assistente').eq('id',currentUser.id).single();
+    if(error) throw new Error('Não foi possível verificar a autorização do Assistente IA. Aplique a atualização do banco de dados primeiro. '+error.message);
+    canUseAssistant=isAdmin() || data?.pode_usar_assistente===true;
+    $('assistantFab').style.display=canUseAssistant?'inline-flex':'none';
+  }
+
+  async function loadAssistantUsers(){
+    if(!isAdmin()) return;
+    const list=$('assistantUsersList'),status=$('assistantPermissionStatus');
+    list.innerHTML='<small class="hint">Carregando usuários...</small>';status.textContent='';
+    const {data,error}=await db.from('perfis').select('id,nome,funcao,ativo,pode_usar_assistente').order('nome');
+    if(error){list.innerHTML='<p class="hint">Não foi possível carregar a equipe: '+esc(error.message)+'</p>';return;}
+    if(!data?.length){list.innerHTML='<p class="hint">Nenhum usuário cadastrado.</p>';return;}
+    list.innerHTML=data.map(u=>{
+      const admin=u.funcao==='ADMINISTRADOR';
+      const checked=admin||u.pode_usar_assistente===true;
+      return `<div class="assistant-user-row"><div class="assistant-user-meta"><strong>${esc(u.nome||'Usuário sem nome')}</strong><small>${esc(u.funcao||'')} · ${u.ativo?'Ativo':'Inativo'}${admin?' · Acesso administrativo':''}</small></div><label style="display:flex;align-items:center;gap:7px;white-space:nowrap;font-size:.85rem"><input class="assistant-toggle" type="checkbox" data-assistant-user="${esc(u.id)}" ${checked?'checked':''} ${admin||!u.ativo?'disabled':''}> Pode usar IA</label></div>`;
+    }).join('');
+    list.querySelectorAll('[data-assistant-user]').forEach(input=>input.addEventListener('change',async()=>{
+      const id=input.dataset.assistantUser,enabled=input.checked;
+      input.disabled=true;status.textContent='Salvando autorização...';
+      const {error:updateError}=await db.from('perfis').update({pode_usar_assistente:enabled}).eq('id',id);
+      if(updateError){input.checked=!enabled;status.textContent='Não foi possível salvar. Verifique as políticas de segurança do Supabase: '+updateError.message;}
+      else status.textContent='Permissão atualizada com sucesso.';
+      input.disabled=false;
+    }));
+  }
 
   const toTour = r => ({
     id:r.id, date:r.data, time:r.horario||'', type:r.tipo||'', customer:r.cliente||'',
@@ -857,6 +908,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     if(!profileRes.data || !profileRes.data.ativo) throw new Error('Seu usuário está sem perfil ativo. Peça ao administrador para verificar o cadastro.');
     currentRole=profileRes.data.funcao;
     if(!['ADMINISTRADOR','EQUIPE'].includes(currentRole)) throw new Error('Perfil de acesso inválido.');
+    await loadAssistantPermission();
     for(const res of [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes]) if(res.error) throw res.error;
     tours=(toursRes.data||[]).map(toTour);
 
@@ -899,6 +951,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   async function loadApp(){
     await loadAll();
     refreshIdentity();
+    if(isAdmin()) await loadAssistantUsers();
     refreshRegistrySelects();
     renderRegistry('guide'); renderRegistry('partner');
     renderFinanceCategories();
@@ -936,6 +989,11 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     currentUser=data.user;
     try { await loadApp(); }
     catch(err){ await db.auth.signOut(); currentUser=null; $('loginError').textContent='Falha ao carregar os dados: '+(err.message||'verifique as permissões do banco.'); button.disabled=false;button.textContent='Entrar'; }
+  });
+
+  $('assistantFab').addEventListener('click',()=>{
+    if(!canUseAssistant){$('assistantFab').style.display='none';return;}
+    alert('O acesso ao Assistente ROTA foi autorizado. A próxima etapa conectará o microfone à inteligência artificial e aos lançamentos, sempre com confirmação antes de gravar.');
   });
 
   $('logoutButton').addEventListener('click',async()=>{
@@ -1155,6 +1213,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   window.showView=v=>{
     if(v==='registries'&&!isAdmin()){showError('A área de cadastros é exclusiva do administrador.');v='home';}
     originalShowView(v);
+    if(v==='registries'&&isAdmin()) loadAssistantUsers();
     applyRoleUI();
   };
   function applyRoleUI(){
