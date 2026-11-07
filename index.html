@@ -546,6 +546,28 @@ button{font-family:inherit!important;box-shadow:none}
 .user-admin-row .user-check input{width:auto}
 @media(max-width:700px){.user-admin-grid{grid-template-columns:1fr}.user-admin-row{grid-template-columns:1fr 1fr;gap:8px}.user-admin-row>div:first-child{grid-column:1/-1}.user-admin-row button{justify-self:start}}
 </style>
+
+<style>
+/* Assistente ROTA - interface inicial de voz e texto (sem gravação de dados) */
+.assistant-overlay{position:fixed;inset:0;background:rgba(13,31,43,.34);z-index:100;display:none;align-items:flex-end;justify-content:flex-end;padding:18px}
+.assistant-overlay.open{display:flex}
+.assistant-window{width:min(430px,100%);height:min(680px,calc(100dvh - 36px));background:#fff;border:1px solid #dce5eb;border-radius:18px;box-shadow:0 18px 60px rgba(16,45,65,.25);display:flex;flex-direction:column;overflow:hidden;color:#172b3a}
+.assistant-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px;background:#087e8b;color:white}
+.assistant-head h2{font-size:17px;margin:0}.assistant-head p{font-size:12px;margin:3px 0 0;opacity:.9}
+.assistant-close{border:0;background:rgba(255,255,255,.16);color:white;border-radius:9px;width:36px;height:36px;font-size:22px;cursor:pointer}
+.assistant-notice{padding:10px 14px;background:#fff8e8;color:#765414;font-size:12px;line-height:1.45;border-bottom:1px solid #f2e5c5}
+.assistant-messages{padding:15px;display:flex;flex:1;flex-direction:column;gap:12px;overflow:auto;background:#f6f8fa}
+.assistant-message{max-width:88%;padding:11px 13px;border-radius:14px;font-size:14px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.assistant-message.bot{align-self:flex-start;background:#fff;border:1px solid #e1e8ee;border-bottom-left-radius:4px}
+.assistant-message.user{align-self:flex-end;background:#e1f3f4;color:#124f59;border-bottom-right-radius:4px}
+.assistant-composer{padding:12px;border-top:1px solid #e4ebef;background:white;display:flex;align-items:flex-end;gap:8px}
+.assistant-composer textarea{flex:1;min-width:0;max-height:110px;min-height:44px;resize:vertical;border:1px solid #d7e1e8;border-radius:12px;padding:11px;font:14px inherit}
+.assistant-icon-btn{flex:0 0 44px;width:44px;height:44px;border:0;border-radius:12px;background:#edf3f5;color:#126575;display:grid;place-items:center;cursor:pointer}
+.assistant-icon-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.assistant-icon-btn.primary-send{background:#087e8b;color:#fff}.assistant-icon-btn.listening{background:#ffe8e8;color:#b42318;box-shadow:0 0 0 3px #ffe8e8}
+.assistant-tools{display:flex;justify-content:space-between;align-items:center;padding:7px 14px 10px;color:#718096;font-size:11px;background:#fff}
+@media(max-width:600px){.assistant-overlay{padding:0;align-items:flex-end}.assistant-window{width:100%;height:min(82dvh,720px);border-radius:18px 18px 0 0}.assistant-fab{bottom:86px}}
+</style>
 </head><body>
 <section id="loginScreen" class="login-screen">
   <form id="loginForm" class="login-card">
@@ -626,6 +648,24 @@ button{font-family:inherit!important;box-shadow:none}
 <section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p></section></section>
 <section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares será necessário conectar um banco de dados.</small></section>
 </main>
+
+
+<div class="assistant-overlay" id="assistantOverlay" aria-hidden="true">
+ <section class="assistant-window" role="dialog" aria-modal="true" aria-labelledby="assistantTitle">
+  <header class="assistant-head"><div><h2 id="assistantTitle">Assistente ROTA</h2><p>Conversa por voz e texto</p></div><button class="assistant-close" id="assistantClose" type="button" aria-label="Fechar">×</button></header>
+  <div class="assistant-notice"><strong>Modo de preparação:</strong> nesta etapa você pode testar a interface e a transcrição de voz. A IA ainda não está conectada e nenhuma mensagem será gravada como receita, despesa ou passeio.</div>
+  <div class="assistant-messages" id="assistantMessages" aria-live="polite">
+   <div class="assistant-message bot">Olá! Sou o Assistente ROTA. Você pode digitar uma mensagem ou usar o microfone. Na próxima etapa vou interpretar os pedidos e apresentar um resumo para sua confirmação antes de qualquer lançamento.</div>
+  </div>
+  <div class="assistant-tools"><span id="assistantVoiceStatus">Microfone ainda não iniciado.</span><button type="button" id="assistantSpeakToggle" style="border:0;background:none;color:#087e8b;font-weight:700;cursor:pointer">Voz da resposta: ligada</button></div>
+  <form class="assistant-composer" id="assistantChatForm">
+   <button class="assistant-icon-btn" id="assistantMic" type="button" aria-label="Falar mensagem" title="Falar mensagem"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg></button>
+   <textarea id="assistantText" rows="1" placeholder="Digite ou fale sua mensagem..." aria-label="Mensagem para o Assistente ROTA"></textarea>
+   <button class="assistant-icon-btn primary-send" type="submit" aria-label="Enviar mensagem" title="Enviar mensagem"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
+  </form>
+ </section>
+</div>
+
 <button type="button" class="assistant-fab" id="assistantFab" aria-label="Abrir Assistente ROTA">
   <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg>
   Assistente ROTA
@@ -1063,7 +1103,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
 
   $('assistantFab').addEventListener('click',()=>{
     if(!canUseAssistant){$('assistantFab').style.display='none';return;}
-    alert('O acesso ao Assistente ROTA foi autorizado. A próxima etapa conectará o microfone à inteligência artificial e aos lançamentos, sempre com confirmação antes de gravar.');
+    window.dispatchEvent(new Event('rota-assistant-open'));
   });
 
   $('logoutButton').addEventListener('click',async()=>{
@@ -1359,4 +1399,43 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   })();
 })();
 </script>
+
+<script>
+(() => {
+ const overlay=document.getElementById('assistantOverlay');
+ const messages=document.getElementById('assistantMessages');
+ const textBox=document.getElementById('assistantText');
+ const mic=document.getElementById('assistantMic');
+ const status=document.getElementById('assistantVoiceStatus');
+ const speakToggle=document.getElementById('assistantSpeakToggle');
+ let speakReplies=true, recognition=null, listening=false;
+ const addMessage=(content,kind)=>{const el=document.createElement('div');el.className='assistant-message '+kind;el.textContent=content;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;return el;};
+ const speak=(content)=>{if(!speakReplies||!('speechSynthesis' in window))return;window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(content);utterance.lang='pt-BR';utterance.rate=1;window.speechSynthesis.speak(utterance);};
+ const open=()=>{overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');setTimeout(()=>textBox.focus(),80);};
+ const close=()=>{overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');if(recognition&&listening)recognition.stop();if('speechSynthesis'in window)window.speechSynthesis.cancel();};
+ window.addEventListener('rota-assistant-open',open);
+ document.getElementById('assistantClose').addEventListener('click',close);
+ overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('open'))close();});
+ speakToggle.addEventListener('click',()=>{speakReplies=!speakReplies;speakToggle.textContent='Voz da resposta: '+(speakReplies?'ligada':'desligada');if(!speakReplies&&'speechSynthesis'in window)window.speechSynthesis.cancel();});
+ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(SpeechRecognition){
+   recognition=new SpeechRecognition();recognition.lang='pt-BR';recognition.continuous=false;recognition.interimResults=true;
+   recognition.onstart=()=>{listening=true;mic.classList.add('listening');status.textContent='Ouvindo... fale sua mensagem.';};
+   recognition.onresult=e=>{let finalText='';for(let i=e.resultIndex;i<e.results.length;i++){const part=e.results[i][0].transcript;if(e.results[i].isFinal)finalText+=part;}if(finalText){textBox.value=(textBox.value?textBox.value+' ':'')+finalText;textBox.focus();}};
+   recognition.onerror=e=>{status.textContent=e.error==='not-allowed'?'Permita o acesso ao microfone no navegador.':'Não foi possível reconhecer a fala. Tente novamente ou digite.';};
+   recognition.onend=()=>{listening=false;mic.classList.remove('listening');if(status.textContent==='Ouvindo... fale sua mensagem.')status.textContent='Transcrição concluída. Revise antes de enviar.';};
+   mic.addEventListener('click',()=>{try{if(listening){recognition.stop();}else{status.textContent='Solicitando acesso ao microfone...';recognition.start();}}catch(e){status.textContent='O microfone já está sendo utilizado. Aguarde e tente novamente.';}});
+ }else{
+   mic.disabled=true;mic.title='Reconhecimento de voz não disponível neste navegador';status.textContent='Este navegador não oferece reconhecimento de voz. Você ainda pode digitar.';
+ }
+ document.getElementById('assistantChatForm').addEventListener('submit',e=>{
+   e.preventDefault();const message=textBox.value.trim();if(!message)return;
+   addMessage(message,'user');textBox.value='';
+   const reply='Recebi sua mensagem. A conexão com a inteligência artificial ainda será ativada. Nesta etapa, nenhum dado foi gravado no sistema. Quando a IA estiver conectada, vou interpretar o pedido, mostrar os detalhes e pedir sua confirmação antes de registrar.';
+   addMessage(reply,'bot');speak(reply);
+ });
+})();
+</script>
+
 </body></html>
