@@ -641,9 +641,10 @@ body.dark-theme .registry-subnav button.active,body.dark-theme .theme-options bu
 <div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustação (compartilhado)">Barco + caiaque + degustação (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
 <div><label for="customer">Cliente / grupo</label><input id="customer" placeholder="Nome do cliente ou grupo"></div><div><label for="phone">Contato</label><input id="phone" type="tel" placeholder="WhatsApp"></div>
 <div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div><div><label for="freePeople">Cortesias / não pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
-<div><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div><label for="received">Total já recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
-<div><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
-<div><label for="guidePay">Pagamento do guia (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div><label for="partnerCommission">Comissão por pagante (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"><small class="hint" id="commissionCalcHint">Valor calculado pelo cadastro do passeio; você pode ajustar nesta venda.</small></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
+<div id="ownSalePriceWrap"><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div id="ownSaleReceivedWrap"><label for="received">Total já recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
+<div id="partnerSalePriceWrap" hidden><label for="partnerSalePrice">Valor a vender por pagante (R$)</label><input id="partnerSalePrice" type="number" min="0" step=".01" value="0"></div><div id="partnerCommissionTotalWrap" hidden><label for="partnerCommissionTotal">Comissão total a receber (R$)</label><input id="partnerCommissionTotal" type="number" min="0" step=".01" value="0"></div><div id="partnerCommissionReceivedWrap" hidden><label for="partnerCommissionReceived">Comissão recebida até agora (R$)</label><input id="partnerCommissionReceived" type="number" min="0" step=".01" value="0"><small class="hint">Ao informar o valor recebido, ele será lançado como receita no Financeiro.</small></div>
+<div id="ownGuideSelectWrap"><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div id="ownSellerSelectWrap"><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
+<div id="ownGuidePayWrap"><label for="guidePay">Pagamento do guia por pagante (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div id="ownSellerCommissionWrap"><label for="partnerCommission">Comissão do parceiro/vendedor por pagante (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"><small class="hint" id="commissionCalcHint">Valor calculado pelo cadastro do passeio; você pode ajustar nesta venda.</small></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
 <small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
 <section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" hidden></div><div class="tour-list" id="agendaDayList" hidden></div></section></section>
 <section id="view-registries" class="view" hidden>
@@ -659,8 +660,18 @@ body.dark-theme .registry-subnav button.active,body.dark-theme .theme-options bu
    <form id="tourCatalogForm"><input type="hidden" id="catalogId"><div class="form-grid">
     <div class="wide"><label for="catalogName">Nome do passeio *</label><input id="catalogName" required maxlength="160" placeholder="Ex.: Passeio de barco + caiaque"></div>
     <div><label for="catalogOrigin">Classificação *</label><select id="catalogOrigin"><option value="proprio">Próprio</option><option value="parceiro">Parceiro</option></select></div>
-    <div><label for="catalogCommissionModel">Modelo de comissão</label><select id="catalogCommissionModel"><option value="fixo">Valor fixo por pagante</option><option value="percentual">Percentual sobre a venda</option></select></div>
-    <div><label for="catalogCommissionValue" id="catalogCommissionLabel">Comissão por pagante (R$)</label><input id="catalogCommissionValue" type="number" min="0" step="0.01" value="0"></div>
+    <div id="catalogOwnFields" class="wide"><div class="form-grid">
+     <div><label for="catalogOwnPrice">Valor do passeio por pagante (R$)</label><input id="catalogOwnPrice" type="number" min="0" step="0.01" value="0"></div>
+     <div><label><input id="catalogGuideEnabled" type="checkbox" style="width:auto"> Este passeio utiliza guia</label></div>
+     <div id="catalogGuideValueWrap"><label for="catalogGuideValue">Valor do guia neste passeio (R$)</label><input id="catalogGuideValue" type="number" min="0" step="0.01" value="0"></div>
+     <div><label><input id="catalogSellerEnabled" type="checkbox" style="width:auto"> Habilitar parceiro/vendedor e comissão</label></div>
+     <div id="catalogSellerValueWrap"><label for="catalogSellerValue">Comissão do parceiro/vendedor por pagante (R$)</label><input id="catalogSellerValue" type="number" min="0" step="0.01" value="0"></div>
+    </div></div>
+    <div id="catalogPartnerFields" class="wide" hidden><div class="form-grid">
+     <div><label for="catalogPartnerSalePrice">Valor a vender por pagante (R$)</label><input id="catalogPartnerSalePrice" type="number" min="0" step="0.01" value="0"></div>
+     <div><label for="catalogCommissionModel">Modelo da comissão a receber</label><select id="catalogCommissionModel"><option value="fixo">Valor fixo por pagante</option><option value="percentual">Percentual sobre a venda</option></select></div>
+     <div><label for="catalogCommissionValue" id="catalogCommissionLabel">Comissão a receber por pagante (R$)</label><input id="catalogCommissionValue" type="number" min="0" step="0.01" value="0"></div>
+    </div></div>
     <div class="wide"><label><input id="catalogActive" type="checkbox" checked style="width:auto"> Passeio ativo para novas vendas</label></div>
    </div><div class="actions"><button class="primary" type="submit" id="catalogSaveButton">Salvar passeio</button><button class="secondary" type="button" id="catalogCancelButton" hidden>Cancelar edição</button></div></form>
    <p id="catalogStatus" class="hint" role="status"></p><div id="tourCatalogList"></div>
@@ -713,7 +724,7 @@ function commissionDefaults(){
 }
 $('type').addEventListener('change',()=>{commissionDefaults();applyTourCommissionDefault();});
 $('price').addEventListener('input',()=>{if(findCatalog($('type').value)?.comissao_modelo==='percentual')applyTourCommissionDefault();});
-$('catalogCommissionModel').addEventListener('change',updateCatalogCommissionLabel);
+$('catalogCommissionModel').addEventListener('change',updateCatalogCommissionLabel);$('catalogOrigin').addEventListener('change',updateCatalogOriginFields);$('catalogGuideEnabled').addEventListener('change',()=>{$('catalogGuideValueWrap').hidden=!$('catalogGuideEnabled').checked;});$('catalogSellerEnabled').addEventListener('change',()=>{$('catalogSellerValueWrap').hidden=!$('catalogSellerEnabled').checked;});$('type').addEventListener('change',applyTourCommissionDefault);$('paidPeople').addEventListener('input',()=>{updateSaleOriginFields();refreshPartnerCommissionSuggestion();});$('partnerSalePrice').addEventListener('input',refreshPartnerCommissionSuggestion);updateCatalogOriginFields();
 $('catalogCancelButton').addEventListener('click',resetCatalogForm);
 document.querySelectorAll('[data-registry-tab]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-registry-tab]').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.registry-tab').forEach(p=>p.hidden=p.id!=='registry-'+btn.dataset.registryTab);}));
 document.querySelectorAll('[data-theme-choice]').forEach(btn=>btn.addEventListener('click',()=>setTheme(btn.dataset.themeChoice)));
@@ -725,11 +736,14 @@ let tourCatalog=[];
 function findCatalog(name){return tourCatalog.find(x=>x.nome===name&&x.ativo!==false)||null;}
 function commissionPerPerson(name,price){const item=findCatalog(name);if(!item||item.origem!=='parceiro')return 0;const value=Number(item.comissao_valor||0);return item.comissao_modelo==='percentual'?(Number(price||0)*value/100):value;}
 function refreshTourTypeOptions(selected){const el=$('type');if(!el)return;const old=selected??el.value;const active=tourCatalog.filter(x=>x.ativo!==false);const names=[...new Set([...active.map(x=>x.nome),...['Passeio de barco + caiaque + degustação (compartilhado)','Passeio de barco + caiaque + churrasco (coletivo)','Outro passeio']])];el.innerHTML=names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');if(names.includes(old))el.value=old;}
-function updateCatalogCommissionLabel(){const pct=$('catalogCommissionModel').value==='percentual';$('catalogCommissionLabel').textContent=pct?'Comissão sobre a venda (%)':'Comissão por pagante (R$)';$('catalogCommissionValue').max=pct?'100':'';}
-function applyTourCommissionDefault(){const name=$('type').value,price=Number($('price').value||0),item=findCatalog(name);const amount=commissionPerPerson(name,price);if(item&&item.origem==='parceiro'){$('partnerCommission').value=amount.toFixed(2);$('commissionCalcHint').textContent=item.comissao_modelo==='percentual'?`Sugestão: ${item.comissao_valor}% sobre ${money(price)} por pagante. Você pode ajustar nesta venda.`:`Sugestão: ${money(amount)} por pagante. Você pode ajustar nesta venda.`;}else{$('partnerCommission').value=0;$('commissionCalcHint').textContent='Passeio próprio ou sem configuração de comissão. Ajuste manualmente se necessário.';}}
-function renderTourCatalog(){const target=$('tourCatalogList');if(!target)return;target.innerHTML=tourCatalog.map(x=>`<div class="catalog-row"><div><strong>${esc(x.nome)}</strong><small><span class="catalog-origin ${x.origem==='parceiro'?'partner':''}">${x.origem==='parceiro'?'Parceiro':'Próprio'}</span> · ${x.comissao_modelo==='percentual'?`${Number(x.comissao_valor||0)}% sobre a venda`:`${money(x.comissao_valor||0)} por pagante`} · ${x.ativo?'Ativo':'Inativo'}</small></div><div class="catalog-actions"><button class="secondary" type="button" onclick="editCatalogTour('${x.id}')">Editar</button><button class="danger" type="button" onclick="toggleCatalogTour('${x.id}',${!x.ativo})">${x.ativo?'Desativar':'Ativar'}</button></div></div>`).join('')||'<p class="empty">Nenhum passeio cadastrado no catálogo.</p>';refreshTourTypeOptions();}
-function resetCatalogForm(){$('catalogId').value='';$('tourCatalogForm').reset();$('catalogCommissionValue').value=0;$('catalogActive').checked=true;$('catalogSaveButton').textContent='Salvar passeio';$('catalogCancelButton').hidden=true;updateCatalogCommissionLabel();}
-window.editCatalogTour=id=>{const x=tourCatalog.find(v=>String(v.id)===String(id));if(!x)return;$('catalogId').value=x.id;$('catalogName').value=x.nome;$('catalogOrigin').value=x.origem;$('catalogCommissionModel').value=x.comissao_modelo;$('catalogCommissionValue').value=x.comissao_valor;$('catalogActive').checked=x.ativo;$('catalogSaveButton').textContent='Salvar alterações';$('catalogCancelButton').hidden=false;updateCatalogCommissionLabel();$('catalogName').focus();};
+function updateCatalogCommissionLabel(){const pct=$('catalogCommissionModel').value==='percentual';$('catalogCommissionLabel').textContent=pct?'Comissão a receber sobre a venda (%)':'Comissão a receber por pagante (R$)';$('catalogCommissionValue').max=pct?'100':'';}
+function updateCatalogOriginFields(){const partner=$('catalogOrigin').value==='parceiro';$('catalogOwnFields').hidden=partner;$('catalogPartnerFields').hidden=!partner;$('catalogGuideValueWrap').hidden=!$('catalogGuideEnabled').checked;$('catalogSellerValueWrap').hidden=!$('catalogSellerEnabled').checked;updateCatalogCommissionLabel();}
+function updateSaleOriginFields(){const item=findCatalog($('type').value);const partner=item?.origem==='parceiro';$('ownSalePriceWrap').hidden=partner;$('ownSaleReceivedWrap').hidden=partner;$('ownGuideSelectWrap').hidden=partner||item?.usa_guia===false;$('ownGuidePayWrap').hidden=partner||item?.usa_guia===false;$('ownSellerSelectWrap').hidden=partner||item?.habilita_vendedor===false;$('ownSellerCommissionWrap').hidden=partner||item?.habilita_vendedor===false;$('partnerSalePriceWrap').hidden=!partner;$('partnerCommissionTotalWrap').hidden=!partner;$('partnerCommissionReceivedWrap').hidden=!partner;}
+function refreshPartnerCommissionSuggestion(){const item=findCatalog($('type').value);if(!item||item.origem!=='parceiro')return;const model=item.comissao_modelo||'fixo',v=Number(item.comissao_valor||0),n=Number($('paidPeople').value||0),sale=Number($('partnerSalePrice').value||0);$('partnerCommissionTotal').value=((model==='percentual'?sale*v/100:v)*n).toFixed(2);}
+function applyTourCommissionDefault(){const name=$('type').value,item=findCatalog(name);if(!item){updateSaleOriginFields();return;}if(item.origem==='parceiro'){$('partnerSalePrice').value=Number(item.valor_venda_parceiro||0);updateSaleOriginFields();refreshPartnerCommissionSuggestion();return;}$('price').value=Number(item.valor_passeio||0);$('guidePay').value=Number(item.valor_guia||0);$('partnerCommission').value=Number(item.comissao_vendedor||0);$('commissionCalcHint').textContent='Valores sugeridos pelo cadastro. Você pode ajustar nesta venda.';updateSaleOriginFields();}
+function renderTourCatalog(){const target=$('tourCatalogList');if(!target)return;target.innerHTML=tourCatalog.map(x=>{const detail=x.origem==='parceiro'?`Venda: ${money(x.valor_venda_parceiro||0)} por pagante · Comissão: ${x.comissao_modelo==='percentual'?`${Number(x.comissao_valor||0)}%`:`${money(x.comissao_valor||0)} por pagante`}`:`Passeio: ${money(x.valor_passeio||0)} por pagante · Guia: ${x.usa_guia?money(x.valor_guia||0):'Não utiliza'} · Vendedor: ${x.habilita_vendedor?money(x.comissao_vendedor||0):'Não habilitado'}`;return `<div class="catalog-row"><div><strong>${esc(x.nome)}</strong><small><span class="catalog-origin ${x.origem==='parceiro'?'partner':''}">${x.origem==='parceiro'?'Parceiro':'Próprio'}</span> · ${detail} · ${x.ativo?'Ativo':'Inativo'}</small></div><div class="catalog-actions"><button class="secondary" type="button" onclick="editCatalogTour('${x.id}')">Editar</button><button class="danger" type="button" onclick="toggleCatalogTour('${x.id}',${!x.ativo})">${x.ativo?'Desativar':'Ativar'}</button></div></div>`}).join('')||'<p class="empty">Nenhum passeio cadastrado no catálogo.</p>';refreshTourTypeOptions();}
+function resetCatalogForm(){$('catalogId').value='';$('tourCatalogForm').reset();$('catalogCommissionValue').value=0;$('catalogOwnPrice').value=0;$('catalogGuideValue').value=0;$('catalogSellerValue').value=0;$('catalogPartnerSalePrice').value=0;$('catalogActive').checked=true;$('catalogSaveButton').textContent='Salvar passeio';$('catalogCancelButton').hidden=true;updateCatalogOriginFields();}
+window.editCatalogTour=id=>{const x=tourCatalog.find(v=>String(v.id)===String(id));if(!x)return;$('catalogId').value=x.id;$('catalogName').value=x.nome;$('catalogOrigin').value=x.origem;$('catalogOwnPrice').value=x.valor_passeio||0;$('catalogGuideEnabled').checked=!!x.usa_guia;$('catalogGuideValue').value=x.valor_guia||0;$('catalogSellerEnabled').checked=!!x.habilita_vendedor;$('catalogSellerValue').value=x.comissao_vendedor||0;$('catalogPartnerSalePrice').value=x.valor_venda_parceiro||0;$('catalogCommissionModel').value=x.comissao_modelo||'fixo';$('catalogCommissionValue').value=x.comissao_valor||0;$('catalogActive').checked=x.ativo;$('catalogSaveButton').textContent='Salvar alterações';$('catalogCancelButton').hidden=false;updateCatalogOriginFields();$('catalogName').focus();};
 window.toggleCatalogTour=async(id,active)=>{if(!confirm(active?'Reativar este passeio para novas vendas?':'Desativar este passeio para novas vendas?'))return;const {error}=await window.rota86Supabase.from('catalogo_passeios').update({ativo:active}).eq('id',id);if(error){alert('Não foi possível atualizar: '+error.message);return;}await window.rota86ReloadCatalog();};
 
 let financeEntries=JSON.parse(localStorage.getItem('rota86_finance')||'[]');
@@ -765,12 +779,13 @@ window.deleteFinance=id=>{if(confirm('Excluir este lançamento?')){financeEntrie
 $('financeForm').addEventListener('submit',e=>{e.preventDefault();financeEntries.push({id:crypto.randomUUID(),type:$('finType').value,date:$('finDate').value,category:$('finCategory').value.trim(),amount:Number($('finAmount').value),description:$('finDescription').value.trim()});$('financeForm').reset();$('finDate').value=new Date().toISOString().slice(0,10);saveFinance();});
 
 const money = n => Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const totalFor = t => Number(t.paidPeople||0)*Number(t.price||0);
+const totalFor = t => t.origin==='parceiro'?0:Number(t.paidPeople||0)*Number(t.price||0);
 const balanceFor = t => Math.max(0,totalFor(t)-Number(t.received||0));
 function save(){localStorage.setItem('rota86_tours_test',JSON.stringify(tours));render();}
 function paymentStatus(t){if(Number(t.received||0)<=0)return 'pending';if(balanceFor(t)>0.009)return 'debt';return 'paid';}
 function labelStatus(t){
  if(t.done)return ['Passeio concluído','green'];
+ if(t.origin==='parceiro'){const due=Number(t.partnerCommissionTotal||0),got=Number(t.partnerCommissionReceived||0);if(due<=0)return ['Comissão não configurada','orange'];if(got<=0)return ['Comissão a receber','orange'];if(got+0.009<due)return ['Comissão recebida parcialmente','orange'];return ['Comissão recebida','green'];}
  const p=paymentStatus(t);
  if(p==='pending')return ['Aguardando entrada','orange'];
  if(p==='debt')return ['Confirmado · saldo devedor','orange'];
@@ -903,7 +918,7 @@ function render(){
    <div class="card-bottom"><span class="count">${t.done?'Registro finalizado':paymentStatus(t)==='pending'?'Aguardando pagamento da entrada':balance>0.009?'Pagamento parcial':'Pagamento quitado'}</span><button class="secondary" type="button" onclick="toggleDetail('${t.id}')">Ver detalhes⌄</button></div>
    <div class="detail" id="detail-${t.id}">
     <div class="detail-grid">
-     <div class="detail-item"><small>Contato</small><div class="contact-actions">${esc(t.phone||'—')}${t.phone?`<a class="contact-icon whatsapp-link" href="https://wa.me/${String(t.phone).replace(/\\D/g,'')}" target="_blank" rel="noopener noreferrer" aria-label="Conversar pelo WhatsApp" title="Abrir WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7A8.5 8.5 0 1 1 20.5 11.7Z"/><path d="M8.2 7.8c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 2 .2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .4-.2 1-.6 1.3-.4.4-1 .6-1.6.5-1-.1-2.3-.7-3.5-1.8-1.4-1.2-2.3-2.7-2.5-3.7-.2-.8.1-1.5.5-1.9Z"/></svg></a><a class="contact-icon phone-link" href="tel:${String(t.phone).replace(/[^0-9+]/g,'')}" aria-label="Ligar para o cliente" title="Ligar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.5 2l2 4.8-2.1 1.7a15 15 0 0 0 6.1 6.1l1.7-2.1 4.8 2-.8 2.9c-.3 1.1-1.4 1.8-2.5 1.7C10.8 18.3 5.7 13.2 4.9 5.3c-.1-1.1.6-2.2 1.7-2.5Z"/></svg></a>`:''}</div></div><div class="detail-item"><small>Valor por pagante</small>${money(t.price)}</div>
+     <div class="detail-item"><small>Contato</small><div class="contact-actions">${esc(t.phone||'—')}${t.phone?`<a class="contact-icon whatsapp-link" href="https://wa.me/${String(t.phone).replace(/\\D/g,'')}" target="_blank" rel="noopener noreferrer" aria-label="Conversar pelo WhatsApp" title="Abrir WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7A8.5 8.5 0 1 1 20.5 11.7Z"/><path d="M8.2 7.8c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 2 .2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .4-.2 1-.6 1.3-.4.4-1 .6-1.6.5-1-.1-2.3-.7-3.5-1.8-1.4-1.2-2.3-2.7-2.5-3.7-.2-.8.1-1.5.5-1.9Z"/></svg></a><a class="contact-icon phone-link" href="tel:${String(t.phone).replace(/[^0-9+]/g,'')}" aria-label="Ligar para o cliente" title="Ligar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.5 2l2 4.8-2.1 1.7a15 15 0 0 0 6.1 6.1l1.7-2.1 4.8 2-.8 2.9c-.3 1.1-1.4 1.8-2.5 1.7C10.8 18.3 5.7 13.2 4.9 5.3c-.1-1.1.6-2.2 1.7-2.5Z"/></svg></a>`:''}</div></div><div class="detail-item"><small>Valor por pagante</small>${money(t.origin==='parceiro'?t.partnerSalePrice:t.price)}</div>
      <div class="detail-item"><small>Guia</small>${esc(t.guide||'—')}</div><div class="detail-item"><small>Parceiro / vendedor</small>${esc(t.partner||'—')}</div>
      <div class="detail-item"><small>Saldo restante</small>${money(balance)}</div><div class="detail-item"><small>Situação</small>${esc(status)}</div>
      <div class="detail-item" style="grid-column:1/-1"><small>Observações</small>${esc(t.notes||'—')}</div>
@@ -932,8 +947,8 @@ window.shareTourWhatsApp=id=>{
   '*Cliente / grupo:* '+(t.customer||'Não informado'),
   '*Participantes:* '+(paid+free)+' pessoa(s) — '+paid+' pagante(s) e '+free+' cortesia(s)',
   '*Guia:* '+(t.guide||'A definir'),
-  '*Valor por pagante:* '+money(t.price),
-  '*Valor total previsto:* '+money(total),
+  '*Valor por pagante:* '+money(t.origin==='parceiro'?t.partnerSalePrice:t.price),
+  '*Valor total previsto:* '+money(t.origin==='parceiro'?Number(t.partnerSalePrice||0)*paid:total),
   '*Valor recebido:* '+money(received),
   '*Saldo pendente:* '+money(balance),
   '*Situação:* '+(t.done?'Passeio realizado':balance>0.009?'Pagamento pendente/parcial':'Pagamento quitado')
@@ -953,7 +968,7 @@ window.editTour=id=>{
  $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
  window.scrollTo({top:0,behavior:'smooth'});
 };
-function resetForm(){editingId=null;$('tourForm').reset();refreshTourTypeOptions();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;refreshRegistrySelects();commissionDefaults();applyTourCommissionDefault();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
+function resetForm(){editingId=null;$('tourForm').reset();refreshTourTypeOptions();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;$('partnerSalePrice').value=0;$('partnerCommissionTotal').value=0;$('partnerCommissionReceived').value=0;refreshRegistrySelects();commissionDefaults();applyTourCommissionDefault();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
 $('tourForm').addEventListener('submit',e=>{
  e.preventDefault();
  const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:Number($('received').value||0),guide:$('guide').value,partner:$('partner').value,guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),notes:$('notes').value.trim(),done:false};
@@ -1054,7 +1069,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     phone:r.telefone||'', paidPeople:Number(r.pessoas_pagantes||0),
     freePeople:Number(r.pessoas_gratuitas||0), price:Number(r.valor_por_pessoa||0),
     received:Number(r.valor_recebido||0), guide:r.guia||'', partner:r.parceiro||'',
-    guidePay:Number(r.pagamento_guia||0), partnerCommission:Number(r.comissao_parceiro||0), origin:r.origem_passeio||'proprio',
+    guidePay:Number(r.pagamento_guia||0), partnerCommission:Number(r.comissao_parceiro||0), origin:r.origem_passeio||'proprio', partnerSalePrice:Number(r.valor_venda_parceiro||0), partnerCommissionTotal:Number(r.comissao_a_receber||0), partnerCommissionReceived:Number(r.comissao_recebida||0),
     notes:r.observacoes||'', done:!!r.realizado
   });
   const fromTour = t => ({
@@ -1062,7 +1077,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     telefone:t.phone||null, pessoas_pagantes:Number(t.paidPeople||0),
     pessoas_gratuitas:Number(t.freePeople||0), valor_por_pessoa:Number(t.price||0),
     valor_recebido:Number(t.received||0), guia:t.guide||null, parceiro:t.partner||null,
-    pagamento_guia:Number(t.guidePay||0), comissao_parceiro:Number(t.partnerCommission||0), origem_passeio:t.origin||'proprio',
+    pagamento_guia:Number(t.guidePay||0), comissao_parceiro:Number(t.partnerCommission||0), origem_passeio:t.origin||'proprio', valor_venda_parceiro:Number(t.partnerSalePrice||0), comissao_a_receber:Number(t.partnerCommissionTotal||0), comissao_recebida:Number(t.partnerCommissionReceived||0),
     observacoes:t.notes||null, realizado:!!t.done, criado_por:currentUser?.id||null
   });
   const toFinance = r => ({
@@ -1101,7 +1116,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
 
     // Reconcilia os recebimentos dos passeios antes de montar o Financeiro.
     // Assim, passeios já cadastrados também aparecem na lista de movimentações.
-    for(const tour of tours) await syncTourReceipt(tour);
+    for(const tour of tours) if(tour.origin!=='parceiro') await syncTourReceipt(tour);
     const financeRes=await db.from('lancamentos_financeiros').select('*').order('data',{ascending:false});
     if(financeRes.error) throw financeRes.error;
     financeEntries=(financeRes.data||[]).map(toFinance);
@@ -1213,7 +1228,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     // Busca todos os lançamentos ligados a este passeio para corrigir também
     // eventuais duplicidades antigas, mantendo apenas um recebimento.
     const {data:linked,error:findError}=await db.from('lancamentos_financeiros')
-      .select('id,valor,data').eq('passeio_id',t.id);
+      .select('id,valor,data').eq('passeio_id',t.id).is('comissao_tipo',null);
     if(findError) throw findError;
     const existing=linked||[];
     const received=Number(t.received||0);
@@ -1251,11 +1266,21 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     }
   }
 
+  async function syncPartnerCommissionReceipt(t){
+    const {data:linked,error}=await db.from('lancamentos_financeiros').select('id').eq('passeio_id',t.id).eq('comissao_tipo','recebimento_parceiro');
+    if(error) throw error;
+    const rows=linked||[],received=Number(t.partnerCommissionReceived||0);
+    if(received<=0){if(rows.length){const del=await db.from('lancamentos_financeiros').delete().in('id',rows.map(x=>x.id));if(del.error)throw del.error;}return;}
+    const entry={tipo:'receita',data:t.date,categoria:'Comissões recebidas de parceiros',valor:received,descricao:`Comissão recebida: ${t.customer||'Cliente'} - ${t.type||'Passeio de parceiro'}`,vinculado_comissao:true,comissao_tipo:'recebimento_parceiro',comissao_nome:t.type,forma_pagamento:null,passeio_id:t.id,criado_por:currentUser?.id||null};
+    if(rows.length){const up=await db.from('lancamentos_financeiros').update(entry).eq('id',rows[0].id);if(up.error)throw up.error;if(rows.length>1){const del=await db.from('lancamentos_financeiros').delete().in('id',rows.slice(1).map(x=>x.id));if(del.error)throw del.error;}}
+    else {const ins=await db.from('lancamentos_financeiros').insert(entry);if(ins.error)throw ins.error;}
+  }
+
   $('tourCatalogForm').addEventListener('submit',async e=>{
     e.preventDefault();if(!requireAdmin())return;
-    const id=$('catalogId').value;const nome=$('catalogName').value.trim();const valor=Number($('catalogCommissionValue').value||0);const modelo=$('catalogCommissionModel').value;
-    if(!nome){showError('Informe o nome do passeio.');return;}if(modelo==='percentual'&&valor>100){showError('O percentual não pode ser maior que 100%.');return;}
-    const record={nome,origem:$('catalogOrigin').value,comissao_modelo:modelo,comissao_valor:valor,ativo:$('catalogActive').checked};
+    const id=$('catalogId').value;const nome=$('catalogName').value.trim();const origem=$('catalogOrigin').value;const valor=Number($('catalogCommissionValue').value||0);const modelo=$('catalogCommissionModel').value;
+    if(!nome){showError('Informe o nome do passeio.');return;}if(origem==='parceiro'&&modelo==='percentual'&&valor>100){showError('O percentual não pode ser maior que 100%.');return;}
+    const record={nome,origem,comissao_modelo:modelo,comissao_valor:origem==='parceiro'?valor:0,valor_passeio:origem==='proprio'?Number($('catalogOwnPrice').value||0):0,usa_guia:origem==='proprio'&&$('catalogGuideEnabled').checked,valor_guia:origem==='proprio'&&$('catalogGuideEnabled').checked?Number($('catalogGuideValue').value||0):0,habilita_vendedor:origem==='proprio'&&$('catalogSellerEnabled').checked,comissao_vendedor:origem==='proprio'&&$('catalogSellerEnabled').checked?Number($('catalogSellerValue').value||0):0,valor_venda_parceiro:origem==='parceiro'?Number($('catalogPartnerSalePrice').value||0):0,ativo:$('catalogActive').checked};
     const result=id?await db.from('catalogo_passeios').update(record).eq('id',id):await db.from('catalogo_passeios').insert(record);
     if(result.error){showError('Não foi possível salvar no catálogo: '+result.error.message);return;}
     resetCatalogForm();await window.rota86ReloadCatalog();
@@ -1275,13 +1300,14 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
         price:Number($('price').value||0),received:Number($('received').value||0),
         guide:$('guide').value,partner:$('partner').value,
         guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),
-        origin:findCatalog($('type').value)?.origem||'proprio', notes:$('notes').value.trim(),done:false};
-      if(t.received>totalFor(t) && !confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?')) return;
+        origin:findCatalog($('type').value)?.origem||'proprio',partnerSalePrice:Number($('partnerSalePrice').value||0),partnerCommissionTotal:Number($('partnerCommissionTotal').value||0),partnerCommissionReceived:Number($('partnerCommissionReceived').value||0), notes:$('notes').value.trim(),done:false};
+      if(t.origin==='parceiro'){t.price=0;t.received=0;t.guide='';t.partner='';t.guidePay=0;t.partnerCommission=0;if(t.partnerCommissionReceived>t.partnerCommissionTotal+0.001){showError('A comissão recebida não pode superar a comissão total a receber.');return;}}
+      else if(t.received>totalFor(t) && !confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?')) return;
       const {error}=editingId
         ? await db.from('passeios').update(fromTour(t)).eq('id',id)
         : await db.from('passeios').insert(fromTour(t));
       if(error){showError('Não foi possível salvar o passeio: '+error.message);return;}
-      try { await syncTourReceipt(t); }
+      try { if(t.origin==='parceiro') await syncPartnerCommissionReceipt(t); else await syncTourReceipt(t); }
       catch(syncError){showError('O passeio foi salvo, mas não foi possível sincronizar o recebimento no Financeiro: '+syncError.message);return;}
       await loadApp(); resetForm(); showView('agenda');
     }
@@ -1312,7 +1338,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     if(!requireAdmin())return;
     const t=tours.find(x=>x.id===id);if(!t)return;editingId=id;
     ['date','time','type','customer','phone','paidPeople','freePeople','price','received','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
-    $('guidePay').value=t.guidePay??0;$('partnerCommission').value=t.partnerCommission??0;
+    $('guidePay').value=t.guidePay??0;$('partnerCommission').value=t.partnerCommission??0;$('partnerSalePrice').value=t.partnerSalePrice??0;$('partnerCommissionTotal').value=t.partnerCommissionTotal??0;$('partnerCommissionReceived').value=t.partnerCommissionReceived??0;updateSaleOriginFields();
     $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
     showView('form');
   };
