@@ -574,6 +574,31 @@ button{font-family:inherit!important;box-shadow:none}
 
 
 
+
+<style id="rota86-registry-settings-styles">
+.registry-subnav,.theme-options{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+.registry-subnav button.active,.theme-options button.active{background:#e6f3f4!important;color:#07596d!important;outline:1px solid #b8dfe2}
+.registry-tab[hidden]{display:none!important}
+.catalog-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 0;border-bottom:1px solid var(--line)}
+.catalog-row small{display:block;color:var(--muted);margin-top:4px}
+.catalog-actions{display:flex;gap:6px;flex-wrap:wrap}
+.catalog-origin{font-size:.7rem;border-radius:20px;padding:4px 8px;background:#edf4f8;color:#3d6478}
+.catalog-origin.partner{background:#fff4e5;color:#98601a}
+#settingsButton{padding:7px 10px!important;font-size:1rem!important}
+body.dark-theme{--bg:#141b22;--card:#1d2731;--ink:#e7edf2;--muted:#a3afba;--line:#34414d;color:var(--ink);background:var(--bg)!important}
+body.dark-theme .app-header{background:#1d2731!important;border-color:#34414d!important;color:var(--ink)!important}
+body.dark-theme .app-header h1,body.dark-theme .panel h2,body.dark-theme .panel h3{color:#e7edf2!important}
+body.dark-theme .app-header p,body.dark-theme .app-header .auth-bar span{color:#a3afba!important}
+body.dark-theme .panel,body.dark-theme .tour-card,body.dark-theme .stat,body.dark-theme .catalog-row,body.dark-theme .user-admin-card{background:#1d2731!important;border-color:#34414d!important;color:#e7edf2!important}
+body.dark-theme input,body.dark-theme select,body.dark-theme textarea{background:#141b22!important;color:#e7edf2!important;border-color:#465462!important}
+body.dark-theme .app-nav{background:#141b22!important}
+body.dark-theme .app-nav .navbtn{color:#c4ced7!important}
+body.dark-theme .app-nav .navbtn.active{background:#164d5b!important;color:#fff!important}
+body.dark-theme .secondary{background:#2b3945!important;color:#e1e8ee!important}
+body.dark-theme .detail,body.dark-theme .card-bottom,body.dark-theme #financeList li{background:#18222b!important;color:#d7e0e7!important}
+body.dark-theme .registry-subnav button.active,body.dark-theme .theme-options button.active{background:#164d5b!important;color:#fff!important}
+@media(max-width:600px){.registry-subnav button{flex:1 1 100%;text-align:left}}
+</style>
 </head><body>
 <section id="loginScreen" class="login-screen">
   <form id="loginForm" class="login-card">
@@ -591,7 +616,7 @@ button{font-family:inherit!important;box-shadow:none}
     <div class="user-avatar" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0"/></svg></div>
     <div class="greeting-copy"><h1>Olá, <span id="currentUserLabel">Administrador</span></h1><p id="headerDate">Bem-vindo ao ROTA 86 TOUR</p></div>
   </div>
-  <div class="auth-bar"><span id="userRoleLabel">ADMINISTRADOR</span><button id="logoutButton" class="secondary" type="button">Sair</button></div>
+  <div class="auth-bar"><span id="userRoleLabel">ADMINISTRADOR</span><button id="settingsButton" class="secondary" type="button" aria-label="Configurações" title="Configurações">⚙️</button><button id="logoutButton" class="secondary" type="button">Sair</button></div>
 </div></header>
 <main>
 <nav class="app-nav" aria-label="Navegação principal">
@@ -618,31 +643,45 @@ button{font-family:inherit!important;box-shadow:none}
 <div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div><div><label for="freePeople">Cortesias / não pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
 <div><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div><label for="received">Total já recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
 <div><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
-<div><label for="guidePay">Pagamento do guia (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div><label for="partnerCommission">Comissão do parceiro (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
+<div><label for="guidePay">Pagamento do guia (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div><label for="partnerCommission">Comissão por pagante (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"><small class="hint" id="commissionCalcHint">Valor calculado pelo cadastro do passeio; você pode ajustar nesta venda.</small></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
 <small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
 <section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" hidden></div><div class="tour-list" id="agendaDayList" hidden></div></section></section>
-<section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2>
-<section class="user-admin-card" id="userAdminPanel">
-   <h3>Gerenciamento de usuários</h3>
-   <p class="hint">Cadastre colaboradores e defina o perfil e as permissões de cada acesso.</p>
-   <form id="userCreateForm">
-    <div class="user-admin-grid">
-     <div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div>
-     <div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div>
-     <div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div>
-     <div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div>
-    </div>
-    <div class="user-admin-options">
-     <label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label>
-     <label><input id="newUserAssistant" type="checkbox"> Pode usar Assistente IA</label>
-    </div>
-    <div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div>
-   </form>
-   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div>
-   <h3>Usuários cadastrados</h3>
-   <div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div>
+<section id="view-registries" class="view" hidden>
+ <section class="panel"><h2>Cadastros</h2>
+  <div class="registry-subnav" role="tablist" aria-label="Seções de cadastros">
+   <button type="button" class="secondary active" data-registry-tab="tours">Cadastro de passeios</button>
+   <button type="button" class="secondary" data-registry-tab="team">Equipe e parceiros</button>
+   <button type="button" class="secondary" data-registry-tab="categories">Financeiro</button>
+  </div>
+  <section class="registry-tab" id="registry-tours">
+   <h3>Tipos de passeios disponíveis para venda</h3>
+   <p class="hint">Cadastre os produtos que aparecem no formulário de venda e defina se são próprios ou de parceiros. A comissão configurada é uma sugestão automática e pode ser ajustada em cada venda.</p>
+   <form id="tourCatalogForm"><input type="hidden" id="catalogId"><div class="form-grid">
+    <div class="wide"><label for="catalogName">Nome do passeio *</label><input id="catalogName" required maxlength="160" placeholder="Ex.: Passeio de barco + caiaque"></div>
+    <div><label for="catalogOrigin">Classificação *</label><select id="catalogOrigin"><option value="proprio">Próprio</option><option value="parceiro">Parceiro</option></select></div>
+    <div><label for="catalogCommissionModel">Modelo de comissão</label><select id="catalogCommissionModel"><option value="fixo">Valor fixo por pagante</option><option value="percentual">Percentual sobre a venda</option></select></div>
+    <div><label for="catalogCommissionValue" id="catalogCommissionLabel">Comissão por pagante (R$)</label><input id="catalogCommissionValue" type="number" min="0" step="0.01" value="0"></div>
+    <div class="wide"><label><input id="catalogActive" type="checkbox" checked style="width:auto"> Passeio ativo para novas vendas</label></div>
+   </div><div class="actions"><button class="primary" type="submit" id="catalogSaveButton">Salvar passeio</button><button class="secondary" type="button" id="catalogCancelButton" hidden>Cancelar edição</button></div></form>
+   <p id="catalogStatus" class="hint" role="status"></p><div id="tourCatalogList"></div>
+  </section>
+  <section class="registry-tab" id="registry-team" hidden>
+   <div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div>
+   <div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros / vendedores</h3><ul id="partnerList"></ul></div></div>
+  </section>
+  <section class="registry-tab" id="registry-categories" hidden>
+   <h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div>
+  </section>
  </section>
- <small class="hint" id="assistantPermissionStatus" role="status"></small><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div><hr><h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div></section></section>
+</section>
+<section id="view-settings" class="view" hidden>
+ <section class="panel"><h2>Configurações</h2><h3>Aparência do sistema</h3><p class="hint">Escolha como deseja visualizar o ROTA 86 TOUR neste aparelho.</p><div class="theme-options"><button type="button" class="secondary" data-theme-choice="light">☀️ Tema claro</button><button type="button" class="secondary" data-theme-choice="dark">🌙 Tema escuro</button></div><p id="themeStatus" class="hint">A preferência fica salva neste navegador.</p></section>
+ <section class="panel" id="userAdminPanel"><h2>Gerenciamento de usuários</h2>
+   <p class="hint">Cadastre colaboradores e defina o perfil e as permissões de cada acesso.</p>
+   <form id="userCreateForm"><div class="user-admin-grid"><div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div><div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div><div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div><div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div></div><div class="user-admin-options"><label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label><label><input id="newUserAssistant" type="checkbox"> Pode usar Assistente IA</label></div><div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div></form>
+   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div><h3>Usuários cadastrados</h3><div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div><small class="hint" id="assistantPermissionStatus" role="status"></small>
+ </section>
+</section>
 <section id="view-finance" class="view" hidden><section class="panel"><h2>Adicionar receita ou despesa</h2><form id="financeForm"><div class="form-grid">
 <div><label for="finType">Tipo</label><select id="finType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div>
 <div><label for="finDate">Data</label><input id="finDate" type="date" required></div>
@@ -652,7 +691,7 @@ button{font-family:inherit!important;box-shadow:none}
 </div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
 <section class="panel finance-movements"><div class="cashflow-heading"><h2 style="margin:0">Movimentações financeiras</h2><button type="button" class="primary print-flow-btn" onclick="viewPrintCashFlow()">🖨️ Visualizar / Imprimir / PDF</button></div><div id="finTotals"></div><div class="finance-list-wrap"><ul id="financeList"></ul></div></section><div id="cashFlowReport" hidden></div></section>
 <section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p></section></section>
-<section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares será necessário conectar um banco de dados.</small></section>
+<section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados principais são sincronizados pelo Supabase. Use a exportação para guardar uma cópia de segurança.</small></section>
 </main>
 
 
@@ -672,7 +711,26 @@ function commissionDefaults(){
  $('guidePay').value=type.includes('coletivo')?'200':'30';
  $('partnerCommission').value=type.includes('coletivo')?'20':'25';
 }
-$('type').addEventListener('change',commissionDefaults);
+$('type').addEventListener('change',()=>{commissionDefaults();applyTourCommissionDefault();});
+$('price').addEventListener('input',()=>{if(findCatalog($('type').value)?.comissao_modelo==='percentual')applyTourCommissionDefault();});
+$('catalogCommissionModel').addEventListener('change',updateCatalogCommissionLabel);
+$('catalogCancelButton').addEventListener('click',resetCatalogForm);
+document.querySelectorAll('[data-registry-tab]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-registry-tab]').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.registry-tab').forEach(p=>p.hidden=p.id!=='registry-'+btn.dataset.registryTab);}));
+document.querySelectorAll('[data-theme-choice]').forEach(btn=>btn.addEventListener('click',()=>setTheme(btn.dataset.themeChoice)));
+function setTheme(theme){document.body.classList.toggle('dark-theme',theme==='dark');localStorage.setItem('rota86_theme',theme);document.querySelectorAll('[data-theme-choice]').forEach(b=>b.classList.toggle('active',b.dataset.themeChoice===theme));$('themeStatus').textContent=theme==='dark'?'Tema escuro ativado neste navegador.':'Tema claro ativado neste navegador.';}
+setTheme(localStorage.getItem('rota86_theme')||'light');
+$('settingsButton').addEventListener('click',()=>showView('settings'));
+
+let tourCatalog=[];
+function findCatalog(name){return tourCatalog.find(x=>x.nome===name&&x.ativo!==false)||null;}
+function commissionPerPerson(name,price){const item=findCatalog(name);if(!item||item.origem!=='parceiro')return 0;const value=Number(item.comissao_valor||0);return item.comissao_modelo==='percentual'?(Number(price||0)*value/100):value;}
+function refreshTourTypeOptions(selected){const el=$('type');if(!el)return;const old=selected??el.value;const active=tourCatalog.filter(x=>x.ativo!==false);const names=[...new Set([...active.map(x=>x.nome),...['Passeio de barco + caiaque + degustação (compartilhado)','Passeio de barco + caiaque + churrasco (coletivo)','Outro passeio']])];el.innerHTML=names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');if(names.includes(old))el.value=old;}
+function updateCatalogCommissionLabel(){const pct=$('catalogCommissionModel').value==='percentual';$('catalogCommissionLabel').textContent=pct?'Comissão sobre a venda (%)':'Comissão por pagante (R$)';$('catalogCommissionValue').max=pct?'100':'';}
+function applyTourCommissionDefault(){const name=$('type').value,price=Number($('price').value||0),item=findCatalog(name);const amount=commissionPerPerson(name,price);if(item&&item.origem==='parceiro'){$('partnerCommission').value=amount.toFixed(2);$('commissionCalcHint').textContent=item.comissao_modelo==='percentual'?`Sugestão: ${item.comissao_valor}% sobre ${money(price)} por pagante. Você pode ajustar nesta venda.`:`Sugestão: ${money(amount)} por pagante. Você pode ajustar nesta venda.`;}else{$('partnerCommission').value=0;$('commissionCalcHint').textContent='Passeio próprio ou sem configuração de comissão. Ajuste manualmente se necessário.';}}
+function renderTourCatalog(){const target=$('tourCatalogList');if(!target)return;target.innerHTML=tourCatalog.map(x=>`<div class="catalog-row"><div><strong>${esc(x.nome)}</strong><small><span class="catalog-origin ${x.origem==='parceiro'?'partner':''}">${x.origem==='parceiro'?'Parceiro':'Próprio'}</span> · ${x.comissao_modelo==='percentual'?`${Number(x.comissao_valor||0)}% sobre a venda`:`${money(x.comissao_valor||0)} por pagante`} · ${x.ativo?'Ativo':'Inativo'}</small></div><div class="catalog-actions"><button class="secondary" type="button" onclick="editCatalogTour('${x.id}')">Editar</button><button class="danger" type="button" onclick="toggleCatalogTour('${x.id}',${!x.ativo})">${x.ativo?'Desativar':'Ativar'}</button></div></div>`).join('')||'<p class="empty">Nenhum passeio cadastrado no catálogo.</p>';refreshTourTypeOptions();}
+function resetCatalogForm(){$('catalogId').value='';$('tourCatalogForm').reset();$('catalogCommissionValue').value=0;$('catalogActive').checked=true;$('catalogSaveButton').textContent='Salvar passeio';$('catalogCancelButton').hidden=true;updateCatalogCommissionLabel();}
+window.editCatalogTour=id=>{const x=tourCatalog.find(v=>String(v.id)===String(id));if(!x)return;$('catalogId').value=x.id;$('catalogName').value=x.nome;$('catalogOrigin').value=x.origem;$('catalogCommissionModel').value=x.comissao_modelo;$('catalogCommissionValue').value=x.comissao_valor;$('catalogActive').checked=x.ativo;$('catalogSaveButton').textContent='Salvar alterações';$('catalogCancelButton').hidden=false;updateCatalogCommissionLabel();$('catalogName').focus();};
+window.toggleCatalogTour=async(id,active)=>{if(!confirm(active?'Reativar este passeio para novas vendas?':'Desativar este passeio para novas vendas?'))return;const {error}=await window.rota86Supabase.from('catalogo_passeios').update({ativo:active}).eq('id',id);if(error){alert('Não foi possível atualizar: '+error.message);return;}await window.rota86ReloadCatalog();};
 
 let financeEntries=JSON.parse(localStorage.getItem('rota86_finance')||'[]');
 
@@ -895,7 +953,7 @@ window.editTour=id=>{
  $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
  window.scrollTo({top:0,behavior:'smooth'});
 };
-function resetForm(){editingId=null;$('tourForm').reset();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;refreshRegistrySelects();commissionDefaults();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
+function resetForm(){editingId=null;$('tourForm').reset();refreshTourTypeOptions();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;refreshRegistrySelects();commissionDefaults();applyTourCommissionDefault();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
 $('tourForm').addEventListener('submit',e=>{
  e.preventDefault();
  const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:Number($('received').value||0),guide:$('guide').value,partner:$('partner').value,guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),notes:$('notes').value.trim(),done:false};
@@ -933,6 +991,7 @@ window.deleteRegistry=(kind,i)=>{
 $('addGuide').onclick=()=>{let n=$('newGuide').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_guides')||'["Márcio","Eduardo"]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_guides',JSON.stringify(a));$('newGuide').value='';renderRegistry('guide');}};
 $('addPartner').onclick=()=>{let n=$('newPartner').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_partners')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_partners',JSON.stringify(a));$('newPartner').value='';renderRegistry('partner');}};
 renderRegistry('guide');renderRegistry('partner');
+updateCatalogCommissionLabel();
 $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render();showView('home');
 </script>
 <script>
@@ -995,7 +1054,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     phone:r.telefone||'', paidPeople:Number(r.pessoas_pagantes||0),
     freePeople:Number(r.pessoas_gratuitas||0), price:Number(r.valor_por_pessoa||0),
     received:Number(r.valor_recebido||0), guide:r.guia||'', partner:r.parceiro||'',
-    guidePay:Number(r.pagamento_guia||0), partnerCommission:Number(r.comissao_parceiro||0),
+    guidePay:Number(r.pagamento_guia||0), partnerCommission:Number(r.comissao_parceiro||0), origin:r.origem_passeio||'proprio',
     notes:r.observacoes||'', done:!!r.realizado
   });
   const fromTour = t => ({
@@ -1003,7 +1062,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     telefone:t.phone||null, pessoas_pagantes:Number(t.paidPeople||0),
     pessoas_gratuitas:Number(t.freePeople||0), valor_por_pessoa:Number(t.price||0),
     valor_recebido:Number(t.received||0), guia:t.guide||null, parceiro:t.partner||null,
-    pagamento_guia:Number(t.guidePay||0), comissao_parceiro:Number(t.partnerCommission||0),
+    pagamento_guia:Number(t.guidePay||0), comissao_parceiro:Number(t.partnerCommission||0), origem_passeio:t.origin||'proprio',
     observacoes:t.notes||null, realizado:!!t.done, criado_por:currentUser?.id||null
   });
   const toFinance = r => ({
@@ -1053,6 +1112,8 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     refreshFinanceCategoryOptions();
     commissionPayments=(paymentsRes.data||[]).map(toPayment);
     financeCategories=categoriesRes.data||[];
+    const catalogRes=await db.from('catalogo_passeios').select('*').order('nome');
+    if(catalogRes.error){tourCatalog=[];$('catalogStatus').textContent='Para ativar o catálogo sincronizado, execute o SQL de configuração que acompanha esta versão. Cadastros antigos continuam disponíveis.';}else{tourCatalog=catalogRes.data||[];$('catalogStatus').textContent='Catálogo sincronizado com o Supabase.';}
     currentUser.profileName=profileRes.data.nome;
     ready=true;
   }
@@ -1062,6 +1123,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     document.body.classList.toggle('team-mode',!isAdmin());
     $('currentUserLabel').textContent=(currentUser.profileName||currentUser.email);$('userRoleLabel').textContent=currentRole;
     $('view-registries').hidden=!isAdmin();
+    $('userAdminPanel').hidden=!isAdmin();
     $('view-form').hidden=false;
     if(!isAdmin()){
       $('addGuide').disabled=true;$('addPartner').disabled=true;
@@ -1082,6 +1144,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     if(isAdmin()) await loadAssistantUsers();
     refreshRegistrySelects();
     renderRegistry('guide'); renderRegistry('partner');
+    renderTourCatalog(); refreshTourTypeOptions(); applyTourCommissionDefault();
     renderFinanceCategories();
     renderFinance(); render();
     showView('home');
@@ -1188,6 +1251,17 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     }
   }
 
+  $('tourCatalogForm').addEventListener('submit',async e=>{
+    e.preventDefault();if(!requireAdmin())return;
+    const id=$('catalogId').value;const nome=$('catalogName').value.trim();const valor=Number($('catalogCommissionValue').value||0);const modelo=$('catalogCommissionModel').value;
+    if(!nome){showError('Informe o nome do passeio.');return;}if(modelo==='percentual'&&valor>100){showError('O percentual não pode ser maior que 100%.');return;}
+    const record={nome,origem:$('catalogOrigin').value,comissao_modelo:modelo,comissao_valor:valor,ativo:$('catalogActive').checked};
+    const result=id?await db.from('catalogo_passeios').update(record).eq('id',id):await db.from('catalogo_passeios').insert(record);
+    if(result.error){showError('Não foi possível salvar no catálogo: '+result.error.message);return;}
+    resetCatalogForm();await window.rota86ReloadCatalog();
+  });
+  window.rota86ReloadCatalog=async()=>{const {data,error}=await db.from('catalogo_passeios').select('*').order('nome');if(error){$('catalogStatus').textContent='Erro ao carregar catálogo: '+error.message;return;}tourCatalog=data||[];$('catalogStatus').textContent='Catálogo sincronizado com o Supabase.';renderTourCatalog();};
+
   // Intercepta os formulários originais para gravar diretamente no Supabase.
   document.addEventListener('submit',async e=>{
     if(!ready) return;
@@ -1201,7 +1275,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
         price:Number($('price').value||0),received:Number($('received').value||0),
         guide:$('guide').value,partner:$('partner').value,
         guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),
-        notes:$('notes').value.trim(),done:false};
+        origin:findCatalog($('type').value)?.origem||'proprio', notes:$('notes').value.trim(),done:false};
       if(t.received>totalFor(t) && !confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?')) return;
       const {error}=editingId
         ? await db.from('passeios').update(fromTour(t)).eq('id',id)
@@ -1356,12 +1430,13 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   window.showView=v=>{
     if(v==='registries'&&!isAdmin()){showError('A área de cadastros é exclusiva do administrador.');v='home';}
     originalShowView(v);
-    if(v==='registries'&&isAdmin()) loadAssistantUsers();
+    if(v==='settings'&&isAdmin()) loadAssistantUsers();
     applyRoleUI();
   };
   function applyRoleUI(){
     if(!ready)return;
     document.querySelectorAll('.app-nav .navbtn[data-view="registries"]').forEach(el=>{el.hidden=!isAdmin();});
+    $('userAdminPanel').hidden=!isAdmin();
     document.querySelectorAll('#tourList .detail-actions').forEach(el=>{if(!isAdmin()){const share=el.querySelector('.share-tour-btn');el.innerHTML='<span class="hint">Apenas o administrador pode editar ou excluir passeios.</span>';if(share)el.prepend(share);}});
     document.querySelectorAll('#financeList button').forEach(el=>{if(!isAdmin())el.remove();});
     document.querySelectorAll('#guideList .edit-icon,#guideList .delete-icon,#partnerList .edit-icon,#partnerList .delete-icon').forEach(el=>{if(!isAdmin())el.remove();});
