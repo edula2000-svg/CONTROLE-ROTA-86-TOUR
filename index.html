@@ -541,11 +541,34 @@ button{font-family:inherit!important;box-shadow:none}
 .view-switch button.active{background:#e5f3f4!important;color:#07596d!important;box-shadow:inset 0 0 0 1px #d4e9eb!important}
 .agenda-head,.agenda-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .agenda-controls{justify-content:flex-end}
-#agendaCalendar{margin-top:14px}
-.agenda-cal-event{padding:12px;border:1px solid #e7ecef;border-radius:11px;background:#fff;margin-top:8px}
-.agenda-cal-event strong{display:block;font-size:.84rem;color:#293846}
-.agenda-cal-event small{display:block;color:#778391;margin-top:4px;font-size:.76rem}
-@media(max-width:560px){.agenda-head,.agenda-controls{align-items:stretch}.agenda-controls{width:100%;justify-content:space-between}.agenda-controls .filters{flex:1}.agenda-controls .filters select{width:100%}.agenda-head h2{margin-bottom:3px!important}}
+#agendaCalendar{margin-top:15px;width:100%}
+#tourList[hidden],#agendaCalendar[hidden],#agendaDayList[hidden]{display:none!important}
+.agenda-calendar-toolbar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-bottom:14px}
+.agenda-calendar-toolbar strong{text-align:center;text-transform:capitalize;font-size:1rem;color:#263747}
+.agenda-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.agenda-calendar-weekday{text-align:center;padding:7px 2px;color:#778391;font-size:.75rem;font-weight:700}
+.agenda-calendar-day{position:relative;min-width:0;min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;padding:10px 4px!important;border:1px solid #e5eaef!important;border-radius:11px!important;background:#fff!important;color:#344454!important;font-weight:600!important}
+.agenda-calendar-day:hover{border-color:#9fcbd0!important;background:#f7fbfb!important}
+.agenda-calendar-day.today{box-shadow:inset 0 0 0 1px #0b8290;border-color:#0b8290!important}
+.agenda-calendar-day.selected{background:#e8f5f5!important;border:2px solid #08758a!important;color:#07596d!important;padding:9px 3px!important}
+.agenda-calendar-day.has-tours{background:#f6fbfb!important}
+.agenda-calendar-day .day-number{font-size:.9rem;line-height:1.2}
+.agenda-calendar-day .day-indicator{display:flex;align-items:center;justify-content:center;gap:4px;min-height:15px}
+.agenda-calendar-day .day-dot{width:7px;height:7px;border-radius:50%;background:#0b8290;display:inline-block}
+.agenda-calendar-day .day-count{font-size:.64rem;color:#08758a;font-weight:750;line-height:1.1}
+.agenda-calendar-empty-cell{min-height:76px}
+.agenda-day-heading{margin:18px 0 9px;font-size:.95rem;font-weight:650;color:#293846}
+.agenda-day-empty{padding:15px;border:1px dashed #d9e1e6;border-radius:11px;background:#fbfcfd;color:#778391;font-size:.83rem}
+.agenda-day-card{padding:14px 15px;background:#fff;border:1px solid #e7ecef;border-radius:12px;margin-top:9px}
+.agenda-day-card .day-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.agenda-day-card strong{font-size:.88rem;color:#293846}
+.agenda-day-card small{display:block;color:#778391;margin-top:5px;font-size:.77rem}
+.agenda-day-card .detail-actions{margin-top:10px}
+@media(max-width:560px){
+ .agenda-head,.agenda-controls{align-items:stretch}.agenda-controls{width:100%;justify-content:space-between}.agenda-controls .filters{flex:1}.agenda-controls .filters select{width:100%}
+ .agenda-calendar-grid{gap:4px}.agenda-calendar-day{min-height:59px;padding:7px 2px!important;border-radius:8px!important}.agenda-calendar-day.selected{padding:6px 1px!important}.agenda-calendar-empty-cell{min-height:59px}.agenda-calendar-weekday{font-size:.68rem;padding:5px 1px}.agenda-calendar-day .day-number{font-size:.82rem}.agenda-calendar-day .day-count{font-size:.56rem}
+ .agenda-calendar-toolbar{grid-template-columns:auto 1fr auto;gap:5px}.agenda-calendar-toolbar button{padding:8px 9px!important;font-size:.72rem!important}.agenda-calendar-toolbar strong{font-size:.86rem}
+ }
 </style>
 
 
@@ -597,7 +620,7 @@ button{font-family:inherit!important;box-shadow:none}
 <div><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
 <div><label for="guidePay">Pagamento do guia (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div><label for="partnerCommission">Comissão do parceiro (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
 <small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
-<section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" class="home-calendar" hidden></div></section></section>
+<section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" hidden></div><div class="tour-list" id="agendaDayList" hidden></div></section></section>
 <section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2>
 <section class="user-admin-card" id="userAdminPanel">
    <h3>Gerenciamento de usuários</h3>
@@ -769,21 +792,31 @@ window.openAgendaTour=function(id){
  requestAnimationFrame(()=>{const detail=document.getElementById('detail-'+CSS.escape(String(id)));if(detail){detail.classList.add('open');detail.scrollIntoView({behavior:'smooth',block:'center'});}});
 };
 function renderAgendaCalendar(arr){
- const cal=$('agendaCalendar');if(!cal)return;
+ const cal=$('agendaCalendar'),dayList=$('agendaDayList');if(!cal||!dayList)return;
  const [year,month]=agendaCalendarMonth.split('-').map(Number);
- const first=new Date(year,month-1,1,12),lastDay=new Date(year,month,0,12).getDate(),offset=(first.getDay()+6)%7;
+ const first=new Date(year,month-1,1,12),lastDay=new Date(year,month,0,12),offset=(first.getDay()+6)%7;
  const today=new Date(),todayKey=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
  const monthTours=arr.filter(t=>(t.date||'').startsWith(agendaCalendarMonth)),counts={};
  monthTours.forEach(t=>counts[t.date]=(counts[t.date]||0)+1);
- const cells=[];for(let i=0;i<offset;i++)cells.push('<div aria-hidden="true"></div>');
- for(let day=1;day<=lastDay;day++){
-  const key=agendaCalendarMonth+'-'+String(day).padStart(2,'0'),count=counts[key]||0;
-  cells.push(`<button type="button" class="home-cal-day ${key===todayKey?'today':''} ${key===agendaCalendarSelected?'selected':''}" onclick="selectAgendaCalendarDay('${key}')"><span>${day}</span><span class="home-cal-dots">${count?'<i class="home-cal-dot"></i>':''}</span><span class="home-cal-count">${count?count+' passeio(s)':'&nbsp;'}</span></button>`);
- }
  if(agendaCalendarSelected&&!agendaCalendarSelected.startsWith(agendaCalendarMonth))agendaCalendarSelected='';
- const dayTours=agendaCalendarSelected?monthTours.filter(t=>t.date===agendaCalendarSelected).sort((a,b)=>(a.time||'').localeCompare(b.time||'')):[];
+ const cells=[];
+ for(let i=0;i<offset;i++)cells.push('<div class="agenda-calendar-empty-cell" aria-hidden="true"></div>');
+ for(let day=1;day<=lastDay.getDate();day++){
+  const key=agendaCalendarMonth+'-'+String(day).padStart(2,'0'),count=counts[key]||0;
+  cells.push(`<button type="button" class="agenda-calendar-day ${key===todayKey?'today':''} ${key===agendaCalendarSelected?'selected':''} ${count?'has-tours':''}" onclick="selectAgendaCalendarDay('${key}')" aria-label="${day} de ${esc(first.toLocaleDateString('pt-BR',{month:'long'}))}${count?', '+count+' passeio(s)':''}"><span class="day-number">${day}</span><span class="day-indicator">${count?`<i class="day-dot"></i><span class="day-count">${count} passeio(s)</span>`:''}</span></button>`);
+ }
  const monthLabel=first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
- cal.innerHTML=`<div class="home-cal-toolbar"><button type="button" class="secondary" onclick="changeAgendaCalendarMonth(-1)">‹ Anterior</button><strong>${esc(monthLabel)}</strong><button type="button" class="secondary" onclick="changeAgendaCalendarMonth(1)">Próximo ›</button></div><div class="home-cal-grid">${['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=>`<div class="home-cal-weekday">${d}</div>`).join('')}${cells.join('')}</div><div class="home-cal-selected">${agendaCalendarSelected?`<h3>Passeios em ${dateLabel(agendaCalendarSelected)}</h3>`:'<h3>Selecione uma data</h3>'}${!agendaCalendarSelected?'<div class="home-cal-empty">Clique em um dia do calendário para consultar os passeios agendados.</div>':dayTours.length?dayTours.map(t=>`<div class="agenda-cal-event"><strong>${esc(t.time||'Horário não informado')} · ${esc(t.type||'Passeio')}</strong><small>Cliente / grupo: ${esc(t.customer||'Não informado')}</small><small>Participantes: ${Number(t.paidPeople||0)} pagante(s) · ${Number(t.freePeople||0)} cortesia(s)</small><small>Contato: ${esc(t.phone||'—')}</small><small>Guia: ${esc(t.guide||'—')} · Parceiro: ${esc(t.partner||'—')}</small><small>Valor previsto: ${money(totalFor(t))} · Recebido: ${money(Number(t.received||0))}</small><small>Saldo: ${money(balanceFor(t))} · Situação: ${esc(labelStatus(t)[0])}</small>${t.notes?`<small>Observações: ${esc(t.notes)}</small>`:''}<div class="detail-actions"><button type="button" class="secondary" onclick="editTour('${String(t.id).replace(/'/g,"\\'")}')">Editar passeio</button>${!t.done?`<button type="button" class="primary" onclick="markDone('${String(t.id).replace(/'/g,"\\'")}')">Marcar realizado</button>`:''}</div></div>`).join(''):'<div class="home-cal-empty">Nenhum passeio encontrado para este dia com o filtro selecionado.</div>'}</div>`;
+ cal.innerHTML=`<div class="agenda-calendar-toolbar"><button type="button" class="secondary" onclick="changeAgendaCalendarMonth(-1)">‹ Anterior</button><strong>${esc(monthLabel)}</strong><button type="button" class="secondary" onclick="changeAgendaCalendarMonth(1)">Próximo ›</button></div><div class="agenda-calendar-grid">${['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=>`<div class="agenda-calendar-weekday">${d}</div>`).join('')}${cells.join('')}</div>`;
+ if(!agendaCalendarSelected){
+  dayList.hidden=true;dayList.innerHTML='';return;
+ }
+ const dayTours=monthTours.filter(t=>t.date===agendaCalendarSelected).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+ dayList.hidden=false;
+ dayList.innerHTML=`<h3 class="agenda-day-heading">${dayTours.length?'Passeios em '+dateLabel(agendaCalendarSelected):'Nenhum passeio em '+dateLabel(agendaCalendarSelected)}</h3>${dayTours.length?dayTours.map(t=>{
+  const [status,cls]=labelStatus(t),paid=Number(t.paidPeople||0),free=Number(t.freePeople||0),expected=totalFor(t),received=Number(t.received||0),balance=balanceFor(t);
+  const id=String(t.id).replace(/'/g,"\\'");
+  return `<article class="agenda-day-card"><div class="day-card-top"><strong>${esc(t.time||'Horário não informado')} · ${esc(t.type||'Passeio')}</strong><span class="badge ${cls}">${esc(status)}</span></div><small>Cliente / grupo: ${esc(t.customer||'Não informado')}</small><small>Participantes: ${paid} pagante(s) · ${free} cortesia(s) · ${paid+free} pessoa(s)</small><small>Contato: ${esc(t.phone||'—')} · Guia: ${esc(t.guide||'—')}</small><small>Previsto: ${money(expected)} · Recebido: ${money(received)} · Saldo: ${money(balance)}</small>${t.notes?`<small>Observações: ${esc(t.notes)}</small>`:''}<div class="detail-actions"><button type="button" class="secondary" onclick="editTour('${id}')">Editar passeio</button>${!t.done?`<button type="button" class="primary" onclick="markDone('${id}')">Marcar realizado</button>`:''}</div></article>`;
+ }).join(''):'<div class="agenda-day-empty">Não há passeios cadastrados para esta data.</div>'}`;
 }
 
 function render(){
@@ -793,9 +826,9 @@ function render(){
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
  if(filter==='done')arr=arr.filter(t=>t.done);
  $('count').textContent=`${arr.length} passeio(s) · ${agendaMode==='calendar'?'visualização em calendário':'ordenados pela data de realização'}`;
- const list=$('tourList'),cal=$('agendaCalendar');
+ const list=$('tourList'),cal=$('agendaCalendar'),dayList=$('agendaDayList');
  const listBtn=$('agendaListMode'),calBtn=$('agendaCalendarMode');
- list.hidden=agendaMode!=='list';cal.hidden=agendaMode!=='calendar';
+ list.hidden=agendaMode!=='list';cal.hidden=agendaMode!=='calendar';if(dayList)dayList.hidden=agendaMode!=='calendar'||!agendaCalendarSelected;
  listBtn?.classList.toggle('active',agendaMode==='list');calBtn?.classList.toggle('active',agendaMode==='calendar');
  if(agendaMode==='calendar'){renderAgendaCalendar(arr);return;}
  if(!arr.length){list.innerHTML='<div class="empty">Nenhum passeio nesta lista ainda.<br>Cadastre o primeiro passeio acima.</div>';return;}
