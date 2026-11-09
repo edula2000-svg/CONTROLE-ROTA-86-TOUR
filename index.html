@@ -717,11 +717,11 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 <div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustação (compartilhado)">Barco + caiaque + degustação (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
 <div><label for="customer">Cliente / grupo</label><input id="customer" placeholder="Nome do cliente ou grupo"></div><div><label for="phone">Contato</label><input id="phone" type="tel" placeholder="WhatsApp"></div>
 <div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div><div><label for="freePeople">Cortesias / não pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
-<div id="ownSalePriceWrap"><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div id="ownSaleReceivedWrap"><label for="received">Total já recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
+<div id="ownSalePriceWrap"><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div>
 <div id="partnerSalePriceWrap" hidden><label for="partnerSalePrice">Valor a vender por pagante (R$)</label><input id="partnerSalePrice" type="number" min="0" step=".01" value="0"></div><div id="partnerCommissionTotalWrap" hidden><label for="partnerCommissionTotal">Comissão total a receber (R$)</label><input id="partnerCommissionTotal" type="number" min="0" step=".01" value="0"></div><div id="partnerCommissionReceivedWrap" hidden><label for="partnerCommissionReceived">Comissão recebida até agora (R$)</label><input id="partnerCommissionReceived" type="number" min="0" step=".01" value="0"><small class="hint">Ao informar o valor recebido, ele será lançado como receita no Financeiro.</small></div>
 <div id="ownGuideSelectWrap"><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div id="ownSellerSelectWrap"><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
 <div id="ownGuidePayWrap"><label>Forma de pagamento do guia</label><div class="guide-pay-options" role="group" aria-label="Forma de pagamento do guia"><label class="guide-pay-option"><input type="checkbox" id="guidePayPerPerson" onchange="setGuidePayModel('por_pessoa')"> <span>Por pagante</span></label><label class="guide-pay-option"><input type="checkbox" id="guidePayPerTour" onchange="setGuidePayModel('fixo')"> <span>Por passeio (valor fixo)</span></label></div><select id="guidePayModel" aria-hidden="true" tabindex="-1" style="display:none"><option value="por_pessoa">Por pessoa pagante</option><option value="fixo">Valor fixo por passeio</option></select><label for="guidePay" id="guidePayValueLabel">Valor do guia por pagante (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"><small class="hint" id="guidePayHint">O valor será multiplicado pela quantidade de participantes pagantes. Você pode ajustar nesta venda.</small></div><div id="ownSellerCommissionWrap"><label for="partnerCommission">Comissão do parceiro/vendedor por pagante (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"><small class="hint" id="commissionCalcHint">Valor calculado pelo cadastro do passeio; você pode ajustar nesta venda.</small></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
-<small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
+<small class="hint">Os recebimentos serão lançados depois, nos detalhes do passeio, com data e forma de pagamento. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
 <section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" hidden></div><div class="tour-list" id="agendaDayList" hidden></div></section></section>
 <section id="view-registries" class="view" hidden>
  <section class="panel"><h2>Cadastros</h2>
@@ -757,7 +757,7 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
    <div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros / vendedores</h3><ul id="partnerList"></ul></div></div>
   </section>
   <section class="registry-tab" id="registry-categories" hidden>
-   <h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div>
+   <h3>Formas de pagamento</h3><p class="hint">Cadastre as opções utilizadas nos recebimentos e pagamentos.</p><div class="form-grid"><div><label for="newPaymentMethod">Nova forma de pagamento</label><input id="newPaymentMethod" placeholder="Ex.: Pix, dinheiro, cartão"></div><div style="align-self:end"><button class="primary" id="addPaymentMethod" type="button">Adicionar forma</button></div></div><ul id="paymentMethodList"></ul><h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div>
   </section>
  </section>
 </section>
@@ -773,7 +773,7 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 <div><label for="finType">Tipo</label><select id="finType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div>
 <div><label for="finDate">Data</label><input id="finDate" type="date" required></div>
 <div><label for="finCategory">Categoria</label><select id="finCategory" required><option value="">Selecione uma categoria</option></select></div>
-<div><label for="finAmount">Valor (R$)</label><input id="finAmount" type="number" min="0.01" step=".01" required></div>
+<div><label for="finAmount">Valor (R$)</label><input id="finAmount" type="number" min="0.01" step=".01" required></div><div><label for="finPaymentMethod">Forma de pagamento</label><select id="finPaymentMethod"><option value="">Selecione</option></select></div>
 <div class="wide"><label for="finDescription">Descrição</label><input id="finDescription" placeholder="Detalhes do lançamento"></div>
 </div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
 <section class="panel finance-movements"><div class="cashflow-heading"><h2 style="margin:0">Movimentações financeiras</h2><button type="button" class="primary print-flow-btn" onclick="viewPrintCashFlow()">🖨️ Visualizar / Imprimir / PDF</button></div><div id="finTotals"></div><div class="finance-list-wrap"><ul id="financeList"></ul></div></section><div id="cashFlowReport" hidden></div></section>
@@ -814,7 +814,7 @@ function commissionPerPerson(name,price){const item=findCatalog(name);if(!item||
 function refreshTourTypeOptions(selected){const el=$('type');if(!el)return;const old=selected??el.value;const active=tourCatalog.filter(x=>x.ativo!==false);const names=[...new Set([...active.map(x=>x.nome),...['Passeio de barco + caiaque + degustação (compartilhado)','Passeio de barco + caiaque + churrasco (coletivo)','Outro passeio']])];el.innerHTML=names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');if(names.includes(old))el.value=old;}
 function updateCatalogCommissionLabel(){const pct=$('catalogCommissionModel').value==='percentual';$('catalogCommissionLabel').textContent=pct?'Comissão a receber sobre a venda (%)':'Comissão a receber por pagante (R$)';$('catalogCommissionValue').max=pct?'100':'';}
 function updateCatalogOriginFields(){const partner=$('catalogOrigin').value==='parceiro';$('catalogOwnFields').hidden=partner;$('catalogPartnerFields').hidden=!partner;$('catalogGuideValueWrap').hidden=!$('catalogGuideEnabled').checked;$('catalogSellerValueWrap').hidden=!$('catalogSellerEnabled').checked;updateCatalogCommissionLabel();}
-function updateSaleOriginFields(){const item=findCatalog($('type').value);const partner=item?.origem==='parceiro';$('ownSalePriceWrap').hidden=partner;$('ownSaleReceivedWrap').hidden=partner;$('ownGuideSelectWrap').hidden=false;$('ownGuidePayWrap').hidden=false;$('ownSellerSelectWrap').hidden=false;$('ownSellerCommissionWrap').hidden=false;$('partnerSalePriceWrap').hidden=!partner;$('partnerCommissionTotalWrap').hidden=!partner;$('partnerCommissionReceivedWrap').hidden=!partner;}
+function updateSaleOriginFields(){const item=findCatalog($('type').value);const partner=item?.origem==='parceiro';$('ownSalePriceWrap').hidden=partner;$('ownGuideSelectWrap').hidden=false;$('ownGuidePayWrap').hidden=false;$('ownSellerSelectWrap').hidden=false;$('ownSellerCommissionWrap').hidden=false;$('partnerSalePriceWrap').hidden=!partner;$('partnerCommissionTotalWrap').hidden=!partner;$('partnerCommissionReceivedWrap').hidden=!partner;}
 function refreshPartnerCommissionSuggestion(){const item=findCatalog($('type').value);if(!item||item.origem!=='parceiro')return;const model=item.comissao_modelo||'fixo',v=Number(item.comissao_valor||0),n=Number($('paidPeople').value||0),sale=Number($('partnerSalePrice').value||0);$('partnerCommissionTotal').value=((model==='percentual'?sale*v/100:v)*n).toFixed(2);}
 window.setGuidePayModel=function(model){const normalized=model==='fixo'?'fixo':'por_pessoa';const select=document.getElementById('guidePayModel');if(select)select.value=normalized;const perPerson=document.getElementById('guidePayPerPerson');const perTour=document.getElementById('guidePayPerTour');if(perPerson)perPerson.checked=normalized==='por_pessoa';if(perTour)perTour.checked=normalized==='fixo';const label=document.getElementById('guidePayValueLabel');const hint=document.getElementById('guidePayHint');if(label)label.textContent=normalized==='fixo'?'Valor fixo do guia por passeio (R$)':'Valor do guia por pagante (R$)';if(hint)hint.textContent=normalized==='fixo'?'Este valor será pago uma única vez pelo passeio, independentemente da quantidade de participantes. Você pode ajustar nesta venda.':'O valor será multiplicado pela quantidade de participantes pagantes. Você pode ajustar nesta venda.';};
 function applyTourCommissionDefault(){const name=$('type').value,item=findCatalog(name);if(!item){updateSaleOriginFields();return;}if(item.origem==='parceiro'){$('partnerSalePrice').value=Number(item.valor_venda_parceiro||0);updateSaleOriginFields();refreshPartnerCommissionSuggestion();return;}$('price').value=Number(item.valor_passeio||0);$('guidePay').value=Number(item.valor_guia||0);setGuidePayModel(item.modelo_pagamento_guia||'por_pessoa');$('partnerCommission').value=Number(item.comissao_vendedor||0);$('commissionCalcHint').textContent='Valores sugeridos pelo cadastro. Você pode ajustar nesta venda.';updateSaleOriginFields();}
@@ -838,6 +838,7 @@ let financeEntries=JSON.parse(localStorage.getItem('rota86_finance')||'[]');
 
 let commissionPayments=JSON.parse(localStorage.getItem('rota86_commission_payments')||'[]');
   let financeCategories=[];
+let paymentMethods=[];
 function saveCommissionPayments(){localStorage.setItem('rota86_commission_payments',JSON.stringify(commissionPayments));}
 function commissionDue(t,kind){const prop=kind==='guide'?'guidePay':'partnerCommission';const amount=Number(t[prop]||0);if(kind==='guide'){const model=t.guidePayModel||(String(t.type||'').toLowerCase().includes('coletivo')?'fixo':'por_pessoa');return model==='fixo'?amount:amount*Number(t.paidPeople||0);}return amount*Number(t.paidPeople||0);}
 function registerCommissionPayment(kind,name){
@@ -1011,6 +1012,16 @@ function render(){
      <div class="detail-item"><small>Saldo restante</small>${money(balance)}</div><div class="detail-item"><small>Situação</small>${esc(status)}</div>
      <div class="detail-item" style="grid-column:1/-1"><small>Observações</small>${esc(t.notes||'—')}</div>
     </div>
+    <div class="receipt-entry" style="margin-top:14px;padding:13px;border:1px solid var(--line);border-radius:12px;background:#fff">
+      <strong>Lançar recebimento</strong>
+      <div class="form-grid" style="margin-top:9px">
+        <div><label for="receipt-amount-${t.id}">Valor recebido (R$)</label><input id="receipt-amount-${t.id}" type="number" min="0.01" step="0.01" placeholder="0,00"></div>
+        <div><label for="receipt-date-${t.id}">Data do recebimento</label><input id="receipt-date-${t.id}" type="date" value="${new Date().toISOString().slice(0,10)}"></div>
+        <div><label for="receipt-method-${t.id}">Forma de pagamento</label><select id="receipt-method-${t.id}">${paymentMethods.map(m=>`<option value="${esc(m.nome)}">${esc(m.nome)}</option>`).join('')||'<option value="">Cadastre uma forma de pagamento</option>'}</select></div>
+      </div>
+      <button class="primary" type="button" style="margin-top:9px" onclick="registerTourReceipt('${t.id}')">Registrar recebimento</button>
+      <div style="margin-top:12px"><strong>Histórico de recebimentos</strong><div id="receipt-history-${t.id}">${financeEntries.filter(x=>x.passeioId===t.id && x.type==='receita' && !x.commissionKind).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<div class="hint">${esc(x.date)} · ${money(x.amount)} · ${esc(x.paymentMethod||'Forma não informada')}</div>`).join('')||'<small class="hint">Nenhum recebimento registrado.</small>'}</div></div>
+    </div>
     <div class="detail-actions">
       <button class="share-tour-btn" type="button" onclick="shareTourWhatsApp('${t.id}')">📲 Compartilhar no WhatsApp</button>
       <button class="secondary" onclick="editTour('${t.id}')">Editar</button>
@@ -1052,15 +1063,14 @@ window.undoDone=id=>{const t=tours.find(x=>x.id===id);if(t){t.done=false;save();
 window.deleteTour=id=>{if(confirm('Excluir este passeio?')){tours=tours.filter(x=>x.id!==id);if(editingId===id)resetForm();save();}};
 window.editTour=id=>{
  const t=tours.find(x=>x.id===id);if(!t)return;editingId=id;
- ['date','time','type','customer','phone','paidPeople','freePeople','price','received','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
+ ['date','time','type','customer','phone','paidPeople','freePeople','price','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
  $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
  window.scrollTo({top:0,behavior:'smooth'});
 };
-function resetForm(){editingId=null;$('tourForm').reset();refreshTourTypeOptions();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;$('partnerSalePrice').value=0;$('partnerCommissionTotal').value=0;$('partnerCommissionReceived').value=0;refreshRegistrySelects();commissionDefaults();applyTourCommissionDefault();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
+function resetForm(){editingId=null;$('tourForm').reset();refreshTourTypeOptions();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('partnerSalePrice').value=0;$('partnerCommissionTotal').value=0;$('partnerCommissionReceived').value=0;refreshRegistrySelects();commissionDefaults();applyTourCommissionDefault();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
 $('tourForm').addEventListener('submit',e=>{
  e.preventDefault();
- const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:Number($('received').value||0),guide:$('guide').value,partner:$('partner').value,guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),notes:$('notes').value.trim(),done:false};
- if(t.received>totalFor(t)){if(!confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?'))return;}
+ const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:0,guide:$('guide').value,partner:$('partner').value,guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),notes:$('notes').value.trim(),done:false};
  if(editingId){const old=tours.find(x=>x.id===editingId);t.done=old?.done||false;tours=tours.map(x=>x.id===editingId?t:x);}else tours.push(t);
  resetForm();save();
 });
@@ -1164,14 +1174,14 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     id:t.id, data:t.date, horario:t.time||null, tipo:t.type, cliente:t.customer||null,
     telefone:t.phone||null, pessoas_pagantes:Number(t.paidPeople||0),
     pessoas_gratuitas:Number(t.freePeople||0), valor_por_pessoa:Number(t.price||0),
-    valor_recebido:Number(t.received||0), guia:t.guide||null, parceiro:t.partner||null,
+    valor_recebido:0, guia:t.guide||null, parceiro:t.partner||null,
     pagamento_guia:Number(t.guidePay||0), modelo_pagamento_guia:t.guidePayModel||'por_pessoa', comissao_parceiro:Number(t.partnerCommission||0), origem_passeio:t.origin||'proprio', valor_venda_parceiro:Number(t.partnerSalePrice||0), comissao_a_receber:Number(t.partnerCommissionTotal||0), comissao_recebida:Number(t.partnerCommissionReceived||0),
     observacoes:t.notes||null, realizado:!!t.done, criado_por:currentUser?.id||null
   });
   const toFinance = r => ({
     id:r.id, type:r.tipo, date:r.data, category:r.categoria||'',
     amount:Number(r.valor||0), description:r.descricao||'',
-    linkedCommission:!!r.vinculado_comissao, passeioId:r.passeio_id||null
+    linkedCommission:!!r.vinculado_comissao, commissionKind:r.comissao_tipo||null, paymentMethod:r.forma_pagamento||'', passeioId:r.passeio_id||null
   });
   const fromFinance = x => ({
     id:x.id, tipo:x.type, data:x.date, categoria:x.category,
@@ -1186,28 +1196,33 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   function requireAdmin(){ if(!isAdmin()){ showError('Somente o ADMINISTRADOR pode realizar esta operação.'); return false; } return true; }
 
   async function loadAll(){
-    const [profileRes,toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes] = await Promise.all([
+    const [profileRes,toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes,methodsRes] = await Promise.all([
       db.from('perfis').select('nome,funcao,ativo').eq('id',currentUser.id).single(),
       db.from('passeios').select('*').order('data',{ascending:true}),
       db.from('guias').select('*').eq('ativo',true).order('nome'),
       db.from('parceiros').select('*').eq('ativo',true).order('nome'),
       db.from('pagamentos_comissoes').select('*').order('data',{ascending:false}),
-      db.from('categorias_financeiras').select('*').eq('ativo',true).order('tipo').order('nome')
+      db.from('categorias_financeiras').select('*').eq('ativo',true).order('tipo').order('nome'),
+      db.from('formas_pagamento').select('*').eq('ativo',true).order('nome')
     ]);
     if(profileRes.error) throw profileRes.error;
     if(!profileRes.data || !profileRes.data.ativo) throw new Error('Seu usuário está sem perfil ativo. Peça ao administrador para verificar o cadastro.');
     currentRole=profileRes.data.funcao;
     if(!['ADMINISTRADOR','EQUIPE'].includes(currentRole)) throw new Error('Perfil de acesso inválido.');
     await loadAssistantPermission();
-    for(const res of [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes]) if(res.error) throw res.error;
+    for(const res of [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes,methodsRes]) if(res.error) throw res.error;
     tours=(toursRes.data||[]).map(toTour);
 
-    // Reconcilia os recebimentos dos passeios antes de montar o Financeiro.
-    // Assim, passeios já cadastrados também aparecem na lista de movimentações.
-    for(const tour of tours) if(tour.origin!=='parceiro') await syncTourReceipt(tour);
+    // Cada recebimento é um lançamento independente, com sua própria data e forma de pagamento.
     const financeRes=await db.from('lancamentos_financeiros').select('*').order('data',{ascending:false});
     if(financeRes.error) throw financeRes.error;
     financeEntries=(financeRes.data||[]).map(toFinance);
+    for(const tour of tours){
+      if(tour.origin==='parceiro') continue;
+      tour.received=financeEntries.filter(x=>x.passeioId===tour.id && x.type==='receita' && !x.commissionKind).reduce((sum,x)=>sum+Number(x.amount||0),0);
+    }
+    paymentMethods=methodsRes.data||[];
+    renderPaymentMethods(); refreshPaymentMethodOptions();
 
     guides=(guidesRes.data||[]).map(x=>x.nome);
     partners=(partnersRes.data||[]).map(x=>x.nome);
@@ -1252,6 +1267,33 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     renderFinance(); render();
     showView('home');
   }
+
+  function refreshPaymentMethodOptions(){
+    const select=$('finPaymentMethod'); if(!select)return; const current=select.value;
+    select.innerHTML='<option value="">Selecione</option>'+paymentMethods.map(m=>`<option value="${esc(m.nome)}">${esc(m.nome)}</option>`).join('');
+    if(paymentMethods.some(m=>m.nome===current))select.value=current;
+  }
+  function renderPaymentMethods(){
+    const list=$('paymentMethodList');if(!list)return;
+    list.innerHTML=paymentMethods.map(m=>`<li class="registry-item"><span class="registry-name">${esc(m.nome)}</span><button class="registry-icon edit-icon" type="button" onclick="editPaymentMethod('${m.id}')">✏️</button><button class="registry-icon delete-icon" type="button" onclick="disablePaymentMethod('${m.id}')">🗑️</button></li>`).join('')||'<li>Nenhuma forma cadastrada.</li>';
+  }
+  $('addPaymentMethod').addEventListener('click',async()=>{
+    if(!requireAdmin())return;const nome=$('newPaymentMethod').value.trim();if(!nome){showError('Informe o nome da forma de pagamento.');return;}
+    if(paymentMethods.some(m=>m.nome.toLowerCase()===nome.toLowerCase())){showError('Essa forma de pagamento já existe.');return;}
+    const {data,error}=await db.from('formas_pagamento').insert({nome,ativo:true}).select().single();if(error){showError('Não foi possível cadastrar: '+error.message);return;}
+    paymentMethods.push(data);$('newPaymentMethod').value='';renderPaymentMethods();refreshPaymentMethodOptions();
+  });
+  window.editPaymentMethod=async id=>{if(!requireAdmin())return;const m=paymentMethods.find(x=>x.id===id);if(!m)return;const nome=prompt('Novo nome da forma de pagamento:',m.nome);if(nome===null||!nome.trim())return;const {data,error}=await db.from('formas_pagamento').update({nome:nome.trim()}).eq('id',id).select().single();if(error){showError(error.message);return;}paymentMethods=paymentMethods.map(x=>x.id===id?data:x);renderPaymentMethods();refreshPaymentMethodOptions();};
+  window.disablePaymentMethod=async id=>{if(!requireAdmin()||!confirm('Desativar esta forma de pagamento? Lançamentos anteriores serão preservados.'))return;const {error}=await db.from('formas_pagamento').update({ativo:false}).eq('id',id);if(error){showError(error.message);return;}paymentMethods=paymentMethods.filter(x=>x.id!==id);renderPaymentMethods();refreshPaymentMethodOptions();};
+  window.registerTourReceipt=async id=>{
+    const t=tours.find(x=>String(x.id)===String(id));if(!t)return;
+    const amount=Number($('receipt-amount-'+id).value||0),date=$('receipt-date-'+id).value,method=$('receipt-method-'+id).value;
+    if(amount<=0||!date||!method){showError('Informe valor, data e forma de pagamento.');return;}
+    const due=Math.max(0,totalFor(t)-Number(t.received||0));if(amount>due+0.001&&!confirm('O recebimento supera o saldo previsto. Deseja continuar?'))return;
+    const x={id:crypto.randomUUID(),type:'receita',date,category:'Recebimentos dos passeios',amount,description:`Recebimento do passeio: ${t.customer||'Cliente'} - ${t.type||'Passeio'}`,paymentMethod:method,passeioId:t.id};
+    const {error}=await db.from('lancamentos_financeiros').insert(fromFinance(x));if(error){showError('Não foi possível registrar: '+error.message);return;}
+    await loadApp();showView('agenda');requestAnimationFrame(()=>{const d=document.getElementById('detail-'+id);if(d)d.classList.add('open');});
+  };
 
   $('addFinanceCategory').addEventListener('click',async()=>{
     if(!requireAdmin()) return;
@@ -1312,47 +1354,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   });
 
   // Mantém no Financeiro somente o valor efetivamente recebido em cada passeio.
-  async function syncTourReceipt(t){
-    // Busca todos os lançamentos ligados a este passeio para corrigir também
-    // eventuais duplicidades antigas, mantendo apenas um recebimento.
-    const {data:linked,error:findError}=await db.from('lancamentos_financeiros')
-      .select('id,valor,data').eq('passeio_id',t.id).is('comissao_tipo',null);
-    if(findError) throw findError;
-    const existing=linked||[];
-    const received=Number(t.received||0);
-
-    // Se o passeio não tem valor recebido, remove qualquer receita vinculada.
-    if(received<=0){
-      if(existing.length){
-        const {error}=await db.from('lancamentos_financeiros').delete().in('id',existing.map(x=>x.id));
-        if(error) throw error;
-      }
-      return;
-    }
-
-    const entry={
-      tipo:'receita', data:t.date, categoria:'Recebimentos dos passeios',
-      valor:received,
-      descricao:`Recebimento do passeio: ${t.customer||'Cliente'} - ${t.type||'Passeio'}`,
-      vinculado_comissao:false, comissao_tipo:null, comissao_nome:null,
-      forma_pagamento:null, passeio_id:t.id, criado_por:currentUser?.id||null
-    };
-
-    if(existing.length){
-      // Atualiza o lançamento existente para refletir valor e data atuais.
-      const {error}=await db.from('lancamentos_financeiros').update(entry).eq('id',existing[0].id);
-      if(error) throw error;
-      // Remove somente duplicatas vinculadas ao mesmo passeio.
-      const duplicates=existing.slice(1).map(x=>x.id);
-      if(duplicates.length){
-        const {error:deleteError}=await db.from('lancamentos_financeiros').delete().in('id',duplicates);
-        if(deleteError) throw deleteError;
-      }
-    }else{
-      const {error}=await db.from('lancamentos_financeiros').insert(entry);
-      if(error) throw error;
-    }
-  }
+  async function syncTourReceipt(t){ /* Recebimentos individuais são gravados diretamente no financeiro. */ return; }
 
   async function syncPartnerCommissionReceipt(t){
     const {data:linked,error}=await db.from('lancamentos_financeiros').select('id').eq('passeio_id',t.id).eq('comissao_tipo','recebimento_parceiro');
@@ -1385,12 +1387,12 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
       const t={id,date:$('date').value,time:$('time').value,type:$('type').value,
         customer:$('customer').value.trim(),phone:$('phone').value.trim(),
         paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),
-        price:Number($('price').value||0),received:Number($('received').value||0),
+        price:Number($('price').value||0),received:0,
         guide:$('guide').value,partner:$('partner').value,
         guidePay:Number($('guidePay').value||0),guidePayModel:$('guidePayModel').value,partnerCommission:Number($('partnerCommission').value||0),
         origin:findCatalog($('type').value)?.origem||'proprio',partnerSalePrice:Number($('partnerSalePrice').value||0),partnerCommissionTotal:Number($('partnerCommissionTotal').value||0),partnerCommissionReceived:Number($('partnerCommissionReceived').value||0), notes:$('notes').value.trim(),done:false};
       if(t.origin==='parceiro'){t.price=0;t.received=0;if(t.partnerCommissionReceived>t.partnerCommissionTotal+0.001){showError('A comissão recebida não pode superar a comissão total a receber.');return;}}
-      else if(t.received>totalFor(t) && !confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?')) return;
+      
       const {error}=editingId
         ? await db.from('passeios').update(fromTour(t)).eq('id',id)
         : await db.from('passeios').insert(fromTour(t));
@@ -1404,7 +1406,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
       const category=$('finCategory').value.trim();
       const commission=parseCommissionCategory(category);
       const x={id:crypto.randomUUID(),type:$('finType').value,date:$('finDate').value,
-        category,amount:Number($('finAmount').value),description:$('finDescription').value.trim(),
+        category,amount:Number($('finAmount').value),description:$('finDescription').value.trim(),paymentMethod:$('finPaymentMethod').value||null,
         linkedCommission:!!commission,commissionKind:commission&&$('finType').value==='despesa'?commission.kind:null,
         commissionName:commission&&$('finType').value==='despesa'?commission.name:null,paymentMethod:'Pix'};
       if(commission && $('finType').value!=='despesa'){showError('Categorias de comissão devem ser lançadas como despesa.');return;}
@@ -1425,7 +1427,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   window.editTour=id=>{
     if(!requireAdmin())return;
     const t=tours.find(x=>x.id===id);if(!t)return;editingId=id;
-    refreshTourTypeOptions(t.type);refreshRegistrySelects();['date','time','type','customer','phone','paidPeople','freePeople','price','received','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
+    refreshTourTypeOptions(t.type);refreshRegistrySelects();['date','time','type','customer','phone','paidPeople','freePeople','price','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
     $('guidePay').value=t.guidePay??0;setGuidePayModel(t.guidePayModel||(String(t.type||'').toLowerCase().includes('coletivo')?'fixo':'por_pessoa'));$('partnerCommission').value=t.partnerCommission??0;$('partnerSalePrice').value=t.partnerSalePrice??0;$('partnerCommissionTotal').value=t.partnerCommissionTotal??0;$('partnerCommissionReceived').value=t.partnerCommissionReceived??0;updateSaleOriginFields();
     $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
     showView('form');
@@ -1562,7 +1564,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     const income=financeEntries.filter(x=>x.type==='receita').reduce((a,x)=>a+Number(x.amount||0),0);
     const expenses=financeEntries.filter(x=>x.type==='despesa').reduce((a,x)=>a+Number(x.amount||0),0);
     $('finTotals').innerHTML=`<div class="finance-total-grid"><div class="finance-total income-total"><span>Receitas</span><strong>${money(income)}</strong></div><div class="finance-total expense-total"><span>Despesas</span><strong>${money(expenses)}</strong></div><div class="finance-total balance-total"><span>Saldo</span><strong>${money(income-expenses)}</strong></div></div>`;
-    $('financeList').innerHTML=financeEntries.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<li>${esc(x.date)} — <b>${x.type==='receita'?'Receita':'Despesa'}</b> ${esc(x.category)}: ${money(x.amount)} ${esc(x.description||'')}${isAdmin()?` <button class="danger" onclick="deleteFinance('${x.id}')">Excluir</button>`:''}</li>`).join('')||'<li>Nenhum lançamento ainda.</li>';
+    $('financeList').innerHTML=financeEntries.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<li>${esc(x.date)} — <b>${x.type==='receita'?'Receita':'Despesa'}</b> ${esc(x.category)}: ${money(x.amount)} ${esc(x.description||'')}${x.paymentMethod?' · '+esc(x.paymentMethod):''}${isAdmin()?` <button class="danger" onclick="deleteFinance('${x.id}')">Excluir</button>`:''}</li>`).join('')||'<li>Nenhum lançamento ainda.</li>';
   };
   window.renderCommissionRows=(kind,monthRecords)=>{
     const nameKey=kind==='guide'?'guide':'partner';
