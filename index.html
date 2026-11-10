@@ -1009,8 +1009,10 @@ function dashboard(){
  $('alerts').innerHTML=`<div class="alert">◷ ${a.filter(t=>!t.done&&Number(t.received||0)<=0).length} aguardando entrada</div><div class="alert">🛶 ${a.filter(t=>!t.done).length} passeio(s) a realizar</div>`;
  const next=[...tours].filter(t=>!t.done).sort((x,y)=>(x.date+(x.time||'')).localeCompare(y.date+(y.time||''))).slice(0,4);
  renderHomeUpcoming();
- $('reportSummary').innerHTML=`<div class="report-line"><span>Mês de referência</span><strong>${esc($('monthLabel').textContent)}</strong></div><div class="report-line"><span>Passeios</span><strong>${a.length}</strong></div><div class="report-line"><span>Valor previsto</span><strong>${money(rev)}</strong></div><div class="report-line"><span>Valor recebido</span><strong>${money(got)}</strong></div><div class="report-line"><span>Valor a receber</span><strong>${money(due)}</strong></div>`;
- $('reportLines').innerHTML=`<div class="report-line"><span>Pagantes</span><strong>${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</strong></div><div class="report-line"><span>Cortesias</span><strong>${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</strong></div><div class="report-line"><span>Concluídos</span><strong>${a.filter(t=>t.done).length}</strong></div>`;
+ const reportSummary=$('reportSummary');
+ if(reportSummary)reportSummary.innerHTML=`<div class="report-line"><span>Mês de referência</span><strong>${esc($('monthLabel')?.textContent||'')}</strong></div><div class="report-line"><span>Passeios</span><strong>${a.length}</strong></div><div class="report-line"><span>Valor previsto</span><strong>${money(rev)}</strong></div><div class="report-line"><span>Valor recebido</span><strong>${money(got)}</strong></div><div class="report-line"><span>Valor a receber</span><strong>${money(due)}</strong></div>`;
+ const reportLines=$('reportLines');
+ if(reportLines)reportLines.innerHTML=`<div class="report-line"><span>Pagantes</span><strong>${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</strong></div><div class="report-line"><span>Cortesias</span><strong>${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</strong></div><div class="report-line"><span>Concluídos</span><strong>${a.filter(t=>t.done).length}</strong></div>`;
  const gRecords=a.filter(t=>(t.date||'').startsWith(m));
  const other=financeEntries.filter(x=>(x.date||'').startsWith(m));
  const tourReceived=gRecords.reduce((sum,t)=>sum+Number(t.received||0),0);
@@ -1287,6 +1289,19 @@ function renderAgendaCalendar(arr){
   return `<article class="agenda-day-card"><div class="day-card-top"><strong>${esc(t.time||'Horário não informado')} · ${esc(t.type||'Passeio')}</strong><span class="badge ${cls}">${esc(status)}</span></div><small>Cliente / grupo: ${esc(t.customer||'Não informado')}</small><small>Participantes: ${paid} pagante(s) · ${free} cortesia(s) · ${paid+free} pessoa(s)</small><small>Contato: ${esc(t.phone||'—')} · Guia: ${esc(t.guide||'—')}</small><small>Previsto: ${money(expected)} · Recebido: ${money(received)} · Saldo: ${money(balance)}</small>${t.notes?`<small>Observações: ${esc(t.notes)}</small>`:''}<div class="detail-actions"><button type="button" class="secondary" onclick="editTour('${id}')">Editar passeio</button>${!t.done?`<button type="button" class="primary" onclick="markDone('${id}')">Marcar realizado</button>`:''}</div></article>`;
  }).join(''):'<div class="agenda-day-empty">Não há passeios cadastrados para esta data.</div>'}`;
 }
+
+// Normalização de datas da agenda no escopo global: a tela de Passeios e os atalhos do Resumo usam estas funções.
+function normalizeAgendaDate(value){
+ const raw=String(value??'').trim();
+ if(!raw)return '';
+ if(/^\d{4}-\d{2}-\d{2}/.test(raw))return raw.slice(0,10);
+ const br=raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+ if(br)return `${br[3]}-${br[2]}-${br[1]}`;
+ const parsed=new Date(raw);
+ if(!Number.isNaN(parsed.getTime()))return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;
+ return raw;
+}
+function agendaMonthOf(value){return normalizeAgendaDate(value).slice(0,7);}
 
 function render(){
  // A atualização da agenda não deve executar a rotina do Resumo.
