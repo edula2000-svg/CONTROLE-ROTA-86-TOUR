@@ -1213,6 +1213,7 @@ window.showView=v=>{
     el.hidden=!active;
     el.style.display=active?'grid':'none';
   });
+  if(v==='agenda'&&typeof render==='function'){requestAnimationFrame(()=>render());}
   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
   window.scrollTo({top:0,behavior:'smooth'});
 };
@@ -1221,10 +1222,22 @@ let agendaCalendarMonth=new Date().getFullYear()+'-'+String(new Date().getMonth(
 let agendaCalendarSelected='';
 window.setAgendaMode=function(mode){agendaMode=mode==='calendar'?'calendar':'list';render();};
 window.openAgendaFromDashboard=function(){
- const ordered=[...tours].map(t=>({...t,date:normalizeAgendaDate(t.date)})).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
- const next=ordered.find(t=>!t.done&&t.date>=todayKeyLocal())||ordered.find(t=>!t.done)||ordered[0];
- if(next&&next.date){agendaCalendarMonth=next.date.slice(0,7);agendaCalendarSelected='';if($('agendaMonthFilter'))$('agendaMonthFilter').value=agendaCalendarMonth;}
- agendaMode='list';window.showView('agenda');render();
+ const ordered=[...tours].map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>t.date).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+ const today=todayKeyLocal();
+ const next=ordered.find(t=>!t.done&&t.date>=today)||ordered.find(t=>!t.done)||ordered[0];
+ if(next)agendaCalendarMonth=agendaMonthOf(next.date);
+ else agendaCalendarMonth=today.slice(0,7);
+ agendaCalendarSelected='';
+ agendaMode='list';
+ const monthInput=$('agendaMonthFilter');
+ if(monthInput)monthInput.value=agendaCalendarMonth;
+ // Use the same navigation entry point as the visible Passeios tab.
+ window.showView('agenda');
+ requestAnimationFrame(()=>{
+   const input=$('agendaMonthFilter');
+   if(input)input.value=agendaCalendarMonth;
+   render();
+ });
 };
 function todayKeyLocal(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
@@ -1242,7 +1255,7 @@ function renderAgendaCalendar(arr){
  const [year,month]=agendaCalendarMonth.split('-').map(Number);
  const first=new Date(year,month-1,1,12),lastDay=new Date(year,month,0,12),offset=(first.getDay()+6)%7;
  const today=new Date(),todayKey=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
- const monthTours=arr.filter(t=>normalizeAgendaDate(t.date).slice(0,7)===agendaCalendarMonth),counts={};
+ const monthTours=arr.filter(t=>agendaMonthOf(t.date)===agendaCalendarMonth),counts={};
  monthTours.forEach(t=>{const key=normalizeAgendaDate(t.date);counts[key]=(counts[key]||0)+1;});
  if(agendaCalendarSelected&&!agendaCalendarSelected.startsWith(agendaCalendarMonth))agendaCalendarSelected='';
  const cells=[];
@@ -1268,7 +1281,7 @@ function renderAgendaCalendar(arr){
 function render(){
  dashboard();
  const filter=$('statusFilter').value;
- let arr=[...tours].map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>t.date.slice(0,7)===agendaCalendarMonth).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+ let arr=[...tours].map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>agendaMonthOf(t.date)===agendaCalendarMonth).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
  if(filter==='done')arr=arr.filter(t=>t.done);
  $('count').textContent=`${arr.length} passeio(s) · ${agendaMode==='calendar'?'visualização em calendário':'ordenados pela data de realização'}`;
@@ -1364,6 +1377,9 @@ $('tourForm').addEventListener('submit',e=>{
 $('cancelEdit').addEventListener('click',resetForm);
 $('statusFilter').addEventListener('change',render);
 if($('agendaMonthFilter')){$('agendaMonthFilter').value=agendaCalendarMonth;$('agendaMonthFilter').addEventListener('change',()=>{if(!$('agendaMonthFilter').value)return;agendaCalendarMonth=$('agendaMonthFilter').value;agendaCalendarSelected='';render();});}
+$('agendaListMode')?.addEventListener('click',()=>{agendaMode='list';render();});
+$('agendaCalendarMode')?.addEventListener('click',()=>{agendaMode='calendar';render();});
+
 $('exportBtn').addEventListener('click',()=>{
  const blob=new Blob([JSON.stringify(tours,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='backup-rota86-passeios.json';a.click();URL.revokeObjectURL(url);
@@ -1473,6 +1489,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
  if(!Number.isNaN(parsed.getTime()))return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;
  return raw;
 }
+function agendaMonthOf(value){return normalizeAgendaDate(value).slice(0,7);}
 const toTour = r => ({
     id:r.id, date:normalizeAgendaDate(r.data), time:r.horario||'', type:r.tipo||'', customer:r.cliente||'',
     phone:r.telefone||'', paidPeople:Number(r.pessoas_pagantes||0),
