@@ -755,10 +755,10 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 <div class="dashboard-shortcuts">
 <button type="button" class="shortcut" onclick="showView('form')"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span><span>Novo passeio</span></button>
 <button type="button" class="shortcut" onclick="showView('finance')"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span><span>Lançamento</span></button>
-<button type="button" class="shortcut" onclick="openAgendaFromDashboard()"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span><span>Ver agenda</span></button>
+<button type="button" class="shortcut" type="button" onclick="window.showView('agenda')"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span><span>Ver agenda</span></button>
 </div>
 <div class="stats-grid"><div class="stat"><small>Faturamento previsto</small><strong id="statRevenue">R$ 0,00</strong></div><div class="stat"><small>Já recebido</small><strong id="statReceived">R$ 0,00</strong></div><div class="stat"><small>Saldo a receber</small><strong id="statDue">R$ 0,00</strong></div><div class="stat"><small>Passeios no mês</small><strong id="statTours">0</strong></div></div>
-<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">Próximos passeios</h2><button class="secondary" onclick="openAgendaFromDashboard()">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
+<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">Próximos passeios</h2><button class="secondary" type="button" onclick="window.showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
 <section id="view-form" class="view" hidden><section class="panel"><h2 id="formTitle">Cadastrar passeio</h2><form id="tourForm"><div class="form-grid">
 <div><label for="date">Data do passeio *</label><input id="date" type="date" required></div><div><label for="time">Horário</label><input id="time" type="time"></div>
 <div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustação (compartilhado)">Barco + caiaque + degustação (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
@@ -992,7 +992,7 @@ window.viewPrintCashFlow=function(){
 };
 
 function homeTourCard(t){
- return `<article class="tour-card"><div class="tour-main"><div class="tour-date">📅 ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo não informado')} · ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" onclick="openAgendaFromDashboard()">Ver agenda</button></div></article>`;
+ return `<article class="tour-card"><div class="tour-main"><div class="tour-date">📅 ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo não informado')} · ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" type="button" onclick="window.showView('agenda')">Ver agenda</button></div></article>`;
 }
 function renderHomeUpcoming(){
  const list=$('homeList');if(!list)return;
