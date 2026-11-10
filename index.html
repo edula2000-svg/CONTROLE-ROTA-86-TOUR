@@ -527,7 +527,7 @@ button{font-family:inherit!important;box-shadow:none}
 .user-admin-options{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0}
 .user-admin-options label{display:flex;align-items:center;gap:7px;margin:0}
 .user-admin-options input{width:auto}
-.user-admin-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(115px,.8fr) minmax(100px,.7fr) auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #edf1f4}
+.user-admin-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(130px,.8fr) minmax(90px,.55fr) auto auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #edf1f4}
 .user-admin-row:last-child{border-bottom:0}
 .user-admin-row small{display:block;color:#778391}
 .user-admin-row select{font-size:13px;padding:8px}
@@ -765,8 +765,8 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
  <section class="panel"><h2>Configurações</h2><h3>Aparência do sistema</h3><p class="hint">Escolha como deseja visualizar o ROTA 86 TOUR neste aparelho.</p><div class="theme-options"><button type="button" class="secondary" data-theme-choice="light">☀️ Tema claro</button><button type="button" class="secondary" data-theme-choice="dark">🌙 Tema escuro</button></div><p id="themeStatus" class="hint">A preferência fica salva neste navegador.</p></section>
  <section class="panel" id="userAdminPanel"><h2>Gerenciamento de usuários</h2>
    <p class="hint">Cadastre colaboradores e defina o perfil e as permissões de cada acesso.</p>
-   <form id="userCreateForm"><div class="user-admin-grid"><div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div><div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div><div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div><div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div></div><div class="user-admin-options"><label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label><label><input id="newUserAssistant" type="checkbox"> Pode usar Assistente IA</label></div><div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div></form>
-   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div><h3>Usuários cadastrados</h3><div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div><small class="hint" id="assistantPermissionStatus" role="status"></small>
+   <form id="userCreateForm"><div class="user-admin-grid"><div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div><div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div><div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div><div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div></div><div class="user-admin-options"><label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label></div><div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div></form>
+   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div><h3>Usuários cadastrados</h3><div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div>
  </section>
 </section>
 <section id="view-finance" class="view" hidden><section class="panel"><h2>Adicionar receita ou despesa</h2><form id="financeForm"><div class="form-grid">
@@ -1132,7 +1132,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
 
   async function loadAssistantUsers(){
     if(!isAdmin()) return;
-    const list=$('assistantUsersList'),status=$('assistantPermissionStatus');
+    const list=$('assistantUsersList'),status=$('userAdminStatus');
     list.innerHTML='<small class="hint">Carregando usuários...</small>';status.textContent='';
     try{
       const result=await callAdminUsers({action:'list'});
@@ -1140,24 +1140,33 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
       if(!users.length){list.innerHTML='<p class="hint">Nenhum usuário cadastrado.</p>';return;}
       list.innerHTML=users.map(u=>{
         const admin=u.funcao==='ADMINISTRADOR';
-        const checked=admin||u.pode_usar_assistente===true;
+        const isSelf=u.id===currentUser.id;
         return `<div class="user-admin-row" data-user-row="${esc(u.id)}">
           <div><strong>${esc(u.nome||'Usuário sem nome')}</strong><small>${esc(u.email||'E-mail não disponível')} · ${admin?'Administrador':'Equipe'} · ${u.ativo?'Ativo':'Inativo'}</small></div>
-          <div><label for="role-${esc(u.id)}">Perfil</label><select id="role-${esc(u.id)}" data-user-role="${esc(u.id)}" ${u.id===currentUser.id?'disabled':''}><option value="EQUIPE" ${!admin?'selected':''}>Equipe</option><option value="ADMINISTRADOR" ${admin?'selected':''}>Administrador</option></select></div>
-          <label class="user-check"><input type="checkbox" data-user-active="${esc(u.id)}" ${u.ativo?'checked':''} ${u.id===currentUser.id?'disabled':''}> Ativo</label>
-          <label class="user-check"><input type="checkbox" data-assistant-user="${esc(u.id)}" ${checked?'checked':''} ${admin||!u.ativo?'disabled':''}> Pode usar IA</label>
+          <div><label for="role-${esc(u.id)}">Perfil</label><select id="role-${esc(u.id)}" data-user-role="${esc(u.id)}" ${isSelf?'disabled':''}><option value="EQUIPE" ${!admin?'selected':''}>Equipe</option><option value="ADMINISTRADOR" ${admin?'selected':''}>Administrador</option></select></div>
+          <label class="user-check"><input type="checkbox" data-user-active="${esc(u.id)}" ${u.ativo?'checked':''} ${isSelf?'disabled':''}> Ativo</label>
           <button class="secondary" type="button" data-save-user="${esc(u.id)}">Salvar</button>
+          <button class="danger" type="button" data-delete-user="${esc(u.id)}" ${isSelf?'disabled title="Não é possível excluir o próprio usuário"':''}>Excluir</button>
         </div>`;
       }).join('');
       list.querySelectorAll('[data-save-user]').forEach(button=>button.addEventListener('click',async()=>{
         const id=button.dataset.saveUser,row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`);
         const role=row.querySelector('[data-user-role]').value;
         const active=row.querySelector('[data-user-active]').checked;
-        const assistant=row.querySelector('[data-assistant-user]').checked;
         if(id===currentUser.id && (!active || role!=='ADMINISTRADOR')){status.textContent='Não é permitido desativar ou rebaixar seu próprio usuário.';return;}
-        button.disabled=true;button.textContent='Salvando...';status.textContent='Atualizando permissões...';
-        try{await callAdminUsers({action:'update',id,funcao:role,ativo:active,pode_usar_assistente:assistant});status.textContent='Usuário atualizado com sucesso.';await loadAssistantUsers();}
+        button.disabled=true;button.textContent='Salvando...';status.textContent='Atualizando usuário...';
+        try{await callAdminUsers({action:'update',id,funcao:role,ativo:active});status.textContent='Usuário atualizado com sucesso.';await loadAssistantUsers();}
         catch(err){status.textContent='Não foi possível atualizar: '+err.message;button.disabled=false;button.textContent='Salvar';}
+      }));
+      list.querySelectorAll('[data-delete-user]').forEach(button=>button.addEventListener('click',async()=>{
+        const id=button.dataset.deleteUser;
+        if(id===currentUser.id){status.textContent='Por segurança, não é possível excluir o usuário conectado.';return;}
+        const row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`);
+        const email=row?.querySelector('small')?.textContent||'este usuário';
+        if(!confirm(`Tem certeza de que deseja excluir ${email}? Essa ação remove o acesso e não pode ser desfeita.`))return;
+        button.disabled=true;button.textContent='Excluindo...';status.textContent='Excluindo usuário com segurança...';
+        try{await callAdminUsers({action:'delete',id});status.textContent='Usuário excluído com sucesso.';await loadAssistantUsers();}
+        catch(err){status.textContent='Não foi possível excluir: '+err.message;button.disabled=false;button.textContent='Excluir';}
       }));
     }catch(err){list.innerHTML='<p class="hint">Não foi possível carregar usuários: '+esc(err.message)+'</p>';}
   }
@@ -1334,7 +1343,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     const payload={
       action:'create',nome:$('newUserName').value.trim(),email:$('newUserEmail').value.trim(),
       password:$('newUserPassword').value,funcao:$('newUserRole').value,
-      ativo:$('newUserActive').checked,pode_usar_assistente:$('newUserAssistant').checked
+      ativo:$('newUserActive').checked
     };
     if(!payload.nome||!payload.email||payload.password.length<8){status.textContent='Preencha nome, e-mail e senha com pelo menos 8 caracteres.';return;}
     button.disabled=true;button.textContent='Criando usuário...';status.textContent='Criando acesso com segurança...';
