@@ -1009,17 +1009,14 @@ function dashboard(){
  $('alerts').innerHTML=`<div class="alert">◷ ${a.filter(t=>!t.done&&Number(t.received||0)<=0).length} aguardando entrada</div><div class="alert">🛶 ${a.filter(t=>!t.done).length} passeio(s) a realizar</div>`;
  const next=[...tours].filter(t=>!t.done).sort((x,y)=>(x.date+(x.time||'')).localeCompare(y.date+(y.time||''))).slice(0,4);
  renderHomeUpcoming();
- const reportSummaryEl=$('reportSummary');
- if(reportSummaryEl)reportSummaryEl.innerHTML=`<div class="report-line"><span>Mês de referência</span><strong>${esc($('monthLabel').textContent)}</strong></div><div class="report-line"><span>Passeios</span><strong>${a.length}</strong></div><div class="report-line"><span>Valor previsto</span><strong>${money(rev)}</strong></div><div class="report-line"><span>Valor recebido</span><strong>${money(got)}</strong></div><div class="report-line"><span>Valor a receber</span><strong>${money(due)}</strong></div>`;
- const reportLinesEl=$('reportLines');
- if(reportLinesEl)reportLinesEl.innerHTML=`<div class="report-line"><span>Pagantes</span><strong>${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</strong></div><div class="report-line"><span>Cortesias</span><strong>${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</strong></div><div class="report-line"><span>Concluídos</span><strong>${a.filter(t=>t.done).length}</strong></div>`;
+ $('reportSummary').innerHTML=`<div class="report-line"><span>Mês de referência</span><strong>${esc($('monthLabel').textContent)}</strong></div><div class="report-line"><span>Passeios</span><strong>${a.length}</strong></div><div class="report-line"><span>Valor previsto</span><strong>${money(rev)}</strong></div><div class="report-line"><span>Valor recebido</span><strong>${money(got)}</strong></div><div class="report-line"><span>Valor a receber</span><strong>${money(due)}</strong></div>`;
+ $('reportLines').innerHTML=`<div class="report-line"><span>Pagantes</span><strong>${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</strong></div><div class="report-line"><span>Cortesias</span><strong>${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</strong></div><div class="report-line"><span>Concluídos</span><strong>${a.filter(t=>t.done).length}</strong></div>`;
  const gRecords=a.filter(t=>(t.date||'').startsWith(m));
  const other=financeEntries.filter(x=>(x.date||'').startsWith(m));
  const tourReceived=gRecords.reduce((sum,t)=>sum+Number(t.received||0),0);
  const extraIncome=other.filter(x=>x.type==='receita').reduce((sum,x)=>sum+Number(x.amount||0),0);
  const expenses=other.filter(x=>x.type==='despesa').reduce((sum,x)=>sum+Number(x.amount||0),0);
- const cashFlowReportEl=$('cashFlowReport');
- if(cashFlowReportEl)cashFlowReportEl.innerHTML=`<div class="flow-row in"><span class="flow-icon">↑</span><span>Recebimentos dos passeios:</span><strong class="amount">${money(tourReceived)}</strong></div><div class="flow-row in"><span class="flow-icon">↑</span><span>Outras receitas:</span><strong class="amount">${money(extraIncome)}</strong></div><div class="flow-row out"><span class="flow-icon">↓</span><span>Despesas pagas:</span><strong class="amount">${money(expenses)}</strong></div><div class="flow-row balance"><span>🪙 Saldo do mês:</span><strong class="amount">${money(tourReceived+extraIncome-expenses)}</strong></div>`;
+ $('cashFlowReport').innerHTML=`<div class="flow-row in"><span class="flow-icon">↑</span><span>Recebimentos dos passeios:</span><strong class="amount">${money(tourReceived)}</strong></div><div class="flow-row in"><span class="flow-icon">↑</span><span>Outras receitas:</span><strong class="amount">${money(extraIncome)}</strong></div><div class="flow-row out"><span class="flow-icon">↓</span><span>Despesas pagas:</span><strong class="amount">${money(expenses)}</strong></div><div class="flow-row balance"><span>🪙 Saldo do mês:</span><strong class="amount">${money(tourReceived+extraIncome-expenses)}</strong></div>`;
 
  if($('advancedReportSummary')){buildReportFilterOptions();renderAdvancedReports();}
 }
@@ -1292,9 +1289,12 @@ function renderAgendaCalendar(arr){
 }
 
 function render(){
- dashboard();
+ // A atualização da agenda não deve executar a rotina do Resumo.
+ // Isso evita que componentes exclusivos do Resumo interrompam a lista/calendário.
+ const agendaView=document.getElementById('view-agenda');
+ if(!agendaView || agendaView.hidden)dashboard();
  const monthInput=$('agendaMonthFilter');
- if(monthInput && /^\d{4}-\d{2}$/.test(monthInput.value))agendaCalendarMonth=monthInput.value;
+ if(monthInput && /^\d{4}-\d{2}$/.test(monthInput.value))agendaCalendarMonth=String(monthInput.value);
  const filter=$('statusFilter')?.value||'all';
  const normalizedTours=(Array.isArray(tours)?tours:[]).map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.date));
  let arr=normalizedTours.filter(t=>agendaMonthOf(t.date)===agendaCalendarMonth).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
@@ -1303,6 +1303,7 @@ function render(){
  $('count').textContent=`${arr.length} passeio(s) · ${agendaMode==='calendar'?'visualização em calendário':'ordenados pela data de realização'}`;
  const list=$('tourList'),cal=$('agendaCalendar'),dayList=$('agendaDayList');
  const listBtn=$('agendaListMode'),calBtn=$('agendaCalendarMode');
+ if(!list || !cal){console.error('Agenda: elementos tourList/agendaCalendar não encontrados no HTML.');return;}
  const showList=agendaMode==='list',showCalendar=agendaMode==='calendar';
  list.hidden=!showList;list.style.display=showList?'grid':'none';
  cal.hidden=!showCalendar;cal.style.display=showCalendar?'block':'none';
