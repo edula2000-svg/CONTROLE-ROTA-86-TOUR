@@ -1213,30 +1213,40 @@ window.showView=v=>{
     el.hidden=!active;
     el.style.display=active?'grid':'none';
   });
-  if(v==='agenda'&&typeof render==='function'){requestAnimationFrame(()=>render());}
+  if(v==='agenda'&&typeof render==='function'){requestAnimationFrame(()=>{const input=$('agendaMonthFilter');if(input&&/^\d{4}-\d{2}$/.test(input.value))agendaCalendarMonth=input.value;render();});}
   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
   window.scrollTo({top:0,behavior:'smooth'});
 };
 let agendaMode='list';
 let agendaCalendarMonth=new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0');
 let agendaCalendarSelected='';
-window.setAgendaMode=function(mode){agendaMode=mode==='calendar'?'calendar':'list';render();};
+window.setAgendaMode=function(mode){
+ agendaMode=mode==='calendar'?'calendar':'list';
+ const list=$('tourList'),cal=$('agendaCalendar'),dayList=$('agendaDayList');
+ if(list){list.hidden=agendaMode!=='list';list.style.display=agendaMode==='list'?'grid':'none';}
+ if(cal){cal.hidden=agendaMode!=='calendar';cal.style.display=agendaMode==='calendar'?'block':'none';}
+ if(dayList&&agendaMode!=='calendar'){dayList.hidden=true;dayList.style.display='none';}
+ $('agendaListMode')?.classList.toggle('active',agendaMode==='list');
+ $('agendaCalendarMode')?.classList.toggle('active',agendaMode==='calendar');
+ render();
+};
 window.openAgendaFromDashboard=function(){
- const ordered=[...tours].map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>t.date).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+ const normalized=(Array.isArray(tours)?tours:[]).map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.date)).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  const today=todayKeyLocal();
- const next=ordered.find(t=>!t.done&&t.date>=today)||ordered.find(t=>!t.done)||ordered[0];
- if(next)agendaCalendarMonth=agendaMonthOf(next.date);
- else agendaCalendarMonth=today.slice(0,7);
+ const next=normalized.find(t=>!t.done&&t.date>=today)||normalized.find(t=>!t.done)||normalized[0];
+ agendaCalendarMonth=next?agendaMonthOf(next.date):today.slice(0,7);
  agendaCalendarSelected='';
  agendaMode='list';
  const monthInput=$('agendaMonthFilter');
  if(monthInput)monthInput.value=agendaCalendarMonth;
- // Use the same navigation entry point as the visible Passeios tab.
- window.showView('agenda');
+ const nav=document.querySelector('.navbtn[data-view="agenda"]');
+ if(nav)nav.click(); else if(typeof window.showView==='function')window.showView('agenda');
  requestAnimationFrame(()=>{
-   const input=$('agendaMonthFilter');
-   if(input)input.value=agendaCalendarMonth;
-   render();
+  const input=$('agendaMonthFilter');
+  if(input)input.value=agendaCalendarMonth;
+  window.setAgendaMode('list');
+  const panel=$('view-agenda');
+  if(panel)panel.scrollIntoView({behavior:'smooth',block:'start'});
  });
 };
 function todayKeyLocal(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
@@ -1280,8 +1290,11 @@ function renderAgendaCalendar(arr){
 
 function render(){
  dashboard();
- const filter=$('statusFilter').value;
- let arr=[...tours].map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>agendaMonthOf(t.date)===agendaCalendarMonth).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+ const monthInput=$('agendaMonthFilter');
+ if(monthInput && /^\d{4}-\d{2}$/.test(monthInput.value))agendaCalendarMonth=monthInput.value;
+ const filter=$('statusFilter')?.value||'all';
+ const normalizedTours=(Array.isArray(tours)?tours:[]).map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.date));
+ let arr=normalizedTours.filter(t=>agendaMonthOf(t.date)===agendaCalendarMonth).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
  if(filter==='done')arr=arr.filter(t=>t.done);
  $('count').textContent=`${arr.length} passeio(s) · ${agendaMode==='calendar'?'visualização em calendário':'ordenados pela data de realização'}`;
@@ -1376,9 +1389,9 @@ $('tourForm').addEventListener('submit',e=>{
 });
 $('cancelEdit').addEventListener('click',resetForm);
 $('statusFilter').addEventListener('change',render);
-if($('agendaMonthFilter')){$('agendaMonthFilter').value=agendaCalendarMonth;$('agendaMonthFilter').addEventListener('change',()=>{if(!$('agendaMonthFilter').value)return;agendaCalendarMonth=$('agendaMonthFilter').value;agendaCalendarSelected='';render();});}
-$('agendaListMode')?.addEventListener('click',()=>{agendaMode='list';render();});
-$('agendaCalendarMode')?.addEventListener('click',()=>{agendaMode='calendar';render();});
+if($('agendaMonthFilter')){$('agendaMonthFilter').value=agendaCalendarMonth;$('agendaMonthFilter').addEventListener('change',()=>{const value=$('agendaMonthFilter').value;if(!/^\d{4}-\d{2}$/.test(value))return;agendaCalendarMonth=value;agendaCalendarSelected='';render();});}
+$('agendaListMode')?.addEventListener('click',()=>window.setAgendaMode('list'));
+$('agendaCalendarMode')?.addEventListener('click',()=>window.setAgendaMode('calendar'));
 
 $('exportBtn').addEventListener('click',()=>{
  const blob=new Blob([JSON.stringify(tours,null,2)],{type:'application/json'});
