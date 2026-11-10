@@ -769,7 +769,7 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 <div id="ownGuideSelectWrap"><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div id="ownSellerSelectWrap"><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
 <div id="ownGuidePayWrap"><label>Forma de pagamento do guia</label><div class="guide-pay-options" role="group" aria-label="Forma de pagamento do guia"><label class="guide-pay-option"><input type="checkbox" id="guidePayPerPerson" onchange="setGuidePayModel('por_pessoa')"> <span>Por pagante</span></label><label class="guide-pay-option"><input type="checkbox" id="guidePayPerTour" onchange="setGuidePayModel('fixo')"> <span>Por passeio (valor fixo)</span></label></div><select id="guidePayModel" aria-hidden="true" tabindex="-1" style="display:none"><option value="por_pessoa">Por pessoa pagante</option><option value="fixo">Valor fixo por passeio</option></select><label for="guidePay" id="guidePayValueLabel">Valor do guia por pagante (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"><small class="hint" id="guidePayHint">O valor será multiplicado pela quantidade de participantes pagantes. Você pode ajustar nesta venda.</small></div><div id="ownSellerCommissionWrap"><label for="partnerCommission">Comissão do parceiro/vendedor por pagante (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"><small class="hint" id="commissionCalcHint">Valor calculado pelo cadastro do passeio; você pode ajustar nesta venda.</small></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
 <small class="hint">Os recebimentos serão lançados depois, nos detalhes do passeio, com data e forma de pagamento. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
-<section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><input type="month" id="agendaMonthFilter" aria-label="Selecionar mês da agenda" title="Selecionar mês da agenda"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" hidden></div><div class="tour-list" id="agendaDayList" hidden></div></section></section>
+<section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><input type="month" id="agendaMonthFilter" aria-label="Selecionar mês da agenda" title="Selecionar mês da agenda" onchange="window.applyAgendaMonthFilter(this.value)"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" hidden></div><div class="tour-list" id="agendaDayList" hidden></div></section></section>
 <section id="view-registries" class="view" hidden>
  <section class="panel"><h2>Cadastros</h2>
   <div class="registry-subnav" role="tablist" aria-label="Seções de cadastros">
@@ -1228,7 +1228,7 @@ window.setAgendaMode=function(mode){
  if(dayList&&agendaMode!=='calendar'){dayList.hidden=true;dayList.style.display='none';}
  $('agendaListMode')?.classList.toggle('active',agendaMode==='list');
  $('agendaCalendarMode')?.classList.toggle('active',agendaMode==='calendar');
- render();
+ if(typeof window.render==='function')window.render();else render();
 };
 window.openAgendaFromDashboard=function(){
  const normalized=(Array.isArray(tours)?tours:[]).map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.date)).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
@@ -1248,6 +1248,14 @@ window.openAgendaFromDashboard=function(){
   const panel=$('view-agenda');
   if(panel)panel.scrollIntoView({behavior:'smooth',block:'start'});
  });
+};
+window.applyAgendaMonthFilter=function(value){
+  if(!/^\d{4}-\d{2}$/.test(String(value||'')))return;
+  agendaCalendarMonth=String(value);
+  agendaCalendarSelected='';
+  const input=$('agendaMonthFilter');
+  if(input&&input.value!==agendaCalendarMonth)input.value=agendaCalendarMonth;
+  if(typeof window.render==='function')window.render();
 };
 function todayKeyLocal(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
@@ -1291,10 +1299,10 @@ function renderAgendaCalendar(arr){
 function render(){
  dashboard();
  const monthInput=$('agendaMonthFilter');
- if(monthInput && /^\d{4}-\d{2}$/.test(monthInput.value))agendaCalendarMonth=monthInput.value;
+ if(monthInput && /^\d{4}-\d{2}$/.test(monthInput.value))agendaCalendarMonth=String(monthInput.value);
  const filter=$('statusFilter')?.value||'all';
  const normalizedTours=(Array.isArray(tours)?tours:[]).map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.date));
- let arr=normalizedTours.filter(t=>agendaMonthOf(t.date)===agendaCalendarMonth).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+ let arr=normalizedTours.filter(t=>agendaMonthOf(t.date)===String(agendaCalendarMonth)).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
  if(filter==='done')arr=arr.filter(t=>t.done);
  $('count').textContent=`${arr.length} passeio(s) · ${agendaMode==='calendar'?'visualização em calendário':'ordenados pela data de realização'}`;
@@ -1388,8 +1396,8 @@ $('tourForm').addEventListener('submit',e=>{
  resetForm();save();
 });
 $('cancelEdit').addEventListener('click',resetForm);
-$('statusFilter').addEventListener('change',render);
-if($('agendaMonthFilter')){$('agendaMonthFilter').value=agendaCalendarMonth;$('agendaMonthFilter').addEventListener('change',()=>{const value=$('agendaMonthFilter').value;if(!/^\d{4}-\d{2}$/.test(value))return;agendaCalendarMonth=value;agendaCalendarSelected='';render();});}
+$('statusFilter').addEventListener('change',()=>{if(typeof window.render==='function')window.render();else render();});
+if($('agendaMonthFilter')){$('agendaMonthFilter').value=agendaCalendarMonth;$('agendaMonthFilter').addEventListener('input',e=>window.applyAgendaMonthFilter(e.target.value));$('agendaMonthFilter').addEventListener('change',e=>window.applyAgendaMonthFilter(e.target.value));}
 $('agendaListMode')?.addEventListener('click',()=>window.setAgendaMode('list'));
 $('agendaCalendarMode')?.addEventListener('click',()=>window.setAgendaMode('calendar'));
 
@@ -1493,15 +1501,20 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   }
 
   function normalizeAgendaDate(value){
- const raw=String(value||'').trim();
- if(!raw)return '';
- if(/^\d{4}-\d{2}-\d{2}/.test(raw))return raw.slice(0,10);
- const br=raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
- if(br)return `${br[3]}-${br[2]}-${br[1]}`;
- const parsed=new Date(raw);
- if(!Number.isNaN(parsed.getTime()))return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;
- return raw;
-}
+    if(value===null||value===undefined)return '';
+    const raw=String(value).trim();
+    if(!raw)return '';
+    let m=raw.match(/^(\d{4})-(\d{2})-(\d{2})(?:$|T|\s)/);
+    if(m)return `${m[1]}-${m[2]}-${m[3]}`;
+    m=raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if(m)return `${m[3]}-${m[2]}-${m[1]}`;
+    const parsed=new Date(raw);
+    if(!Number.isNaN(parsed.getTime())){
+      const y=parsed.getFullYear(),mo=String(parsed.getMonth()+1).padStart(2,'0'),d=String(parsed.getDate()).padStart(2,'0');
+      return `${y}-${mo}-${d}`;
+    }
+    return '';
+  }
 function agendaMonthOf(value){return normalizeAgendaDate(value).slice(0,7);}
 const toTour = r => ({
     id:r.id, date:normalizeAgendaDate(r.data), time:r.horario||'', type:r.tipo||'', customer:r.cliente||'',
@@ -1876,7 +1889,7 @@ const toTour = r => ({
       const fallback=ALL_MENUS.find(k=>allowedMenus.includes(k)&&k!=='settings')||(allowedMenus.includes('settings')?'settings':null);
       if(!fallback)return;v=fallback;
     }
-    originalShowView(v);if(v==='settings'&&isAdmin())loadAssistantUsers();applyRoleUI();
+    originalShowView(v);if(v==='settings'&&isAdmin())loadAssistantUsers();applyRoleUI();if(v==='agenda')requestAnimationFrame(()=>{const month=$('agendaMonthFilter');if(month&&/^\d{4}-\d{2}$/.test(month.value))agendaCalendarMonth=month.value;window.render();});
   };
   function applyRoleUI(){
     if(!ready)return;
