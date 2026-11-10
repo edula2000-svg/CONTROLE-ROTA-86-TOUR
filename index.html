@@ -841,7 +841,7 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
   </div>
   <div class="actions"><button type="button" class="primary" onclick="renderAdvancedReports()">Atualizar relatório</button><button type="button" class="secondary" onclick="resetAdvancedReportFilters()">Limpar filtros</button></div>
  </section>
- <section class="panel" id="advancedReportOutput"><h3>Resumo do período</h3><div id="advancedReportSummary" class="report-kpi-grid"></div><h3>Comparativo de resultados</h3><p id="advancedReportCompareLabel" class="hint"></p><div class="report-chart-grid"><div class="report-chart-card"><h4>Receitas x despesas</h4><div id="reportRevenueChart"></div></div><div class="report-chart-card"><h4>Resultado líquido</h4><div id="reportProfitChart"></div></div></div><h3>Detalhamento por passeio</h3><div id="reportTourBreakdown" class="report-table-wrap"></div><h3>Despesas por categoria</h3><div id="reportExpenseBreakdown" class="report-table-wrap"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p><p class="hint">Relatório baseado nos lançamentos financeiros registrados e nas datas efetivas de recebimento/pagamento.</p></section>
+ <section class="panel" id="advancedReportOutput"><h3>Resumo do período</h3><div id="advancedReportSummary" class="report-kpi-grid"></div><h3>Comparativo de resultados</h3><p id="advancedReportCompareLabel" class="hint"></p><div class="report-chart-grid"><div class="report-chart-card"><h4>Receitas x despesas</h4><div id="reportRevenueChart"></div></div><div class="report-chart-card"><h4>Resultado líquido</h4><div id="reportProfitChart"></div></div></div><h3>Detalhamento por passeio</h3><div id="reportTourBreakdown" class="report-table-wrap"></div><h3>Despesas por categoria</h3><div id="reportExpenseBreakdown" class="report-table-wrap"></div><p class="hint">Relatório baseado nos lançamentos financeiros registrados e nas datas efetivas de recebimento/pagamento.</p></section>
 </div>
  <section id="report-subview-guias" class="report-subview" hidden>
   <section class="panel report-controls-panel">
@@ -867,8 +867,6 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
   </section>
   <section class="panel"><h3>Resumo das comissões</h3><div id="partnerReportKpis" class="report-kpi-grid"></div><h3>Comissões geradas x pagas por vendedor</h3><div id="partnerReportChart" class="people-report-chart"></div><h3>Detalhamento por vendedor e venda</h3><div id="partnerReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="partnerReportPayments" class="report-table-wrap"></div></section>
  </section>
-</section>
-d"><h4>Resultado líquido</h4><div id="reportProfitChart"></div></div></div><h3>Detalhamento por passeio</h3><div id="reportTourBreakdown" class="report-table-wrap"></div><h3>Despesas por categoria</h3><div id="reportExpenseBreakdown" class="report-table-wrap"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p><p class="hint">Relatório baseado nos lançamentos financeiros registrados e nas datas efetivas de recebimento/pagamento.</p></section>
 </section>
 <section class="panel" id="backupPanel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados principais são sincronizados pelo Supabase. Use a exportação para guardar uma cópia de segurança.</small></section>
 </main>
@@ -1012,10 +1010,6 @@ function dashboard(){
  $('reportSummary').innerHTML=`<div class="report-line"><span>Mês de referência</span><strong>${esc($('monthLabel').textContent)}</strong></div><div class="report-line"><span>Passeios</span><strong>${a.length}</strong></div><div class="report-line"><span>Valor previsto</span><strong>${money(rev)}</strong></div><div class="report-line"><span>Valor recebido</span><strong>${money(got)}</strong></div><div class="report-line"><span>Valor a receber</span><strong>${money(due)}</strong></div>`;
  $('reportLines').innerHTML=`<div class="report-line"><span>Pagantes</span><strong>${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</strong></div><div class="report-line"><span>Cortesias</span><strong>${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</strong></div><div class="report-line"><span>Concluídos</span><strong>${a.filter(t=>t.done).length}</strong></div>`;
  const gRecords=a.filter(t=>(t.date||'').startsWith(m));
- $('guideCommissionReport').innerHTML=renderCommissionRows('guide',gRecords);
- $('partnerCommissionReport').innerHTML=renderCommissionRows('partner',gRecords);
- const gTotal=gRecords.reduce((sum,t)=>sum+commissionDue(t,'guide'),0),pTotal=gRecords.reduce((sum,t)=>sum+commissionDue(t,'partner'),0);
- $('commissionTotals').textContent='Total de comissões do mês: '+money(gTotal+pTotal);
  const other=financeEntries.filter(x=>(x.date||'').startsWith(m));
  const tourReceived=gRecords.reduce((sum,t)=>sum+Number(t.received||0),0);
  const extraIncome=other.filter(x=>x.type==='receita').reduce((sum,x)=>sum+Number(x.amount||0),0);
@@ -1093,13 +1087,6 @@ function renderAdvancedReports(){
  const expenseCategoryRows=Object.entries(expGroup).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="num">${expenses.filter(x=>(x.category||'Sem categoria')===k).length}</td><td class="num">${money(v)}</td></tr>`).join('');
  const expenseDetailRows=expenses.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.category||'Sem categoria')}</td><td>${esc(x.description||'—')}</td><td class="num">${money(x.amount)}</td></tr>`).join('');
  $('reportExpenseBreakdown').innerHTML='<h4>Resumo por categoria</h4>'+table(['Categoria','Lançamentos','Total'],expenseCategoryRows)+'<h4 style="margin-top:16px">Lançamentos detalhados de despesas</h4>'+table(['Data','Categoria','Descrição','Valor'],expenseDetailRows);
- const selectedTourRecords=tours.filter(t=>tourFilter.includes(t.type)&&(t.date||'')>=start&&(t.date||'')<=end);
- const commissionSummary=(kind)=>{const names=[...new Set(selectedTourRecords.map(t=>t[kind==='guide'?'guide':'partner']).filter(Boolean))];return names.map(name=>{const related=selectedTourRecords.filter(t=>t[kind==='guide'?'guide':'partner']===name);const due=related.reduce((sum,t)=>sum+commissionDue(t,kind),0);const paid=commissionPayments.filter(p=>p.kind===kind&&p.name===name&&(p.date||'')>=start&&(p.date||'')<=end).reduce((sum,p)=>sum+Number(p.amount||0),0);return {name,due,paid,pending:Math.max(0,due-paid)};});};
- const guideSummary=commissionSummary('guide'),partnerSummary=commissionSummary('partner');
- const commissionTable=(rows)=>table(['Nome','Total devido','Total pago','A pagar'],rows.map(x=>`<tr><td>${esc(x.name)}</td><td class="num">${money(x.due)}</td><td class="num">${money(x.paid)}</td><td class="num">${money(x.pending)}</td></tr>`).join(''));
- $('guideCommissionReport').innerHTML=commissionTable(guideSummary)||'<p>Nenhum valor de guia no período.</p>';
- $('partnerCommissionReport').innerHTML=commissionTable(partnerSummary)||'<p>Nenhuma comissão de vendedor no período.</p>';
- const gTotal=guideSummary.reduce((sum,t)=>sum+t.due,0),gPaid=guideSummary.reduce((sum,t)=>sum+t.paid,0),pTotal=partnerSummary.reduce((sum,t)=>sum+t.due,0),pPaid=partnerSummary.reduce((sum,t)=>sum+t.paid,0);$('commissionTotals').textContent='Guias — Total: '+money(gTotal)+' · Pagos: '+money(gPaid)+' · A pagar: '+money(Math.max(0,gTotal-gPaid))+' | Vendedores — Total: '+money(pTotal)+' · Pagos: '+money(pPaid)+' · A pagar: '+money(Math.max(0,pTotal-pPaid));
  window.rota86AdvancedReport={start,end,mode,selectedTours:tourFilter,selectedExpenses:expenseFilter,kpis,seriesData,tourRows,expenses,expenseDetailRows,linkedIncome,otherIncome,expenseTotal,incomeTotal,profit,grouped,expGroup,guideSummary,partnerSummary};
 }
 window.resetAdvancedReportFilters=()=>{const now=new Date(),y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),last=new Date(y,now.getMonth()+1,0).getDate();$('reportStart').value=`${y}-${m}-01`;$('reportEnd').value=`${y}-${m}-${String(last).padStart(2,'0')}`;$('reportViewMode').value='single';$('reportCompareMode').value='month';$('reportCompareModeWrap').hidden=true;$('reportCompareModeWrap').parentElement.classList.remove('is-comparing');buildReportFilterOptions();renderAdvancedReports();};
@@ -1134,8 +1121,12 @@ function populatePeopleReportSelects(){
   el.innerHTML=`<option value="">${allLabel}</option>`+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
   if(values.includes(current))el.value=current;
  };
- fill('guideReportPerson',[...new Set([...(guides||[]),...tours.map(t=>t.guide).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'pt-BR')),'Todos os guias');
- fill('partnerReportPerson',[...new Set([...(partners||[]),...tours.map(t=>t.partner).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'pt-BR')),'Todos os vendedores');
+ const remoteGuides=window.rotaRemoteRegistries?.guides||[];
+ const remotePartners=window.rotaRemoteRegistries?.partners||[];
+ const guideNames=[...(Array.isArray(guides)?guides:[]),...remoteGuides,...tours.map(t=>t.guide),...commissionPayments.filter(p=>p.kind==='guide').map(p=>p.name)].filter(Boolean);
+ const partnerNames=[...(Array.isArray(partners)?partners:[]),...remotePartners,...tours.map(t=>t.partner),...commissionPayments.filter(p=>p.kind==='partner').map(p=>p.name)].filter(Boolean);
+ fill('guideReportPerson',[...new Set(guideNames)].sort((a,b)=>a.localeCompare(b,'pt-BR')),'Todos os guias');
+ fill('partnerReportPerson',[...new Set(partnerNames)].sort((a,b)=>a.localeCompare(b,'pt-BR')),'Todos os vendedores');
  ['guide','partner'].forEach(kind=>{
   const ids=kind==='guide'?['guideReportStart','guideReportEnd']:['partnerReportStart','partnerReportEnd'];
   const range=currentMonthRange();
