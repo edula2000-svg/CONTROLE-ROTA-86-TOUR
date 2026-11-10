@@ -18,6 +18,22 @@ button{border:0;border-radius:11px;padding:12px 15px;font:inherit;font-weight:70
 .empty{padding:24px;text-align:center;color:var(--muted);background:#fff;border:1px dashed #cbd4dc;border-radius:14px}
 small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 @media(max-width:560px){.form-grid,.detail-grid{grid-template-columns:1fr}.wide{grid-column:auto}.panel,.tour-main{padding:13px}.filters{width:100%}.filters select{flex:1;min-width:0}.card-bottom{align-items:flex-start}.card-bottom button{padding:10px 12px}}
+
+.report-tabs-panel{padding:10px 14px!important;margin-bottom:12px}
+.report-subtabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.report-subtab{border:1px solid var(--line);background:#eef3f8;color:#28445c;border-radius:9px;padding:9px 17px;font-weight:650;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.report-subtab.active{background:#145f89;color:#fff;border-color:#145f89;box-shadow:0 2px 5px #123b5622}
+.report-subview[hidden]{display:none!important}
+.people-report-chart{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:12px 0}
+.people-chart-item{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.people-chart-title{font-weight:650;margin-bottom:10px}
+.people-chart-row{display:grid;grid-template-columns:64px 1fr 82px;align-items:center;gap:7px;margin:7px 0;font-size:12px}
+.people-chart-track{height:11px;background:#edf1f5;border-radius:99px;overflow:hidden}
+.people-chart-fill{height:100%;border-radius:99px}
+.people-chart-fill.generated{background:#176b9b}
+.people-chart-fill.paid{background:#16834a}
+.people-chart-value{text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:760px){.report-subtab{flex:1;justify-content:center;padding:9px 8px}.people-chart-row{grid-template-columns:55px 1fr 76px}}
 </style><style>
 .app-nav{display:flex;gap:7px;overflow-x:auto;padding:3px 0 7px;position:sticky;top:0;background:var(--bg);z-index:5}
 .navbtn{white-space:nowrap;background:#e7edf2;color:#334455;padding:10px 12px;border-radius:12px}.navbtn.active{background:#123b56;color:white}
@@ -808,7 +824,12 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 </div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
 <section class="panel finance-movements"><div class="cashflow-heading"><h2 style="margin:0">Movimentações financeiras</h2><button type="button" class="primary print-flow-btn" onclick="viewPrintCashFlow()">🖨️ Visualizar / Imprimir / PDF</button></div><div id="finTotals"></div><div class="finance-list-wrap"><ul id="financeList"></ul></div></section><div id="cashFlowReport" hidden></div></section>
 <section id="view-reports" class="view" hidden>
- <section class="panel report-controls-panel">
+ <section class="panel report-tabs-panel"><div class="report-subtabs" role="tablist" aria-label="Tipos de relatório">
+  <button type="button" class="report-subtab active" data-report-tab="gerencial" onclick="setReportSubview('gerencial')"><span>▥</span> Gerencial</button>
+  <button type="button" class="report-subtab" data-report-tab="guias" onclick="setReportSubview('guias')"><span>♙</span> Guias</button>
+  <button type="button" class="report-subtab" data-report-tab="comissoes" onclick="setReportSubview('comissoes')"><span>＄</span> Comissões</button>
+ </div></section>
+ <div id="report-subview-gerencial" class="report-subview"><section class="panel report-controls-panel">
   <div class="report-title-row"><div><h2 style="margin:0">Relatórios gerenciais</h2><p class="hint">Escolha os passeios, despesas e período para analisar os resultados.</p></div><div class="report-actions"><button type="button" class="secondary" onclick="printAdvancedReport()">Imprimir / Salvar PDF</button><button type="button" class="primary" onclick="shareAdvancedReport()">Compartilhar arquivo</button></div></div>
   <div class="report-filter-grid report-filter-grid-compact">
    <div class="report-filter-field"><label for="reportStart">Data inicial</label><input type="date" id="reportStart"></div>
@@ -821,6 +842,33 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
   <div class="actions"><button type="button" class="primary" onclick="renderAdvancedReports()">Atualizar relatório</button><button type="button" class="secondary" onclick="resetAdvancedReportFilters()">Limpar filtros</button></div>
  </section>
  <section class="panel" id="advancedReportOutput"><h3>Resumo do período</h3><div id="advancedReportSummary" class="report-kpi-grid"></div><h3>Comparativo de resultados</h3><p id="advancedReportCompareLabel" class="hint"></p><div class="report-chart-grid"><div class="report-chart-card"><h4>Receitas x despesas</h4><div id="reportRevenueChart"></div></div><div class="report-chart-card"><h4>Resultado líquido</h4><div id="reportProfitChart"></div></div></div><h3>Detalhamento por passeio</h3><div id="reportTourBreakdown" class="report-table-wrap"></div><h3>Despesas por categoria</h3><div id="reportExpenseBreakdown" class="report-table-wrap"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p><p class="hint">Relatório baseado nos lançamentos financeiros registrados e nas datas efetivas de recebimento/pagamento.</p></section>
+</div>
+ <section id="report-subview-guias" class="report-subview" hidden>
+  <section class="panel report-controls-panel">
+   <div class="report-title-row"><div><h2 style="margin:0">Relatório dos guias</h2><p class="hint">Acompanhe os valores gerados pelos passeios e os pagamentos realizados aos guias.</p></div><div class="report-actions"><button type="button" class="secondary" onclick="printPeopleReport('guide')">Imprimir / Salvar PDF</button><button type="button" class="primary" onclick="sharePeopleReport('guide')">Compartilhar arquivo</button></div></div>
+   <div class="report-filter-grid report-filter-grid-compact">
+    <div class="report-filter-field"><label for="guideReportStart">Data inicial</label><input type="date" id="guideReportStart"></div>
+    <div class="report-filter-field"><label for="guideReportEnd">Data final</label><input type="date" id="guideReportEnd"></div>
+    <div class="report-filter-field"><label for="guideReportPerson">Selecionar guia</label><select id="guideReportPerson"><option value="">Todos os guias</option></select></div>
+   </div>
+   <div class="actions"><button type="button" class="primary" onclick="renderPeopleReport('guide')">Atualizar relatório</button><button type="button" class="secondary" onclick="resetPeopleReport('guide')">Limpar filtros</button></div>
+  </section>
+  <section class="panel"><h3>Resumo dos guias</h3><div id="guideReportKpis" class="report-kpi-grid"></div><h3>Gerado x pago por guia</h3><div id="guideReportChart" class="people-report-chart"></div><h3>Detalhamento por guia e passeio</h3><div id="guideReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="guideReportPayments" class="report-table-wrap"></div></section>
+ </section>
+ <section id="report-subview-comissoes" class="report-subview" hidden>
+  <section class="panel report-controls-panel">
+   <div class="report-title-row"><div><h2 style="margin:0">Relatório de comissões</h2><p class="hint">Acompanhe as comissões geradas pelas vendas e os pagamentos realizados aos vendedores.</p></div><div class="report-actions"><button type="button" class="secondary" onclick="printPeopleReport('partner')">Imprimir / Salvar PDF</button><button type="button" class="primary" onclick="sharePeopleReport('partner')">Compartilhar arquivo</button></div></div>
+   <div class="report-filter-grid report-filter-grid-compact">
+    <div class="report-filter-field"><label for="partnerReportStart">Data inicial</label><input type="date" id="partnerReportStart"></div>
+    <div class="report-filter-field"><label for="partnerReportEnd">Data final</label><input type="date" id="partnerReportEnd"></div>
+    <div class="report-filter-field"><label for="partnerReportPerson">Selecionar vendedor</label><select id="partnerReportPerson"><option value="">Todos os vendedores</option></select></div>
+   </div>
+   <div class="actions"><button type="button" class="primary" onclick="renderPeopleReport('partner')">Atualizar relatório</button><button type="button" class="secondary" onclick="resetPeopleReport('partner')">Limpar filtros</button></div>
+  </section>
+  <section class="panel"><h3>Resumo das comissões</h3><div id="partnerReportKpis" class="report-kpi-grid"></div><h3>Comissões geradas x pagas por vendedor</h3><div id="partnerReportChart" class="people-report-chart"></div><h3>Detalhamento por vendedor e venda</h3><div id="partnerReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="partnerReportPayments" class="report-table-wrap"></div></section>
+ </section>
+</section>
+d"><h4>Resultado líquido</h4><div id="reportProfitChart"></div></div></div><h3>Detalhamento por passeio</h3><div id="reportTourBreakdown" class="report-table-wrap"></div><h3>Despesas por categoria</h3><div id="reportExpenseBreakdown" class="report-table-wrap"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p><p class="hint">Relatório baseado nos lançamentos financeiros registrados e nas datas efetivas de recebimento/pagamento.</p></section>
 </section>
 <section class="panel" id="backupPanel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados principais são sincronizados pelo Supabase. Use a exportação para guardar uma cópia de segurança.</small></section>
 </main>
@@ -1070,6 +1118,95 @@ window.printAdvancedReport=()=>{renderAdvancedReports();const html=advancedRepor
 window.shareAdvancedReport=async()=>{renderAdvancedReports();const html=advancedReportDocument();if(!html)return;const file=new File([html],'relatorio-rota86-tour.html',{type:'text/html'});if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){try{await navigator.share({title:'Relatório Rota 86 Tour',text:'Relatório gerencial',files:[file]});return;}catch(e){if(e.name==='AbortError')return;}}
  const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='relatorio-rota86-tour.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);alert('O arquivo do relatório foi baixado. Você pode anexá-lo no WhatsApp ou e-mail.');};
 $('reportViewMode')?.addEventListener('change',()=>{const compare=$('reportViewMode').value==='compare';$('reportCompareModeWrap').hidden=!compare;$('reportCompareModeWrap').parentElement.classList.toggle('is-comparing',compare);renderAdvancedReports();});$('reportCompareMode')?.addEventListener('change',renderAdvancedReports);$('reportStart')?.addEventListener('change',renderAdvancedReports);$('reportEnd')?.addEventListener('change',renderAdvancedReports);
+function setReportSubview(tab){
+ const allowed=['gerencial','guias','comissoes'];if(!allowed.includes(tab))tab='gerencial';
+ document.querySelectorAll('.report-subview').forEach(el=>el.hidden=el.id!=='report-subview-'+tab);
+ document.querySelectorAll('[data-report-tab]').forEach(el=>el.classList.toggle('active',el.dataset.reportTab===tab));
+ if(tab==='guias'||tab==='comissoes'){populatePeopleReportSelects();renderPeopleReport(tab);}
+}
+function currentMonthRange(){
+ const n=new Date(),y=n.getFullYear(),m=String(n.getMonth()+1).padStart(2,'0'),last=new Date(y,n.getMonth()+1,0).getDate();
+ return {start:`${y}-${m}-01`,end:`${y}-${m}-${String(last).padStart(2,'0')}`};
+}
+function populatePeopleReportSelects(){
+ const fill=(id,values,allLabel)=>{
+  const el=$(id);if(!el)return;const current=el.value;
+  el.innerHTML=`<option value="">${allLabel}</option>`+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+  if(values.includes(current))el.value=current;
+ };
+ fill('guideReportPerson',[...new Set([...(guides||[]),...tours.map(t=>t.guide).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'pt-BR')),'Todos os guias');
+ fill('partnerReportPerson',[...new Set([...(partners||[]),...tours.map(t=>t.partner).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'pt-BR')),'Todos os vendedores');
+ ['guide','partner'].forEach(kind=>{
+  const ids=kind==='guide'?['guideReportStart','guideReportEnd']:['partnerReportStart','partnerReportEnd'];
+  const range=currentMonthRange();
+  if($(ids[0])&&!$(ids[0]).value)$(ids[0]).value=range.start;
+  if($(ids[1])&&!$(ids[1]).value)$(ids[1]).value=range.end;
+ });
+}
+function peopleReportData(kind){
+ const prefix=kind==='guide'?'guide':'partner',start=$(prefix+'ReportStart').value,end=$(prefix+'ReportEnd').value,selected=$(prefix+'ReportPerson').value;
+ if(!start||!end||start>end)return {error:'Confira as datas: a data inicial deve ser anterior ou igual à data final.'};
+ const nameKey=kind==='guide'?'guide':'partner';
+ const relevantTours=tours.filter(t=>t[nameKey]&&(!selected||t[nameKey]===selected));
+ const inPeriod=relevantTours.filter(t=>(t.date||'')>=start&&(t.date||'')<=end);
+ const generatedToEnd=relevantTours.filter(t=>(t.date||'')<=end);
+ const payments=commissionPayments.filter(p=>p.kind===kind&&(!selected||p.name===selected));
+ const paymentsInPeriod=payments.filter(p=>(p.date||'')>=start&&(p.date||'')<=end);
+ const paymentsToEnd=payments.filter(p=>(p.date||'')<=end);
+ const names=[...new Set([...generatedToEnd.map(t=>t[nameKey]),...paymentsToEnd.map(p=>p.name)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+ const summaries=names.map(name=>{
+  const production=relevantTours.filter(t=>t[nameKey]===name);
+  const generated=production.filter(t=>(t.date||'')>=start&&(t.date||'')<=end).reduce((sum,t)=>sum+commissionDue(t,kind),0);
+  const cumulativeGenerated=production.filter(t=>(t.date||'')<=end).reduce((sum,t)=>sum+commissionDue(t,kind),0);
+  const paid=payments.filter(p=>p.name===name&&(p.date||'')>=start&&(p.date||'')<=end).reduce((sum,p)=>sum+Number(p.amount||0),0);
+  const cumulativePaid=payments.filter(p=>p.name===name&&(p.date||'')<=end).reduce((sum,p)=>sum+Number(p.amount||0),0);
+  return {name,generated,paid,pending:Math.max(0,cumulativeGenerated-cumulativePaid),cumulativeGenerated,cumulativePaid};
+ });
+ const totalGenerated=summaries.reduce((a,x)=>a+x.generated,0),totalPaid=paymentsInPeriod.reduce((a,x)=>a+Number(x.amount||0),0),totalPending=summaries.reduce((a,x)=>a+x.pending,0);
+ return {kind,start,end,selected,summaries,totalGenerated,totalPaid,totalPending,production:inPeriod.filter(t=>!selected||t[nameKey]===selected).map(t=>({date:t.date,name:t[nameKey],tour:t.type,client:t.customer||'—',people:Number(t.paidPeople||0),amount:commissionDue(t,kind)})).sort((a,b)=>(a.date||'').localeCompare(b.date||'')),payments:paymentsInPeriod.map(p=>({date:p.date,name:p.name,amount:Number(p.amount||0),method:p.method||'—'})).sort((a,b)=>(a.date||'').localeCompare(b.date||''))};
+}
+function peopleChartHTML(data){
+ const max=Math.max(1,...data.summaries.flatMap(x=>[x.generated,x.paid]));
+ if(!data.summaries.length)return '<p class="report-empty">Nenhum registro para o filtro selecionado.</p>';
+ return data.summaries.map(x=>`<div class="people-chart-item"><div class="people-chart-title">${esc(x.name)}</div><div class="people-chart-row"><span>Gerado</span><div class="people-chart-track" title="Comissões geradas por passeios/vendas no período: ${money(x.generated)}"><div class="people-chart-fill generated" style="width:${Math.max(0,x.generated/max*100)}%"></div></div><span class="people-chart-value">${money(x.generated)}</span></div><div class="people-chart-row"><span>Pago</span><div class="people-chart-track" title="Pagamentos efetivamente realizados no período: ${money(x.paid)}"><div class="people-chart-fill paid" style="width:${Math.max(0,x.paid/max*100)}%"></div></div><span class="people-chart-value">${money(x.paid)}</span></div></div>`).join('');
+}
+function reportTableHTML(headers,rows){
+ return `<table class="report-table"><thead><tr>${headers.map((h,i)=>`<th class="${i?'num':''}">${h}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${headers.length}" class="report-empty">Nenhum registro no período.</td></tr>`}</tbody></table>`;
+}
+function renderPeopleReport(kind){
+ const d=peopleReportData(kind),prefix=kind==='guide'?'guide':'partner';
+ if(d.error){$(prefix+'ReportKpis').innerHTML=`<p class="report-empty">${esc(d.error)}</p>`;return;}
+ $(prefix+'ReportKpis').innerHTML=[
+  ['Gerado no período',money(d.totalGenerated)],
+  ['Pago no período',money(d.totalPaid)],
+  ['Pendente acumulado',money(d.totalPending)]
+ ].map((x,i)=>`<div class="report-kpi"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('');
+ $(prefix+'ReportChart').innerHTML=peopleChartHTML(d);
+ const productionRows=d.production.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.tour)}</td><td>${esc(x.client)}</td><td class="num">${x.people}</td><td class="num">${money(x.amount)}</td></tr>`).join('');
+ $(prefix+'ReportProduction').innerHTML=reportTableHTML(['Data do passeio/venda',kind==='guide'?'Guia':'Vendedor','Passeio','Cliente / reserva','Pagantes','Valor gerado'],productionRows);
+ const paymentRows=d.payments.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.method)}</td><td class="num">${money(x.amount)}</td></tr>`).join('');
+ $(prefix+'ReportPayments').innerHTML=reportTableHTML(['Data efetiva do pagamento',kind==='guide'?'Guia':'Vendedor','Forma de pagamento','Valor pago'],paymentRows);
+ window['rota86PeopleReport_'+kind]=d;
+}
+function resetPeopleReport(kind){
+ const prefix=kind==='guide'?'guide':'partner',r=currentMonthRange();
+ $(prefix+'ReportStart').value=r.start;$(prefix+'ReportEnd').value=r.end;$(prefix+'ReportPerson').value='';
+ renderPeopleReport(kind);
+}
+function peopleReportDocument(kind){
+ const d=window['rota86PeopleReport_'+kind];if(!d)return null;
+ const title=kind==='guide'?'Relatório dos guias — Rota 86 Tour':'Relatório de comissões — Rota 86 Tour';
+ const fmt=n=>money(n),person=kind==='guide'?'Guia':'Vendedor';
+ const table=(heads,rows)=>`<table><thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${heads.length}">Nenhum registro no período.</td></tr>`}</tbody></table>`;
+ const production=d.production.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.tour)}</td><td>${esc(x.client)}</td><td>${x.people}</td><td>${fmt(x.amount)}</td></tr>`).join('');
+ const payments=d.payments.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.method)}</td><td>${fmt(x.amount)}</td></tr>`).join('');
+ return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${title}</title><style>body{font:14px Arial;color:#263344;margin:24px}h1{color:#145d88}.cards{display:flex;gap:12px;flex-wrap:wrap}.card{border:1px solid #dfe7ee;border-radius:9px;padding:12px;min-width:180px}.card b{display:block;font-size:19px;margin-top:5px}table{width:100%;border-collapse:collapse;margin:14px 0 24px}td,th{padding:8px;border-bottom:1px solid #dfe7ee;text-align:left}th{background:#eef3f8}@media print{.no-print{display:none}body{margin:12mm}}</style></head><body><button class="no-print" onclick="window.print()">Imprimir / Salvar PDF</button><h1>${title}</h1><p>Período de produção: ${dateLabel(d.start)} a ${dateLabel(d.end)} · Filtro: ${esc(d.selected||'Todos')}</p><div class="cards"><div class="card">Gerado no período<b>${fmt(d.totalGenerated)}</b></div><div class="card">Pago no período<b>${fmt(d.totalPaid)}</b></div><div class="card">Pendente acumulado até ${dateLabel(d.end)}<b>${fmt(d.totalPending)}</b></div></div><h2>Produção por ${person.toLowerCase()}</h2>${table(['Data do passeio/venda',person,'Passeio','Cliente / reserva','Pagantes','Valor gerado'],production)}<h2>Pagamentos realizados</h2>${table(['Data efetiva do pagamento',person,'Forma de pagamento','Valor pago'],payments)}</body></html>`;
+}
+window.printPeopleReport=kind=>{renderPeopleReport(kind);const html=peopleReportDocument(kind);if(!html)return;const w=window.open('','_blank');if(!w){showError('Permita pop-ups para imprimir ou salvar em PDF.');return;}w.document.open();w.document.write(html);w.document.close();w.onload=()=>w.print();};
+window.sharePeopleReport=async kind=>{renderPeopleReport(kind);const html=peopleReportDocument(kind);if(!html)return;const file=new File([html],'relatorio-'+(kind==='guide'?'guias':'comissoes')+'-rota86-tour.html',{type:'text/html'});if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){try{await navigator.share({title:kind==='guide'?'Relatório dos guias':'Relatório de comissões',files:[file]});return;}catch(e){if(e.name==='AbortError')return;}}const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);alert('O arquivo foi baixado. Você pode anexá-lo no WhatsApp ou e-mail.');};
+['guideReportStart','guideReportEnd','guideReportPerson'].forEach(id=>$(id)?.addEventListener('change',()=>renderPeopleReport('guide')));
+['partnerReportStart','partnerReportEnd','partnerReportPerson'].forEach(id=>$(id)?.addEventListener('change',()=>renderPeopleReport('partner')));
+
 
 window.showView=v=>{
   document.querySelectorAll('.view').forEach(el=>{
