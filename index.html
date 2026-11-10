@@ -527,12 +527,18 @@ button{font-family:inherit!important;box-shadow:none}
 .user-admin-options{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0}
 .user-admin-options label{display:flex;align-items:center;gap:7px;margin:0}
 .user-admin-options input{width:auto}
-.user-admin-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(130px,.8fr) minmax(90px,.55fr) auto auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #edf1f4}
+.user-admin-row{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(115px,.8fr) minmax(100px,.7fr) auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #edf1f4}
 .user-admin-row:last-child{border-bottom:0}
 .user-admin-row small{display:block;color:#778391}
 .user-admin-row select{font-size:13px;padding:8px}
 .user-admin-row .user-check{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .user-admin-row .user-check input{width:auto}
+.menu-permissions{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:7px 12px;padding:10px 12px;background:var(--surface-soft,#f3f6fa);border:1px solid var(--border,#dce5ef);border-radius:10px;margin:8px 0}
+.menu-permissions label{display:flex;align-items:center;gap:7px;font-size:12px;margin:0}
+.menu-permissions input{width:auto;margin:0}
+.user-menu-box{grid-column:1/-1}
+.user-admin-row .user-row-actions{display:flex;gap:8px;flex-wrap:wrap;grid-column:1/-1}
+.user-admin-row .user-row-actions button{min-width:110px}
 @media(max-width:700px){.user-admin-grid{grid-template-columns:1fr}.user-admin-row{grid-template-columns:1fr 1fr;gap:8px}.user-admin-row>div:first-child{grid-column:1/-1}.user-admin-row button{justify-self:start}}
 </style>
 <style id="agenda-calendar-styles">
@@ -765,8 +771,8 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
  <section class="panel"><h2>Configurações</h2><h3>Aparência do sistema</h3><p class="hint">Escolha como deseja visualizar o ROTA 86 TOUR neste aparelho.</p><div class="theme-options"><button type="button" class="secondary" data-theme-choice="light">☀️ Tema claro</button><button type="button" class="secondary" data-theme-choice="dark">🌙 Tema escuro</button></div><p id="themeStatus" class="hint">A preferência fica salva neste navegador.</p></section>
  <section class="panel" id="userAdminPanel"><h2>Gerenciamento de usuários</h2>
    <p class="hint">Cadastre colaboradores e defina o perfil e as permissões de cada acesso.</p>
-   <form id="userCreateForm"><div class="user-admin-grid"><div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div><div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div><div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div><div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div></div><div class="user-admin-options"><label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label></div><div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div></form>
-   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div><h3>Usuários cadastrados</h3><div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div>
+   <form id="userCreateForm"><div class="user-admin-grid"><div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div><div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div><div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div><div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div></div><div class="user-admin-options"><label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label></div><div id="newUserMenusWrap"><strong>Menus permitidos para a equipe</strong><p class="hint">Selecione quais áreas este usuário poderá acessar. Administradores têm acesso completo.</p><div class="menu-permissions" id="newUserMenus"><label><input type="checkbox" name="newUserMenu" value="home" checked> Resumo</label><label><input type="checkbox" name="newUserMenu" value="agenda" checked> Passeios</label><label><input type="checkbox" name="newUserMenu" value="form" checked> Cadastrar</label><label><input type="checkbox" name="newUserMenu" value="registries" > Cadastros</label><label><input type="checkbox" name="newUserMenu" value="finance" checked> Financeiro</label><label><input type="checkbox" name="newUserMenu" value="reports" checked> Relatórios</label><label><input type="checkbox" name="newUserMenu" value="settings" > Configurações</label></div></div><div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div></form>
+   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div><h3>Usuários cadastrados</h3><div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div><small class="hint" id="assistantPermissionStatus" role="status"></small>
  </section>
 </section>
 <section id="view-finance" class="view" hidden><section class="panel"><h2>Adicionar receita ou despesa</h2><form id="financeForm"><div class="form-grid">
@@ -778,7 +784,7 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 </div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
 <section class="panel finance-movements"><div class="cashflow-heading"><h2 style="margin:0">Movimentações financeiras</h2><button type="button" class="primary print-flow-btn" onclick="viewPrintCashFlow()">🖨️ Visualizar / Imprimir / PDF</button></div><div id="finTotals"></div><div class="finance-list-wrap"><ul id="financeList"></ul></div></section><div id="cashFlowReport" hidden></div></section>
 <section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p></section></section>
-<section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados principais são sincronizados pelo Supabase. Use a exportação para guardar uma cópia de segurança.</small></section>
+<section class="panel" id="backupPanel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados principais são sincronizados pelo Supabase. Use a exportação para guardar uma cópia de segurança.</small></section>
 </main>
 
 
@@ -1116,6 +1122,9 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
 
   let currentUser = null;
   let currentRole = null;
+  const ALL_MENUS = ["home", "agenda", "form", "registries", "finance", "reports", "settings"];
+  const DEFAULT_TEAM_MENUS = ["home","agenda","form","finance","reports"];
+  let allowedMenus = [...ALL_MENUS];
   let guides = [];
   let partners = [];
   let ready = false;
@@ -1130,43 +1139,44 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     return data;
   }
 
+  function menuCheckboxMarkup(userId, selected, disabled=false){
+    const labels=[['home','Resumo'],['agenda','Passeios'],['form','Cadastrar'],['registries','Cadastros'],['finance','Financeiro'],['reports','Relatórios'],['settings','Configurações']];
+    return `<div class="menu-permissions" data-user-menus="${esc(userId)}">${labels.map(([key,label])=>`<label><input type="checkbox" data-menu-choice="${key}" ${selected.includes(key)?'checked':''} ${disabled?'disabled':''}> ${label}</label>`).join('')}</div>`;
+  }
+  function selectedNewUserMenus(){return [...document.querySelectorAll('input[name="newUserMenu"]:checked')].map(x=>x.value);}
+  function updateNewUserMenuVisibility(){ $('newUserMenusWrap').hidden=$('newUserRole').value!=='EQUIPE'; }
   async function loadAssistantUsers(){
     if(!isAdmin()) return;
-    const list=$('assistantUsersList'),status=$('userAdminStatus');
+    const list=$('assistantUsersList'),status=$('assistantPermissionStatus');
     list.innerHTML='<small class="hint">Carregando usuários...</small>';status.textContent='';
     try{
-      const result=await callAdminUsers({action:'list'});
-      const users=result.users||[];
+      const result=await callAdminUsers({action:'list'});const users=result.users||[];
       if(!users.length){list.innerHTML='<p class="hint">Nenhum usuário cadastrado.</p>';return;}
       list.innerHTML=users.map(u=>{
-        const admin=u.funcao==='ADMINISTRADOR';
-        const isSelf=u.id===currentUser.id;
+        const admin=u.funcao==='ADMINISTRADOR',selected=admin?ALL_MENUS:(Array.isArray(u.menus_permitidos)?u.menus_permitidos:DEFAULT_TEAM_MENUS),self=u.id===currentUser.id;
         return `<div class="user-admin-row" data-user-row="${esc(u.id)}">
           <div><strong>${esc(u.nome||'Usuário sem nome')}</strong><small>${esc(u.email||'E-mail não disponível')} · ${admin?'Administrador':'Equipe'} · ${u.ativo?'Ativo':'Inativo'}</small></div>
-          <div><label for="role-${esc(u.id)}">Perfil</label><select id="role-${esc(u.id)}" data-user-role="${esc(u.id)}" ${isSelf?'disabled':''}><option value="EQUIPE" ${!admin?'selected':''}>Equipe</option><option value="ADMINISTRADOR" ${admin?'selected':''}>Administrador</option></select></div>
-          <label class="user-check"><input type="checkbox" data-user-active="${esc(u.id)}" ${u.ativo?'checked':''} ${isSelf?'disabled':''}> Ativo</label>
-          <button class="secondary" type="button" data-save-user="${esc(u.id)}">Salvar</button>
-          <button class="danger" type="button" data-delete-user="${esc(u.id)}" ${isSelf?'disabled title="Não é possível excluir o próprio usuário"':''}>Excluir</button>
+          <div><label for="role-${esc(u.id)}">Perfil</label><select id="role-${esc(u.id)}" data-user-role="${esc(u.id)}" ${self?'disabled':''}><option value="EQUIPE" ${!admin?'selected':''}>Equipe</option><option value="ADMINISTRADOR" ${admin?'selected':''}>Administrador</option></select></div>
+          <label class="user-check"><input type="checkbox" data-user-active="${esc(u.id)}" ${u.ativo?'checked':''} ${self?'disabled':''}> Ativo</label>
+          <div class="user-menu-box"><strong>Menus permitidos</strong>${menuCheckboxMarkup(u.id,selected,admin)}</div>
+          <div class="user-row-actions"><button class="secondary" type="button" data-save-user="${esc(u.id)}">Salvar</button><button class="danger" type="button" data-delete-user="${esc(u.id)}" ${self?'disabled':''}>Excluir usuário</button></div>
         </div>`;
       }).join('');
+      list.querySelectorAll('[data-user-role]').forEach(sel=>sel.addEventListener('change',()=>{const row=sel.closest('[data-user-row]'),adminRole=sel.value==='ADMINISTRADOR';row.querySelectorAll('[data-menu-choice]').forEach(c=>{c.disabled=adminRole;if(adminRole)c.checked=true;});}));
       list.querySelectorAll('[data-save-user]').forEach(button=>button.addEventListener('click',async()=>{
-        const id=button.dataset.saveUser,row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`);
-        const role=row.querySelector('[data-user-role]').value;
-        const active=row.querySelector('[data-user-active]').checked;
-        if(id===currentUser.id && (!active || role!=='ADMINISTRADOR')){status.textContent='Não é permitido desativar ou rebaixar seu próprio usuário.';return;}
-        button.disabled=true;button.textContent='Salvando...';status.textContent='Atualizando usuário...';
-        try{await callAdminUsers({action:'update',id,funcao:role,ativo:active});status.textContent='Usuário atualizado com sucesso.';await loadAssistantUsers();}
+        const id=button.dataset.saveUser,row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`),role=row.querySelector('[data-user-role]').value,active=row.querySelector('[data-user-active]').checked,menus=[...row.querySelectorAll('[data-menu-choice]:checked')].map(x=>x.dataset.menuChoice);
+        if(role==='EQUIPE'&&!menus.length){status.textContent='Selecione pelo menos um menu para o usuário da equipe.';return;}
+        if(id===currentUser.id&&(!active||role!=='ADMINISTRADOR')){status.textContent='Não é permitido desativar ou rebaixar seu próprio usuário.';return;}
+        button.disabled=true;button.textContent='Salvando...';status.textContent='Atualizando acesso...';
+        try{await callAdminUsers({action:'update',id,funcao:role,ativo:active,menus_permitidos:role==='ADMINISTRADOR'?ALL_MENUS:menus});status.textContent='Usuário atualizado com sucesso.';await loadAssistantUsers();}
         catch(err){status.textContent='Não foi possível atualizar: '+err.message;button.disabled=false;button.textContent='Salvar';}
       }));
       list.querySelectorAll('[data-delete-user]').forEach(button=>button.addEventListener('click',async()=>{
-        const id=button.dataset.deleteUser;
-        if(id===currentUser.id){status.textContent='Por segurança, não é possível excluir o usuário conectado.';return;}
-        const row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`);
-        const email=row?.querySelector('small')?.textContent||'este usuário';
-        if(!confirm(`Tem certeza de que deseja excluir ${email}? Essa ação remove o acesso e não pode ser desfeita.`))return;
-        button.disabled=true;button.textContent='Excluindo...';status.textContent='Excluindo usuário com segurança...';
-        try{await callAdminUsers({action:'delete',id});status.textContent='Usuário excluído com sucesso.';await loadAssistantUsers();}
-        catch(err){status.textContent='Não foi possível excluir: '+err.message;button.disabled=false;button.textContent='Excluir';}
+        const id=button.dataset.deleteUser,row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`),name=row.querySelector('strong')?.textContent||'este usuário';
+        if(!confirm(`Tem certeza de que deseja excluir ${name}? Esta ação remove o acesso da conta e não pode ser desfeita.`))return;
+        button.disabled=true;button.textContent='Excluindo...';status.textContent='Excluindo usuário...';
+        try{await callAdminUsers({action:'delete',id});status.textContent='Usuário excluído.';await loadAssistantUsers();}
+        catch(err){status.textContent='Não foi possível excluir: '+err.message;button.disabled=false;button.textContent='Excluir usuário';}
       }));
     }catch(err){list.innerHTML='<p class="hint">Não foi possível carregar usuários: '+esc(err.message)+'</p>';}
   }
@@ -1205,76 +1215,56 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   function requireAdmin(){ if(!isAdmin()){ showError('Somente o ADMINISTRADOR pode realizar esta operação.'); return false; } return true; }
 
   async function loadAll(){
-    const [profileRes,toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes,methodsRes] = await Promise.all([
-      db.from('perfis').select('nome,funcao,ativo').eq('id',currentUser.id).single(),
-      db.from('passeios').select('*').order('data',{ascending:true}),
-      db.from('guias').select('*').eq('ativo',true).order('nome'),
-      db.from('parceiros').select('*').eq('ativo',true).order('nome'),
-      db.from('pagamentos_comissoes').select('*').order('data',{ascending:false}),
-      db.from('categorias_financeiras').select('*').eq('ativo',true).order('tipo').order('nome'),
-      db.from('formas_pagamento').select('*').eq('ativo',true).order('nome')
-    ]);
-    if(profileRes.error) throw profileRes.error;
-    if(!profileRes.data || !profileRes.data.ativo) throw new Error('Seu usuário está sem perfil ativo. Peça ao administrador para verificar o cadastro.');
+    const profileRes=await db.from('perfis').select('nome,funcao,ativo,menus_permitidos').eq('id',currentUser.id).single();
+    if(profileRes.error)throw profileRes.error;
+    if(!profileRes.data||!profileRes.data.ativo)throw new Error('Seu usuário está sem perfil ativo. Peça ao administrador para verificar o cadastro.');
     currentRole=profileRes.data.funcao;
-    if(!['ADMINISTRADOR','EQUIPE'].includes(currentRole)) throw new Error('Perfil de acesso inválido.');
+    if(!['ADMINISTRADOR','EQUIPE'].includes(currentRole))throw new Error('Perfil de acesso inválido.');
+    allowedMenus=isAdmin()?[...ALL_MENUS]:(Array.isArray(profileRes.data.menus_permitidos)?profileRes.data.menus_permitidos.filter(x=>ALL_MENUS.includes(x)):[...DEFAULT_TEAM_MENUS]);
     await loadAssistantPermission();
-    for(const res of [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes,methodsRes]) if(res.error) throw res.error;
+    const has=(...keys)=>isAdmin()||keys.some(k=>allowedMenus.includes(k));
+    const empty={data:[],error:null};
+    const [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes,methodsRes,financeRes,catalogRes]=await Promise.all([
+      has('home','agenda','form','finance','reports')?db.from('passeios').select('*').order('data',{ascending:true}):Promise.resolve(empty),
+      has('form','registries','finance','reports')?db.from('guias').select('*').eq('ativo',true).order('nome'):Promise.resolve(empty),
+      has('form','registries','finance','reports')?db.from('parceiros').select('*').eq('ativo',true).order('nome'):Promise.resolve(empty),
+      has('reports')?db.from('pagamentos_comissoes').select('*').order('data',{ascending:false}):Promise.resolve(empty),
+      has('finance','registries')?db.from('categorias_financeiras').select('*').eq('ativo',true).order('tipo').order('nome'):Promise.resolve(empty),
+      has('agenda','finance','registries')?db.from('formas_pagamento').select('*').eq('ativo',true).order('nome'):Promise.resolve(empty),
+      has('home','finance','reports')?db.from('lancamentos_financeiros').select('*').order('data',{ascending:false}):Promise.resolve(empty),
+      has('form','registries')?db.from('catalogo_passeios').select('*').order('nome'):Promise.resolve(empty)
+    ]);
+    for(const res of [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes,methodsRes,financeRes,catalogRes])if(res.error)throw res.error;
     tours=(toursRes.data||[]).map(toTour);
-
-    // Cada recebimento é um lançamento independente, com sua própria data e forma de pagamento.
-    const financeRes=await db.from('lancamentos_financeiros').select('*').order('data',{ascending:false});
-    if(financeRes.error) throw financeRes.error;
     financeEntries=(financeRes.data||[]).map(toFinance);
-    for(const tour of tours){
-      if(tour.origin==='parceiro') continue;
-      tour.received=financeEntries.filter(x=>x.passeioId===tour.id && x.type==='receita' && !x.commissionKind).reduce((sum,x)=>sum+Number(x.amount||0),0);
-    }
-    paymentMethods=methodsRes.data||[];
-    renderPaymentMethods(); refreshPaymentMethodOptions();
-
-    guides=(guidesRes.data||[]).map(x=>x.nome);
-    partners=(partnersRes.data||[]).map(x=>x.nome);
-    window.rotaRemoteRegistries={guides,partners};
-    refreshFinanceCategoryOptions();
-    commissionPayments=(paymentsRes.data||[]).map(toPayment);
-    financeCategories=categoriesRes.data||[];
-    const catalogRes=await db.from('catalogo_passeios').select('*').order('nome');
-    if(catalogRes.error){tourCatalog=[];$('catalogStatus').textContent='Para ativar o catálogo sincronizado, execute o SQL de configuração que acompanha esta versão. Cadastros antigos continuam disponíveis.';}else{tourCatalog=catalogRes.data||[];$('catalogStatus').textContent='Catálogo sincronizado com o Supabase.';}
-    currentUser.profileName=profileRes.data.nome;
-    ready=true;
+    for(const tour of tours){if(tour.origin==='parceiro')continue;tour.received=financeEntries.filter(x=>x.passeioId===tour.id&&x.type==='receita'&&!x.commissionKind).reduce((sum,x)=>sum+Number(x.amount||0),0);}
+    paymentMethods=methodsRes.data||[];renderPaymentMethods();refreshPaymentMethodOptions();
+    guides=(guidesRes.data||[]).map(x=>x.nome);partners=(partnersRes.data||[]).map(x=>x.nome);window.rotaRemoteRegistries={guides,partners};
+    refreshFinanceCategoryOptions();commissionPayments=(paymentsRes.data||[]).map(toPayment);financeCategories=categoriesRes.data||[];
+    tourCatalog=catalogRes.data||[];
+    if(has('form','registries'))$('catalogStatus').textContent='Catálogo sincronizado com o Supabase.';
+    currentUser.profileName=profileRes.data.nome;ready=true;
   }
 
   function refreshIdentity(){
-    document.body.classList.add('authenticated');
-    document.body.classList.toggle('team-mode',!isAdmin());
+    document.body.classList.add('authenticated');document.body.classList.toggle('team-mode',!isAdmin());
     $('currentUserLabel').textContent=(currentUser.profileName||currentUser.email);$('userRoleLabel').textContent=currentRole;
-    $('view-registries').hidden=!isAdmin();
-    $('userAdminPanel').hidden=!isAdmin();
-    $('view-form').hidden=false;
+    $('userAdminPanel').hidden=!isAdmin();$('settingsButton').hidden=!isAdmin()&&!allowedMenus.includes('settings');
     if(!isAdmin()){
-      $('addGuide').disabled=true;$('addPartner').disabled=true;
-      $('newGuide').disabled=true;$('newPartner').disabled=true;
-      $('addFinanceCategory').disabled=true;$('newCategoryName').disabled=true;$('newCategoryType').disabled=true;
-      $('exportBtn').hidden=true;
-    } else {
-      $('addGuide').disabled=false;$('addPartner').disabled=false;
-      $('newGuide').disabled=false;$('newPartner').disabled=false;
-      $('addFinanceCategory').disabled=false;$('newCategoryName').disabled=false;$('newCategoryType').disabled=false;
-      $('exportBtn').hidden=false;
+      $('addGuide').disabled=true;$('addPartner').disabled=true;$('newGuide').disabled=true;$('newPartner').disabled=true;
+      $('addFinanceCategory').disabled=true;$('newCategoryName').disabled=true;$('newCategoryType').disabled=true;$('exportBtn').hidden=true;
+    }else{
+      $('addGuide').disabled=false;$('addPartner').disabled=false;$('newGuide').disabled=false;$('newPartner').disabled=false;
+      $('addFinanceCategory').disabled=false;$('newCategoryName').disabled=false;$('newCategoryType').disabled=false;$('exportBtn').hidden=false;
     }
   }
 
   async function loadApp(){
-    await loadAll();
-    refreshIdentity();
-    if(isAdmin()) await loadAssistantUsers();
-    refreshRegistrySelects();
-    renderRegistry('guide'); renderRegistry('partner');
-    renderTourCatalog(); refreshTourTypeOptions(); applyTourCommissionDefault();
-    renderFinanceCategories();
-    renderFinance(); render();
-    showView('home');
+    await loadAll();refreshIdentity();if(isAdmin())await loadAssistantUsers();
+    refreshRegistrySelects();renderRegistry('guide');renderRegistry('partner');renderTourCatalog();refreshTourTypeOptions();applyTourCommissionDefault();
+    renderFinanceCategories();renderFinance();render();
+    const firstAllowed=ALL_MENUS.find(k=>allowedMenus.includes(k)&&k!=='settings')||(allowedMenus.includes('settings')?'settings':null);
+    if(firstAllowed)showView(firstAllowed);else showError('Este usuário ainda não possui menus liberados. Peça ao administrador para configurar o acesso.');
   }
 
   function refreshPaymentMethodOptions(){
@@ -1293,7 +1283,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     paymentMethods.push(data);$('newPaymentMethod').value='';renderPaymentMethods();refreshPaymentMethodOptions();
   });
   window.editPaymentMethod=async id=>{if(!requireAdmin())return;const m=paymentMethods.find(x=>x.id===id);if(!m)return;const nome=prompt('Novo nome da forma de pagamento:',m.nome);if(nome===null||!nome.trim())return;const {data,error}=await db.from('formas_pagamento').update({nome:nome.trim()}).eq('id',id).select().single();if(error){showError(error.message);return;}paymentMethods=paymentMethods.map(x=>x.id===id?data:x);renderPaymentMethods();refreshPaymentMethodOptions();};
-  window.disablePaymentMethod=async id=>{if(!requireAdmin()||!confirm('Desativar esta forma de pagamento? Lançamentos anteriores serão preservados.'))return;const {error}=await db.from('formas_pagamento').update({ativo:false}).eq('id',id);if(error){showError(error.message);return;}paymentMethods=paymentMethods.filter(x=>x.id!==id);renderPaymentMethods();refreshPaymentMethodOptions();};
+  window.disablePaymentMethod=async id=>{if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}if(!confirm('Desativar esta forma de pagamento? Lançamentos anteriores serão preservados.'))return;const {error}=await db.from('formas_pagamento').update({ativo:false}).eq('id',id);if(error){showError(error.message);return;}paymentMethods=paymentMethods.filter(x=>x.id!==id);renderPaymentMethods();refreshPaymentMethodOptions();};
   window.registerTourReceipt=async id=>{
     const t=tours.find(x=>String(x.id)===String(id));if(!t)return;
     const amount=Number($('receipt-amount-'+id).value||0),date=$('receipt-date-'+id).value,method=$('receipt-method-'+id).value;
@@ -1336,6 +1326,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     catch(err){ await db.auth.signOut(); currentUser=null; $('loginError').textContent='Falha ao carregar os dados: '+(err.message||'verifique as permissões do banco.'); button.disabled=false;button.textContent='Entrar'; }
   });
 
+  $('newUserRole').addEventListener('change',updateNewUserMenuVisibility);updateNewUserMenuVisibility();
   $('userCreateForm').addEventListener('submit',async e=>{
     e.preventDefault();
     if(!requireAdmin()) return;
@@ -1343,13 +1334,14 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     const payload={
       action:'create',nome:$('newUserName').value.trim(),email:$('newUserEmail').value.trim(),
       password:$('newUserPassword').value,funcao:$('newUserRole').value,
-      ativo:$('newUserActive').checked
+      ativo:$('newUserActive').checked,menus_permitidos:$('newUserRole').value==='ADMINISTRADOR'?ALL_MENUS:selectedNewUserMenus()
     };
     if(!payload.nome||!payload.email||payload.password.length<8){status.textContent='Preencha nome, e-mail e senha com pelo menos 8 caracteres.';return;}
+    if(payload.funcao==='EQUIPE'&&!payload.menus_permitidos.length){status.textContent='Selecione pelo menos um menu para o usuário da equipe.';return;}
     button.disabled=true;button.textContent='Criando usuário...';status.textContent='Criando acesso com segurança...';
     try{
       await callAdminUsers(payload);
-      $('userCreateForm').reset();$('newUserActive').checked=true;$('newUserRole').value='EQUIPE';
+      $('userCreateForm').reset();$('newUserActive').checked=true;$('newUserRole').value='EQUIPE';updateNewUserMenuVisibility();
       status.textContent='Usuário criado com sucesso. Ele já pode entrar com o e-mail e a senha inicial.';
       await loadAssistantUsers();
     }catch(err){status.textContent='Não foi possível criar o usuário: '+err.message;}
@@ -1442,7 +1434,8 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     showView('form');
   };
   window.deleteTour=async id=>{
-    if(!requireAdmin()||!confirm('Excluir este passeio?'))return;
+    if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}
+    if(!confirm('Excluir este passeio?'))return;
     const {error:financeError}=await db.from('lancamentos_financeiros').delete().eq('passeio_id',id);
     if(financeError){showError('Não foi possível excluir as movimentações vinculadas: '+financeError.message);return;}
     const {error}=await db.from('passeios').delete().eq('id',id);
@@ -1460,7 +1453,8 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
   };
 
   window.deleteFinance=async id=>{
-    if(!requireAdmin()||!confirm('Excluir este lançamento?'))return;
+    if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}
+    if(!confirm('Excluir este lançamento?'))return;
     const {error}=await db.from('lancamentos_financeiros').delete().eq('id',id);
     if(error){showError(error.message);return;} await loadApp();
   };
@@ -1485,7 +1479,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     refreshFinanceCategoryOptions();
   }
   window.deleteFinanceCategory=async id=>{
-    if(!requireAdmin())return;
+    if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}
     if(!confirm('Excluir esta categoria? Os lançamentos já realizados serão preservados.'))return;
     const {error}=await db.from('categorias_financeiras').update({ativo:false}).eq('id',id);
     if(error){showError(error.message);return;}
@@ -1532,7 +1526,8 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     if(error){showError(error.message);return;}await loadApp();
   };
   window.deleteRegistry=async(kind,i)=>{
-    if(!requireAdmin()||!confirm('Excluir este cadastro?'))return;
+    if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}
+    if(!confirm('Desativar este cadastro?'))return;
     const arr=kind==='guide'?guides:partners,old=arr[i],table=kind==='guide'?'guias':'parceiros';
     const {error}=await db.from(table).update({ativo:false}).eq('nome',old);
     if(error){showError(error.message);return;}await loadApp();
@@ -1548,25 +1543,25 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     $('newPartner').value='';await loadApp();
   };
 
-  // Interface em modo somente leitura para a equipe.
+  // Menus personalizados e proteção contra exclusões para todos os usuários EQUIPE.
   const originalRender=window.render;
   window.render=()=>{originalRender();applyRoleUI();};
   const originalShowView=window.showView;
   window.showView=v=>{
-    if(v==='registries'&&!isAdmin()){showError('A área de cadastros é exclusiva do administrador.');v='home';}
-    originalShowView(v);
-    if(v==='settings'&&isAdmin()) loadAssistantUsers();
-    applyRoleUI();
+    if(!isAdmin()&&!allowedMenus.includes(v)){
+      showError('Você não tem permissão para acessar este menu.');
+      const fallback=ALL_MENUS.find(k=>allowedMenus.includes(k)&&k!=='settings')||(allowedMenus.includes('settings')?'settings':null);
+      if(!fallback)return;v=fallback;
+    }
+    originalShowView(v);if(v==='settings'&&isAdmin())loadAssistantUsers();applyRoleUI();
   };
   function applyRoleUI(){
     if(!ready)return;
-    document.querySelectorAll('.app-nav .navbtn[data-view="registries"]').forEach(el=>{el.hidden=!isAdmin();});
-    $('userAdminPanel').hidden=!isAdmin();
-    document.querySelectorAll('#tourList .detail-actions').forEach(el=>{if(!isAdmin()){const share=el.querySelector('.share-tour-btn');el.innerHTML='<span class="hint">Apenas o administrador pode editar ou excluir passeios.</span>';if(share)el.prepend(share);}});
-    document.querySelectorAll('#financeList button').forEach(el=>{if(!isAdmin())el.remove();});
-    document.querySelectorAll('#guideList .edit-icon,#guideList .delete-icon,#partnerList .edit-icon,#partnerList .delete-icon').forEach(el=>{if(!isAdmin())el.remove();});
-    $('view-registries').hidden=!isAdmin();
-    $('exportBtn').hidden=!isAdmin();
+    document.querySelectorAll('.app-nav .navbtn[data-view]').forEach(el=>{el.hidden=!isAdmin()&&!allowedMenus.includes(el.dataset.view);});
+    $('settingsButton').hidden=!isAdmin()&&!allowedMenus.includes('settings');$('userAdminPanel').hidden=!isAdmin();
+    $('view-registries').hidden=!isAdmin()&&!allowedMenus.includes('registries');$('exportBtn').hidden=!isAdmin();$('backupPanel').hidden=!isAdmin();
+    document.querySelectorAll('.dashboard-shortcuts .shortcut').forEach(el=>{const m=(el.getAttribute('onclick')||'').match(/showView\('([^']+)'\)/);if(m)el.hidden=!isAdmin()&&!allowedMenus.includes(m[1]);});
+    if(!isAdmin())document.querySelectorAll('#tourList .detail-actions .danger,#financeList .danger,#paymentMethodList .delete-icon,#incomeCategoryList button,#expenseCategoryList button,#guideList .delete-icon,#partnerList .delete-icon').forEach(el=>el.remove());
   }
   const originalRenderFinance=window.renderFinance;
   window.renderFinance=()=>{
