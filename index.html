@@ -853,7 +853,7 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
    </div>
    <div class="actions"><button type="button" class="primary" onclick="renderPeopleReport('guide')">Atualizar relatório</button><button type="button" class="secondary" onclick="resetPeopleReport('guide')">Limpar filtros</button></div>
   </section>
-  <section class="panel"><h3>Resumo dos guias</h3><div id="guideReportKpis" class="report-kpi-grid"></div><h3>Gerado x pago por guia</h3><div id="guideReportChart" class="people-report-chart"></div><h3>Detalhamento por guia e passeio</h3><div id="guideReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="guideReportPayments" class="report-table-wrap"></div></section>
+  <section class="panel"><h3>Resumo dos guias</h3><div id="guideReportKpis" class="report-kpi-grid"></div><h3>Total por guia</h3><div id="guideReportTotals" class="report-table-wrap"></div><h3>Gerado x pago por guia</h3><div id="guideReportChart" class="people-report-chart"></div><h3>Detalhamento por guia e passeio</h3><div id="guideReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="guideReportPayments" class="report-table-wrap"></div></section>
  </section>
  <section id="report-subview-comissoes" class="report-subview" hidden>
   <section class="panel report-controls-panel">
@@ -865,7 +865,7 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
    </div>
    <div class="actions"><button type="button" class="primary" onclick="renderPeopleReport('partner')">Atualizar relatório</button><button type="button" class="secondary" onclick="resetPeopleReport('partner')">Limpar filtros</button></div>
   </section>
-  <section class="panel"><h3>Resumo das comissões</h3><div id="partnerReportKpis" class="report-kpi-grid"></div><h3>Comissões geradas x pagas por vendedor</h3><div id="partnerReportChart" class="people-report-chart"></div><h3>Detalhamento por vendedor e venda</h3><div id="partnerReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="partnerReportPayments" class="report-table-wrap"></div></section>
+  <section class="panel"><h3>Resumo das comissões</h3><div id="partnerReportKpis" class="report-kpi-grid"></div><h3>Total por vendedor</h3><div id="partnerReportTotals" class="report-table-wrap"></div><h3>Comissões geradas x pagas por vendedor</h3><div id="partnerReportChart" class="people-report-chart"></div><h3>Detalhamento por vendedor e venda</h3><div id="partnerReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="partnerReportPayments" class="report-table-wrap"></div></section>
  </section>
 </section>
 <section class="panel" id="backupPanel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados principais são sincronizados pelo Supabase. Use a exportação para guardar uma cópia de segurança.</small></section>
@@ -878,6 +878,7 @@ const $ = id => document.getElementById(id);
 let tours = JSON.parse(localStorage.getItem('rota86_tours_test') || '[]');
 let editingId = null;
 function refreshRegistrySelects(){
+ if(typeof populatePeopleReportSelects==='function')populatePeopleReportSelects();
  const gs=window.rotaRemoteRegistries?.guides ?? JSON.parse(localStorage.getItem('rota86_guides')||'["Márcio","Eduardo"]');
  const ps=window.rotaRemoteRegistries?.partners ?? JSON.parse(localStorage.getItem('rota86_partners')||'[]');
  const fill=(id,arr)=>{const el=$(id),v=el.value;el.innerHTML='<option value="">Selecione</option>'+arr.map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');if(arr.includes(v))el.value=v;};
@@ -1117,16 +1118,21 @@ function currentMonthRange(){
 }
 function populatePeopleReportSelects(){
  const fill=(id,values,allLabel)=>{
-  const el=$(id);if(!el)return;const current=el.value;
-  el.innerHTML=`<option value="">${allLabel}</option>`+values.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
-  if(values.includes(current))el.value=current;
+  const el=$(id);if(!el)return;
+  const current=el.value;
+  const unique=[...new Set(values.map(v=>String(v||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+  el.innerHTML=`<option value="">${allLabel}</option>`+unique.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+  if(unique.includes(current))el.value=current;
  };
- const remoteGuides=window.rotaRemoteRegistries?.guides||[];
- const remotePartners=window.rotaRemoteRegistries?.partners||[];
- const guideNames=[...(Array.isArray(guides)?guides:[]),...remoteGuides,...tours.map(t=>t.guide),...commissionPayments.filter(p=>p.kind==='guide').map(p=>p.name)].filter(Boolean);
- const partnerNames=[...(Array.isArray(partners)?partners:[]),...remotePartners,...tours.map(t=>t.partner),...commissionPayments.filter(p=>p.kind==='partner').map(p=>p.name)].filter(Boolean);
- fill('guideReportPerson',[...new Set(guideNames)].sort((a,b)=>a.localeCompare(b,'pt-BR')),'Todos os guias');
- fill('partnerReportPerson',[...new Set(partnerNames)].sort((a,b)=>a.localeCompare(b,'pt-BR')),'Todos os vendedores');
+ const remote=window.rotaRemoteRegistries||{};
+ const registryGuides=Array.isArray(remote.guides)?remote.guides.map(x=>typeof x==='string'?x:(x?.nome||x?.name||'')):[];
+ const registryPartners=Array.isArray(remote.partners)?remote.partners.map(x=>typeof x==='string'?x:(x?.nome||x?.name||'')):[];
+ const tourGuides=tours.map(t=>t.guide);
+ const tourPartners=tours.map(t=>t.partner);
+ const paidGuides=commissionPayments.filter(p=>p.kind==='guide').map(p=>p.name);
+ const paidPartners=commissionPayments.filter(p=>p.kind==='partner').map(p=>p.name);
+ fill('guideReportPerson',[...registryGuides,...tourGuides,...paidGuides],'Todos os guias');
+ fill('partnerReportPerson',[...registryPartners,...tourPartners,...paidPartners],'Todos os vendedores');
  ['guide','partner'].forEach(kind=>{
   const ids=kind==='guide'?['guideReportStart','guideReportEnd']:['partnerReportStart','partnerReportEnd'];
   const range=currentMonthRange();
@@ -1172,6 +1178,8 @@ function renderPeopleReport(kind){
   ['Pago no período',money(d.totalPaid)],
   ['Pendente acumulado',money(d.totalPending)]
  ].map((x,i)=>`<div class="report-kpi"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('');
+ const totalsRows=d.summaries.map(x=>`<tr><td>${esc(x.name)}</td><td class="num">${money(x.generated)}</td><td class="num">${money(x.paid)}</td><td class="num">${money(x.pending)}</td></tr>`).join('');
+ $(prefix+'ReportTotals').innerHTML=reportTableHTML([kind==='guide'?'Guia':'Vendedor','Total gerado','Total pago no período','Pendente acumulado'],totalsRows);
  $(prefix+'ReportChart').innerHTML=peopleChartHTML(d);
  const productionRows=d.production.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.tour)}</td><td>${esc(x.client)}</td><td class="num">${x.people}</td><td class="num">${money(x.amount)}</td></tr>`).join('');
  $(prefix+'ReportProduction').innerHTML=reportTableHTML(['Data do passeio/venda',kind==='guide'?'Guia':'Vendedor','Passeio','Cliente / reserva','Pagantes','Valor gerado'],productionRows);
@@ -1191,7 +1199,8 @@ function peopleReportDocument(kind){
  const table=(heads,rows)=>`<table><thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${heads.length}">Nenhum registro no período.</td></tr>`}</tbody></table>`;
  const production=d.production.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.tour)}</td><td>${esc(x.client)}</td><td>${x.people}</td><td>${fmt(x.amount)}</td></tr>`).join('');
  const payments=d.payments.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.method)}</td><td>${fmt(x.amount)}</td></tr>`).join('');
- return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${title}</title><style>body{font:14px Arial;color:#263344;margin:24px}h1{color:#145d88}.cards{display:flex;gap:12px;flex-wrap:wrap}.card{border:1px solid #dfe7ee;border-radius:9px;padding:12px;min-width:180px}.card b{display:block;font-size:19px;margin-top:5px}table{width:100%;border-collapse:collapse;margin:14px 0 24px}td,th{padding:8px;border-bottom:1px solid #dfe7ee;text-align:left}th{background:#eef3f8}@media print{.no-print{display:none}body{margin:12mm}}</style></head><body><button class="no-print" onclick="window.print()">Imprimir / Salvar PDF</button><h1>${title}</h1><p>Período de produção: ${dateLabel(d.start)} a ${dateLabel(d.end)} · Filtro: ${esc(d.selected||'Todos')}</p><div class="cards"><div class="card">Gerado no período<b>${fmt(d.totalGenerated)}</b></div><div class="card">Pago no período<b>${fmt(d.totalPaid)}</b></div><div class="card">Pendente acumulado até ${dateLabel(d.end)}<b>${fmt(d.totalPending)}</b></div></div><h2>Produção por ${person.toLowerCase()}</h2>${table(['Data do passeio/venda',person,'Passeio','Cliente / reserva','Pagantes','Valor gerado'],production)}<h2>Pagamentos realizados</h2>${table(['Data efetiva do pagamento',person,'Forma de pagamento','Valor pago'],payments)}</body></html>`;
+ const totals=d.summaries.map(x=>`<tr><td>${esc(x.name)}</td><td>${fmt(x.generated)}</td><td>${fmt(x.paid)}</td><td>${fmt(x.pending)}</td></tr>`).join('');
+ return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${title}</title><style>body{font:14px Arial;color:#263344;margin:24px}h1{color:#145d88}.cards{display:flex;gap:12px;flex-wrap:wrap}.card{border:1px solid #dfe7ee;border-radius:9px;padding:12px;min-width:180px}.card b{display:block;font-size:19px;margin-top:5px}table{width:100%;border-collapse:collapse;margin:14px 0 24px}td,th{padding:8px;border-bottom:1px solid #dfe7ee;text-align:left}th{background:#eef3f8}@media print{.no-print{display:none}body{margin:12mm}}</style></head><body><button class="no-print" onclick="window.print()">Imprimir / Salvar PDF</button><h1>${title}</h1><p>Período de produção: ${dateLabel(d.start)} a ${dateLabel(d.end)} · Filtro: ${esc(d.selected||'Todos')}</p><div class="cards"><div class="card">Gerado no período<b>${fmt(d.totalGenerated)}</b></div><div class="card">Pago no período<b>${fmt(d.totalPaid)}</b></div><div class="card">Pendente acumulado até ${dateLabel(d.end)}<b>${fmt(d.totalPending)}</b></div></div><h2>Total por ${person.toLowerCase()}</h2>${table([person,'Total gerado','Total pago no período','Pendente acumulado'],totals)}<h2>Produção por ${person.toLowerCase()}</h2>${table(['Data do passeio/venda',person,'Passeio','Cliente / reserva','Pagantes','Valor gerado'],production)}<h2>Pagamentos realizados</h2>${table(['Data efetiva do pagamento',person,'Forma de pagamento','Valor pago'],payments)}</body></html>`;
 }
 window.printPeopleReport=kind=>{renderPeopleReport(kind);const html=peopleReportDocument(kind);if(!html)return;const w=window.open('','_blank');if(!w){showError('Permita pop-ups para imprimir ou salvar em PDF.');return;}w.document.open();w.document.write(html);w.document.close();w.onload=()=>w.print();};
 window.sharePeopleReport=async kind=>{renderPeopleReport(kind);const html=peopleReportDocument(kind);if(!html)return;const file=new File([html],'relatorio-'+(kind==='guide'?'guias':'comissoes')+'-rota86-tour.html',{type:'text/html'});if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){try{await navigator.share({title:kind==='guide'?'Relatório dos guias':'Relatório de comissões',files:[file]});return;}catch(e){if(e.name==='AbortError')return;}}const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);alert('O arquivo foi baixado. Você pode anexá-lo no WhatsApp ou e-mail.');};
@@ -1503,6 +1512,7 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     paymentMethods=methodsRes.data||[];renderPaymentMethods();refreshPaymentMethodOptions();
     guides=(guidesRes.data||[]).map(x=>x.nome);partners=(partnersRes.data||[]).map(x=>x.nome);window.rotaRemoteRegistries={guides,partners};
     refreshFinanceCategoryOptions();commissionPayments=(paymentsRes.data||[]).map(toPayment);financeCategories=categoriesRes.data||[];
+    if(typeof populatePeopleReportSelects==='function'){populatePeopleReportSelects();}
     tourCatalog=catalogRes.data||[];
     if(has('form','registries'))$('catalogStatus').textContent='Catálogo sincronizado com o Supabase.';
     currentUser.profileName=profileRes.data.nome;ready=true;
