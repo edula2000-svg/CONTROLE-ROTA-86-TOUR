@@ -312,6 +312,24 @@ header h1,header p{text-align:center!important}
  #cashFlowReport .flow-row{font-size:.82rem;gap:8px}
  #cashFlowReport .flow-row.balance .amount{font-size:1.08rem}
 }
+</style><style>
+/* Relatórios: filtros compactos em linha e seletores suspensos */
+.report-filter-grid-compact{grid-template-columns:1fr 1fr 1.2fr 1.25fr 1.45fr;gap:10px;align-items:end;margin:16px 0 12px}
+.report-filter-field{min-width:0;position:relative}
+.report-filter-field>label{display:block;font-size:.76rem;color:#526579;font-weight:650;margin:0 0 5px}
+.report-filter-field>input,.report-filter-field>select,.report-multiselect>summary{width:100%;height:42px;min-height:42px;box-sizing:border-box;border:1px solid #d5dee8;border-radius:10px;background:#fff;color:#29445d;padding:9px 11px;font:inherit;font-size:.84rem}
+.report-multiselect{position:relative}
+.report-multiselect>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.report-multiselect>summary::-webkit-details-marker{display:none}
+.report-multiselect>summary:after{content:'▾';font-size:.8rem;color:#54718a;flex:0 0 auto}
+.report-multiselect[open]>summary{border-color:#28749a;box-shadow:0 0 0 2px #28749a18}
+.report-dropdown-panel{position:absolute;z-index:30;top:calc(100% + 5px);left:0;width:min(340px,calc(100vw - 48px));max-height:300px;overflow:auto;padding:11px;background:#fff;border:1px solid #d8e1ea;border-radius:12px;box-shadow:0 12px 30px #19344d24}
+.report-dropdown-actions{display:flex;gap:6px;margin-bottom:9px}
+.report-check-grid{display:grid;grid-template-columns:1fr;gap:6px}
+.report-check-grid label{padding:8px 9px;font-size:.8rem;font-weight:550}
+.report-filter-grid-compact+.actions{margin-top:12px}
+@media(max-width:900px){.report-filter-grid-compact{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:560px){.report-filter-grid-compact{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.report-dropdown-panel{width:min(310px,calc(100vw - 40px))}.report-filter-field>input,.report-filter-field>select,.report-multiselect>summary{font-size:.78rem;padding:8px}}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 .login-screen{min-height:100vh;display:grid;place-items:center;padding:20px;background:#f1f4f7}
 .login-card{width:min(100%,420px);background:#fff;border:1px solid #e1e7ee;border-radius:22px;padding:26px;box-shadow:0 8px 30px #1b2b3f12;display:grid;gap:12px}
@@ -789,15 +807,17 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 <div class="wide"><label for="finDescription">Descrição</label><input id="finDescription" placeholder="Detalhes do lançamento"></div>
 </div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
 <section class="panel finance-movements"><div class="cashflow-heading"><h2 style="margin:0">Movimentações financeiras</h2><button type="button" class="primary print-flow-btn" onclick="viewPrintCashFlow()">🖨️ Visualizar / Imprimir / PDF</button></div><div id="finTotals"></div><div class="finance-list-wrap"><ul id="financeList"></ul></div></section><div id="cashFlowReport" hidden></div></section>
-<section id="view-reports" class="view" hidden><div id="reportSummary" hidden></div><div id="reportLines" hidden></div>
+<section id="view-reports" class="view" hidden>
  <section class="panel report-controls-panel">
   <div class="report-title-row"><div><h2 style="margin:0">Relatórios gerenciais</h2><p class="hint">Escolha os passeios, despesas e período para analisar os resultados.</p></div><div class="report-actions"><button type="button" class="secondary" onclick="printAdvancedReport()">Imprimir / Salvar PDF</button><button type="button" class="primary" onclick="shareAdvancedReport()">Compartilhar arquivo</button></div></div>
-  <div class="report-filter-grid">
-   <div><label for="reportStart">Data inicial</label><input type="date" id="reportStart"></div><div><label for="reportEnd">Data final</label><input type="date" id="reportEnd"></div>
-   <div><label for="reportCompareMode">Comparativo dos gráficos</label><select id="reportCompareMode"><option value="month">Mês a mês</option><option value="year">Ano a ano</option></select></div>
+  <div class="report-filter-grid report-filter-grid-compact">
+   <div class="report-filter-field"><label for="reportStart">Data inicial</label><input type="date" id="reportStart"></div>
+   <div class="report-filter-field"><label for="reportEnd">Data final</label><input type="date" id="reportEnd"></div>
+   <div class="report-filter-field"><label for="reportViewMode">Tipo de relatório</label><select id="reportViewMode"><option value="single">Relatório do mês</option><option value="compare">Relatório comparativo</option></select></div>
+   <div class="report-filter-field" id="reportCompareModeWrap" hidden><label for="reportCompareMode">Comparar resultados</label><select id="reportCompareMode"><option value="month">Mês a mês</option><option value="day">Dia a dia</option></select></div>
+   <div class="report-filter-field"><label>Passeios incluídos</label><details class="report-multiselect"><summary id="reportTourSummary">Todos os passeios</summary><div class="report-dropdown-panel"><div class="report-dropdown-actions"><button type="button" class="secondary small-btn" onclick="setReportChecks('reportTourChecks',true)">Todos</button><button type="button" class="secondary small-btn" onclick="setReportChecks('reportTourChecks',false)">Limpar</button></div><div id="reportTourChecks" class="report-check-grid"></div><small class="hint">Selecione os passeios que deseja incluir.</small></div></details></div>
+   <div class="report-filter-field"><label>Tipos de despesas incluídos</label><details class="report-multiselect"><summary id="reportExpenseSummary">Todas as despesas</summary><div class="report-dropdown-panel"><div class="report-dropdown-actions"><button type="button" class="secondary small-btn" onclick="setReportChecks('reportExpenseChecks',true)">Todas</button><button type="button" class="secondary small-btn" onclick="setReportChecks('reportExpenseChecks',false)">Limpar</button></div><div id="reportExpenseChecks" class="report-check-grid"></div><small class="hint">Selecione as categorias de despesas.</small></div></details></div>
   </div>
-  <div class="report-filter-block"><div class="report-filter-heading"><strong>Passeios incluídos</strong><div><button type="button" class="secondary small-btn" onclick="setReportChecks('reportTourChecks',true)">Todos</button><button type="button" class="secondary small-btn" onclick="setReportChecks('reportTourChecks',false)">Limpar</button></div></div><div id="reportTourChecks" class="report-check-grid"></div><small class="hint">Os recebimentos vinculados aos passeios selecionados serão considerados. Se nenhum passeio for marcado, todos serão incluídos.</small></div>
-  <div class="report-filter-block"><div class="report-filter-heading"><strong>Tipos de despesas incluídos</strong><div><button type="button" class="secondary small-btn" onclick="setReportChecks('reportExpenseChecks',true)">Todas</button><button type="button" class="secondary small-btn" onclick="setReportChecks('reportExpenseChecks',false)">Limpar</button></div></div><div id="reportExpenseChecks" class="report-check-grid"></div><small class="hint">Se nenhuma categoria for marcada, todas as despesas serão incluídas.</small></div>
   <div class="actions"><button type="button" class="primary" onclick="renderAdvancedReports()">Atualizar relatório</button><button type="button" class="secondary" onclick="resetAdvancedReportFilters()">Limpar filtros</button></div>
  </section>
  <section class="panel" id="advancedReportOutput"><h3>Resumo do período</h3><div id="advancedReportSummary" class="report-kpi-grid"></div><h3>Comparativo de resultados</h3><p id="advancedReportCompareLabel" class="hint"></p><div class="report-chart-grid"><div class="report-chart-card"><h4>Receitas x despesas</h4><div id="reportRevenueChart"></div></div><div class="report-chart-card"><h4>Resultado líquido</h4><div id="reportProfitChart"></div></div></div><h3>Detalhamento por passeio</h3><div id="reportTourBreakdown" class="report-table-wrap"></div><h3>Despesas por categoria</h3><div id="reportExpenseBreakdown" class="report-table-wrap"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p><p class="hint">Relatório baseado nos lançamentos financeiros registrados e nas datas efetivas de recebimento/pagamento.</p></section>
@@ -958,56 +978,63 @@ function dashboard(){
 }
 
 function reportDateRange(){
- const start=$('reportStart')?.value||new Date(new Date().getFullYear(),0,1).toISOString().slice(0,10);
- const end=$('reportEnd')?.value||new Date().toISOString().slice(0,10);
+ const now=new Date(),first=new Date(now.getFullYear(),now.getMonth(),1);
+ const start=$('reportStart')?.value||first.getFullYear()+'-'+String(first.getMonth()+1).padStart(2,'0')+'-01';
+ const end=$('reportEnd')?.value||now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
  return {start,end};
 }
-window.setReportChecks=(id,checked)=>{document.querySelectorAll('#'+id+' input[type="checkbox"]').forEach(x=>x.checked=checked);renderAdvancedReports();};
+function refreshReportFilterSummaries(){
+ const update=(containerId,summaryId,allLabel)=>{const box=$(containerId),summary=$(summaryId);if(!box||!summary)return;const checks=[...box.querySelectorAll('input[type=checkbox]')],chosen=checks.filter(c=>c.checked).length;summary.textContent=chosen===0||chosen===checks.length?allLabel:`${chosen} selecionado(s)`;};
+ update('reportTourChecks','reportTourSummary','Todos os passeios');update('reportExpenseChecks','reportExpenseSummary','Todas as despesas');
+}
+window.setReportChecks=(id,checked)=>{document.querySelectorAll('#'+id+' input[type="checkbox"]').forEach(x=>x.checked=checked);refreshReportFilterSummaries();renderAdvancedReports();};
 function reportChecked(id){return [...document.querySelectorAll('#'+id+' input[type="checkbox"]:checked')].map(x=>x.value);}
 function buildReportFilterOptions(){
  const tourNames=[...new Set([...tourCatalog.map(x=>x.nome),...tours.map(x=>x.type)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
- const expenseNames=[...new Set([...financeCategories.filter(x=>x.tipo==='despesa').map(x=>x.nome),...financeEntries.filter(x=>x.type==='despesa').map(x=>x.category||'Sem categoria')].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
- const fill=(id,values)=>{const el=$(id);if(!el)return;const previous=new Set([...el.querySelectorAll('input:checked')].map(x=>x.value));el.innerHTML=values.map((v,i)=>`<label><input type="checkbox" value="${esc(v)}" ${previous.size? (previous.has(v)?'checked':''):'checked'}> ${esc(v)}</label>`).join('')||'<span class="hint">Nenhuma opção cadastrada.</span>';el.querySelectorAll('input').forEach(x=>x.addEventListener('change',renderAdvancedReports));};
- fill('reportTourChecks',tourNames);fill('reportExpenseChecks',expenseNames);
+ const expenseNames=[...new Set([...financeCategories.filter(x=>x.tipo==='despesa').map(x=>x.nome),...financeEntries.filter(x=>x.type==='despesa').map(x=>x.category)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+ const fill=(id,values)=>{const el=$(id);if(!el)return;const previous=new Set([...el.querySelectorAll('input:checked')].map(x=>x.value));el.innerHTML=values.map((v,i)=>`<label><input type="checkbox" value="${esc(v)}" ${previous.size? (previous.has(v)?'checked':''):'checked'}> ${esc(v)}</label>`).join('')||'<span class="hint">Nenhuma opção cadastrada.</span>';el.querySelectorAll('input').forEach(x=>x.addEventListener('change',()=>{refreshReportFilterSummaries();renderAdvancedReports();}));};
+ fill('reportTourChecks',tourNames);fill('reportExpenseChecks',expenseNames);refreshReportFilterSummaries();
 }
 function periodBuckets(start,end,mode){
  const out=[];const a=new Date(start+'T12:00:00'),b=new Date(end+'T12:00:00');if(isNaN(a)||isNaN(b)||a>b)return out;
- if(mode==='year'){for(let y=a.getFullYear();y<=b.getFullYear();y++)out.push({key:String(y),label:String(y),start:`${y}-01-01`,end:`${y}-12-31`});}
+ if(mode==='day'){for(let d=new Date(a);d<=b;d.setDate(d.getDate()+1)){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0'),key=`${y}-${m}-${day}`;out.push({key,label:`${day}/${m}`,start:key,end:key});}}
+ else if(mode==='single'){out.push({key:start+'_'+end,label:'Período',start,end});}
  else {let d=new Date(a.getFullYear(),a.getMonth(),1,12);while(d<=b){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0');out.push({key:`${y}-${m}`,label:d.toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}),start:`${y}-${m}-01`,end:new Date(y,d.getMonth()+1,0,12).toISOString().slice(0,10)});d.setMonth(d.getMonth()+1);}}
  return out.map(x=>({...x,start:x.start<start?start:x.start,end:x.end>end?end:x.end}));
 }
 function reportBarChart(buckets,series,unit){
  if(!buckets.length)return '<div class="report-empty">Selecione um período válido.</div>';
  const W=620,H=245,left=48,right=12,top=18,bottom=52,plotH=H-top-bottom,plotW=W-left-right;
- const vals=buckets.flatMap(b=>series.map(s=>Number(b[s.key]||0))),maxAbs=Math.max(1,...vals.map(Math.abs)),group=plotW/buckets.length,barW=Math.max(5,Math.min(24,group/(series.length+1))),zeroY=top+plotH/2,halfH=plotH/2-4;
- let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico comparativo"><line x1="${left}" y1="${zeroY}" x2="${W-right}" y2="${zeroY}" stroke="#aebbc7"/>`;
- for(let i=-2;i<=2;i++){const y=zeroY-(halfH*i/2);svg+=`<line x1="${left}" y1="${y}" x2="${W-right}" y2="${y}" stroke="#e8edf2"/><text x="${left-7}" y="${y+4}" text-anchor="end" font-size="10" fill="#718096">${(maxAbs*i/2).toLocaleString('pt-BR',{maximumFractionDigits:0})}</text>`;}
- buckets.forEach((b,i)=>{const gx=left+i*group+group/2;series.forEach((s,j)=>{const val=Number(b[s.key]||0),h=Math.abs(val)/maxAbs*halfH,x=gx-(series.length*barW+(series.length-1)*4)/2+j*(barW+4),y=val>=0?zeroY-h:zeroY;svg+=`<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="3" fill="${s.color}"/><title>${esc(b.label)} — ${esc(s.label)}: ${money(val)}</title>`;});svg+=`<text x="${gx}" y="${H-27}" text-anchor="middle" font-size="10" fill="#536477">${esc(b.label)}</text>`;});
+ const max=Math.max(1,...buckets.flatMap(b=>series.map(s=>Number(b[s.key]||0))));const group=plotW/buckets.length,barW=Math.max(5,Math.min(24,group/(series.length+1)));
+ let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico comparativo"><line x1="${left}" y1="${top+plotH}" x2="${W-right}" y2="${top+plotH}" stroke="#aebbc7"/>`;
+ for(let i=0;i<=4;i++){const y=top+plotH-(plotH*i/4);svg+=`<line x1="${left}" y1="${y}" x2="${W-right}" y2="${y}" stroke="#e8edf2"/><text x="${left-7}" y="${y+4}" text-anchor="end" font-size="10" fill="#718096">${(max*i/4).toLocaleString('pt-BR',{maximumFractionDigits:0})}</text>`;}
+ buckets.forEach((b,i)=>{const gx=left+i*group+group/2;series.forEach((s,j)=>{const val=Number(b[s.key]||0),h=val/max*plotH,x=gx-(series.length*barW+(series.length-1)*4)/2+j*(barW+4);svg+=`<rect x="${x}" y="${top+plotH-h}" width="${barW}" height="${Math.max(0,h)}" rx="3" fill="${s.color}"/><title>${esc(b.label)} — ${esc(s.label)}: ${money(val)}</title>`;});svg+=`<text x="${gx}" y="${H-27}" text-anchor="middle" font-size="10" fill="#536477">${esc(b.label)}</text>`;});
  svg+='</svg><div style="display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:#667789">'+series.map(s=>`<span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${s.color};margin-right:5px"></i>${esc(s.label)}</span>`).join('')+'</div>';return svg;
 }
 function renderAdvancedReports(){
  if(!$('advancedReportSummary'))return;
- if(!$('reportStart').value){const y=new Date().getFullYear();$('reportStart').value=`${y}-01-01`;}
- if(!$('reportEnd').value)$('reportEnd').value=new Date().toISOString().slice(0,10);
+ if(!$('reportStart').value||!$('reportEnd').value){const range=reportDateRange();$('reportStart').value=range.start;$('reportEnd').value=range.end;}
+ const isCompare=$('reportViewMode')?.value==='compare';$('reportCompareModeWrap').hidden=!isCompare;
  if(!$('reportTourChecks').children.length||!$('reportExpenseChecks').children.length)buildReportFilterOptions();
  const {start,end}=reportDateRange();if(start>end){$('advancedReportSummary').innerHTML='<div class="report-empty">A data inicial não pode ser posterior à data final.</div>';return;}
  const selectedTours=reportChecked('reportTourChecks'),selectedExpenses=reportChecked('reportExpenseChecks');
  const allTourNames=[...new Set([...tourCatalog.map(x=>x.nome),...tours.map(x=>x.type)].filter(Boolean))];
- const tourFilter=selectedTours,expenseFilter=selectedExpenses;
+ const tourFilter=selectedTours.length?selectedTours:allTourNames,expenseFilter=selectedExpenses.length?selectedExpenses:[...new Set(financeEntries.filter(x=>x.type==='despesa').map(x=>x.category).filter(Boolean))];
  const tourIds=new Set(tours.filter(t=>tourFilter.includes(t.type)).map(t=>String(t.id)));
  const inRange=x=>(x.date||'')>=start&&(x.date||'')<=end;
  const relevant=financeEntries.filter(x=>inRange(x));
  const linkedIncome=relevant.filter(x=>x.type==='receita'&&x.passeioId&&tourIds.has(String(x.passeioId)));
  const otherIncome=relevant.filter(x=>x.type==='receita'&&!x.passeioId);
- const expenses=relevant.filter(x=>x.type==='despesa'&&expenseFilter.includes(x.category||'Sem categoria'));
+ const expenses=relevant.filter(x=>x.type==='despesa'&&expenseFilter.includes(x.category));
  const incomeTotal=linkedIncome.reduce((a,x)=>a+Number(x.amount||0),0)+otherIncome.reduce((a,x)=>a+Number(x.amount||0),0);
  const expenseTotal=expenses.reduce((a,x)=>a+Number(x.amount||0),0),profit=incomeTotal-expenseTotal;
  const countTours=tours.filter(t=>tourFilter.includes(t.type)&&(t.date||'')>=start&&(t.date||'')<=end).length;
  const kpis=[['Receitas consideradas',money(incomeTotal)],['Despesas selecionadas',money(expenseTotal)],['Resultado líquido',money(profit)],['Passeios realizados/cadastrados',countTours]];
  $('advancedReportSummary').innerHTML=kpis.map((x,i)=>`<div class="report-kpi"><span>${x[0]}</span><strong style="${i===2?(profit>=0?'color:#16834a':'color:#b42318'):''}">${x[1]}</strong></div>`).join('');
- const mode=$('reportCompareMode').value,buckets=periodBuckets(start,end,mode);
- const seriesData=buckets.map(b=>{const e=financeEntries.filter(x=>(x.date||'')>=b.start&&(x.date||'')<=b.end);const inc=e.filter(x=>x.type==='receita'&&((x.passeioId&&tourIds.has(String(x.passeioId)))||!x.passeioId)).reduce((a,x)=>a+Number(x.amount||0),0);const out=e.filter(x=>x.type==='despesa'&&expenseFilter.includes(x.category||'Sem categoria')).reduce((a,x)=>a+Number(x.amount||0),0);return {...b,receita:inc,despesa:out,resultado:inc-out};});
- $('advancedReportCompareLabel').textContent=(mode==='month'?'Comparação mês a mês':'Comparação ano a ano')+' · '+start.split('-').reverse().join('/')+' até '+end.split('-').reverse().join('/');
+ const mode=$('reportViewMode').value==='compare'?$('reportCompareMode').value:'single',buckets=periodBuckets(start,end,mode);
+ const seriesData=buckets.map(b=>{const e=financeEntries.filter(x=>(x.date||'')>=b.start&&(x.date||'')<=b.end);const inc=e.filter(x=>x.type==='receita'&&((x.passeioId&&tourIds.has(String(x.passeioId)))||!x.passeioId)).reduce((a,x)=>a+Number(x.amount||0),0);const out=e.filter(x=>x.type==='despesa'&&expenseFilter.includes(x.category)).reduce((a,x)=>a+Number(x.amount||0),0);return {...b,receita:inc,despesa:out,resultado:inc-out};});
+ $('advancedReportOutput').querySelector('h3:nth-of-type(2)').textContent=mode==='single'?'Resultado do período': 'Comparativo de resultados';
+ $('advancedReportCompareLabel').textContent=(mode==='single'?'Visão do mês':mode==='month'?'Comparação mês a mês':'Comparação dia a dia')+' · '+start.split('-').reverse().join('/')+' até '+end.split('-').reverse().join('/');
  $('reportRevenueChart').innerHTML=reportBarChart(seriesData,[{key:'receita',label:'Receitas',color:'#16834a'},{key:'despesa',label:'Despesas',color:'#d93422'}]);
  $('reportProfitChart').innerHTML=reportBarChart(seriesData,[{key:'resultado',label:'Resultado líquido',color:'#24669d'}]);
  const tourRows=tours.filter(t=>tourFilter.includes(t.type)&&(t.date||'')>=start&&(t.date||'')<=end).map(t=>{const rec=financeEntries.filter(x=>x.type==='receita'&&String(x.passeioId)===String(t.id)&&inRange(x)).reduce((a,x)=>a+Number(x.amount||0),0);return {name:t.type,date:t.date,client:t.customer||'—',people:Number(t.paidPeople||0),received:rec};});
@@ -1021,19 +1048,19 @@ function renderAdvancedReports(){
  const gTotal=selectedTourRecords.reduce((sum,t)=>sum+commissionDue(t,'guide'),0),pTotal=selectedTourRecords.reduce((sum,t)=>sum+commissionDue(t,'partner'),0);$('commissionTotals').textContent='Comissões previstas no período — Guias: '+money(gTotal)+' · Parceiros: '+money(pTotal);
  window.rota86AdvancedReport={start,end,mode,selectedTours:tourFilter,selectedExpenses:expenseFilter,kpis,seriesData,tourRows,expenses,linkedIncome,otherIncome,expenseTotal,incomeTotal,profit,grouped,expGroup};
 }
-window.resetAdvancedReportFilters=()=>{const y=new Date().getFullYear();$('reportStart').value=`${y}-01-01`;$('reportEnd').value=new Date().toISOString().slice(0,10);$('reportCompareMode').value='month';buildReportFilterOptions();renderAdvancedReports();};
+window.resetAdvancedReportFilters=()=>{const now=new Date(),y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),d=String(now.getDate()).padStart(2,'0');$('reportStart').value=`${y}-${m}-01`;$('reportEnd').value=`${y}-${m}-${d}`;$('reportViewMode').value='single';$('reportCompareMode').value='month';$('reportCompareModeWrap').hidden=true;buildReportFilterOptions();renderAdvancedReports();};
 function advancedReportDocument(){
  const r=window.rota86AdvancedReport;if(!r)return null;
  const title='Relatório gerencial Rota 86 Tour';const moneyFmt=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
  const svg1=$('reportRevenueChart').innerHTML,svg2=$('reportProfitChart').innerHTML;
  const rows=Object.values(r.grouped).map(x=>`<tr><td>${esc(x.name)}</td><td>${x.count}</td><td>${x.people}</td><td>${moneyFmt(x.received)}</td></tr>`).join('');
  const exp=Object.entries(r.expGroup).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${moneyFmt(v)}</td></tr>`).join('');
- return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>body{font:14px Arial,sans-serif;color:#263344;margin:24px}h1{color:#123f5b}h2{margin-top:26px;font-size:18px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{border:1px solid #dfe7ee;border-radius:10px;padding:12px}.card span{display:block;color:#667789;font-size:12px}.card b{font-size:18px}.charts{display:grid;grid-template-columns:1fr 1fr;gap:15px}.chart{border:1px solid #dfe7ee;border-radius:10px;padding:10px}.chart svg{width:100%;height:auto}table{width:100%;border-collapse:collapse}td,th{padding:9px;border-bottom:1px solid #e5ebf0;text-align:left}th{background:#f1f5f8}.toolbar{text-align:right;margin-bottom:15px}button{background:#24669d;color:white;border:0;border-radius:8px;padding:10px 14px}@media(max-width:700px){.cards,.charts{grid-template-columns:1fr}}@media print{.toolbar{display:none}body{margin:10mm}.cards{grid-template-columns:repeat(4,1fr)}.charts{grid-template-columns:1fr 1fr}}</style></head><body><div class="toolbar"><button onclick="window.print()">Imprimir / Salvar PDF</button></div><h1>${title}</h1><p>Período: ${r.start.split('-').reverse().join('/')} a ${r.end.split('-').reverse().join('/')} · Comparativo: ${r.mode==='month'?'mês a mês':'ano a ano'}</p><p><b>Passeios:</b> ${esc(r.selectedTours.join(', '))}<br><b>Despesas:</b> ${esc(r.selectedExpenses.join(', '))}</p><div class="cards">${r.kpis.map(x=>`<div class="card"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div><div class="charts"><div class="chart"><h2>Receitas x despesas</h2>${svg1}</div><div class="chart"><h2>Resultado líquido</h2>${svg2}</div></div><h2>Detalhamento por passeio</h2><table><thead><tr><th>Passeio</th><th>Quantidade</th><th>Pagantes</th><th>Recebido</th></tr></thead><tbody>${rows||'<tr><td colspan="4">Sem registros</td></tr>'}</tbody></table><h2>Despesas por categoria</h2><table><thead><tr><th>Categoria</th><th>Total</th></tr></thead><tbody>${exp||'<tr><td colspan="2">Sem despesas</td></tr>'}</tbody></table></body></html>`;
+ return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>body{font:14px Arial,sans-serif;color:#263344;margin:24px}h1{color:#123f5b}h2{margin-top:26px;font-size:18px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{border:1px solid #dfe7ee;border-radius:10px;padding:12px}.card span{display:block;color:#667789;font-size:12px}.card b{font-size:18px}.charts{display:grid;grid-template-columns:1fr 1fr;gap:15px}.chart{border:1px solid #dfe7ee;border-radius:10px;padding:10px}.chart svg{width:100%;height:auto}table{width:100%;border-collapse:collapse}td,th{padding:9px;border-bottom:1px solid #e5ebf0;text-align:left}th{background:#f1f5f8}.toolbar{text-align:right;margin-bottom:15px}button{background:#24669d;color:white;border:0;border-radius:8px;padding:10px 14px}@media(max-width:700px){.cards,.charts{grid-template-columns:1fr}}@media print{.toolbar{display:none}body{margin:10mm}.cards{grid-template-columns:repeat(4,1fr)}.charts{grid-template-columns:1fr 1fr}}</style></head><body><div class="toolbar"><button onclick="window.print()">Imprimir / Salvar PDF</button></div><h1>${title}</h1><p>Período: ${r.start.split('-').reverse().join('/')} a ${r.end.split('-').reverse().join('/')} · ${r.mode==='single'?'Relatório do período':r.mode==='month'?'Comparativo mês a mês':'Comparativo dia a dia'}</p><p><b>Passeios:</b> ${esc(r.selectedTours.join(', '))}<br><b>Despesas:</b> ${esc(r.selectedExpenses.join(', '))}</p><div class="cards">${r.kpis.map(x=>`<div class="card"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div><div class="charts"><div class="chart"><h2>Receitas x despesas</h2>${svg1}</div><div class="chart"><h2>Resultado líquido</h2>${svg2}</div></div><h2>Detalhamento por passeio</h2><table><thead><tr><th>Passeio</th><th>Quantidade</th><th>Pagantes</th><th>Recebido</th></tr></thead><tbody>${rows||'<tr><td colspan="4">Sem registros</td></tr>'}</tbody></table><h2>Despesas por categoria</h2><table><thead><tr><th>Categoria</th><th>Total</th></tr></thead><tbody>${exp||'<tr><td colspan="2">Sem despesas</td></tr>'}</tbody></table></body></html>`;
 }
 window.printAdvancedReport=()=>{renderAdvancedReports();const html=advancedReportDocument();if(!html)return;const w=window.open('','_blank');if(!w){showError('Permita pop-ups para imprimir ou salvar em PDF.');return;}w.document.open();w.document.write(html);w.document.close();w.onload=()=>w.print();};
 window.shareAdvancedReport=async()=>{renderAdvancedReports();const html=advancedReportDocument();if(!html)return;const file=new File([html],'relatorio-rota86-tour.html',{type:'text/html'});if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){try{await navigator.share({title:'Relatório Rota 86 Tour',text:'Relatório gerencial',files:[file]});return;}catch(e){if(e.name==='AbortError')return;}}
  const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='relatorio-rota86-tour.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);alert('O arquivo do relatório foi baixado. Você pode anexá-lo no WhatsApp ou e-mail.');};
-$('reportCompareMode')?.addEventListener('change',renderAdvancedReports);$('reportStart')?.addEventListener('change',renderAdvancedReports);$('reportEnd')?.addEventListener('change',renderAdvancedReports);
+$('reportViewMode')?.addEventListener('change',()=>{const compare=$('reportViewMode').value==='compare';$('reportCompareModeWrap').hidden=!compare;renderAdvancedReports();});$('reportCompareMode')?.addEventListener('change',renderAdvancedReports);$('reportStart')?.addEventListener('change',renderAdvancedReports);$('reportEnd')?.addEventListener('change',renderAdvancedReports);
 
 window.showView=v=>{
   document.querySelectorAll('.view').forEach(el=>{
