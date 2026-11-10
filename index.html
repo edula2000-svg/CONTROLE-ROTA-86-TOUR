@@ -722,6 +722,56 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 @media(max-width:900px){.report-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.report-filter-grid,.report-chart-grid{grid-template-columns:1fr}.report-kpi-grid{grid-template-columns:1fr 1fr}.report-actions{width:100%}.report-actions button{flex:1}}
 @media print{body{background:#fff!important}.app-nav,.report-controls-panel,.report-actions,button{display:none!important}#view-reports{display:block!important}#advancedReportOutput{box-shadow:none;border:0;padding:0}.report-kpi-grid{grid-template-columns:repeat(4,1fr)}.report-chart-grid{grid-template-columns:1fr 1fr}.report-chart-card,.report-kpi{break-inside:avoid}.report-table{min-width:0}}
 </style>
+<style>
+
+/* Ajustes de usabilidade dos relatórios — desktop e celular */
+.report-controls-panel{padding:16px!important}
+.report-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.report-title-row>div:first-child{min-width:220px;flex:1}
+.report-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
+.report-actions button{min-height:36px;padding:8px 11px;font-size:.78rem;line-height:1.2;white-space:nowrap}
+.report-filter-grid-compact{gap:8px;margin:12px 0 10px}
+.report-filter-grid-compact .report-filter-field>label{font-size:.72rem;margin-bottom:4px}
+.report-filter-grid-compact .report-filter-field>input,
+.report-filter-grid-compact .report-filter-field>select,
+.report-filter-grid-compact .report-multiselect>summary{height:38px;min-height:38px;padding:7px 9px;font-size:.8rem}
+.report-controls-panel>.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.report-controls-panel>.actions button{min-height:36px;padding:8px 12px;font-size:.8rem}
+#view-reports{padding-bottom:calc(112px + env(safe-area-inset-bottom, 0px))}
+#view-reports>.panel:last-child,
+.report-subview>.panel:last-child{margin-bottom:10px}
+.report-subview .panel{min-width:0}
+.report-table-wrap{max-width:100%;-webkit-overflow-scrolling:touch}
+.report-kpi{min-width:0}
+@media(max-width:760px){
+ .report-controls-panel{padding:13px!important}
+ .report-title-row{align-items:flex-start}
+ .report-title-row>div:first-child{flex-basis:100%}
+ .report-actions{width:auto;justify-content:flex-start}
+ .report-actions button{flex:0 1 auto;width:auto;min-height:34px;padding:7px 9px;font-size:.74rem}
+ .report-filter-grid-compact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .report-filter-grid-compact .report-filter-field{min-width:0}
+ #report-subview-guias .report-filter-grid-compact .report-filter-field:nth-child(3),
+ #report-subview-comissoes .report-filter-grid-compact .report-filter-field:nth-child(3){grid-column:1/-1}
+ .report-filter-grid-compact .report-filter-field>input,
+ .report-filter-grid-compact .report-filter-field>select,
+ .report-filter-grid-compact .report-multiselect>summary{font-size:16px;min-height:40px;height:40px}
+ .report-controls-panel>.actions{gap:7px}
+ .report-controls-panel>.actions button{flex:0 1 auto;min-height:36px;font-size:.78rem;padding:8px 10px}
+ .report-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .report-kpi{padding:11px}
+ .report-kpi strong{font-size:1rem;overflow-wrap:anywhere}
+ .report-table th,.report-table td{padding:8px;font-size:.8rem}
+ .report-chart-grid{grid-template-columns:1fr}
+ .people-report-chart{grid-template-columns:1fr}
+}
+@media(max-width:390px){
+ .report-actions{width:100%}
+ .report-actions button{font-size:.7rem;padding:7px 8px}
+ .report-kpi-grid{grid-template-columns:1fr 1fr}
+}
+
+</style>
 </head><body>
 <section id="loginScreen" class="login-screen">
   <form id="loginForm" class="login-card">
@@ -1173,6 +1223,20 @@ function reportTableHTML(headers,rows){
 }
 function renderPeopleReport(kind){
  const d=peopleReportData(kind),prefix=kind==='guide'?'guide':'partner';
+ if(!d.error){
+  const select=$(prefix+'ReportPerson');
+  if(select){
+   const current=select.value;
+   const allLabel=kind==='guide'?'Todos os guias':'Todos os vendedores';
+   const names=[...new Set([
+    ...(d.summaries||[]).map(x=>x.name),
+    ...(d.production||[]).map(x=>x.name),
+    ...(d.payments||[]).map(x=>x.name)
+   ].map(x=>String(x||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
+   select.innerHTML=`<option value="">${allLabel}</option>`+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
+   if(names.includes(current))select.value=current;
+  }
+ }
  if(d.error){$(prefix+'ReportKpis').innerHTML=`<p class="report-empty">${esc(d.error)}</p>`;return;}
  $(prefix+'ReportKpis').innerHTML=[
   ['Gerado no período',money(d.totalGenerated)],
