@@ -1234,8 +1234,8 @@ function renderAgendaCalendar(arr){
  const [year,month]=agendaCalendarMonth.split('-').map(Number);
  const first=new Date(year,month-1,1,12),lastDay=new Date(year,month,0,12),offset=(first.getDay()+6)%7;
  const today=new Date(),todayKey=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
- const monthTours=arr.filter(t=>(t.date||'').startsWith(agendaCalendarMonth)),counts={};
- monthTours.forEach(t=>counts[t.date]=(counts[t.date]||0)+1);
+ const monthTours=arr.filter(t=>normalizeAgendaDate(t.date).slice(0,7)===agendaCalendarMonth),counts={};
+ monthTours.forEach(t=>{const key=normalizeAgendaDate(t.date);counts[key]=(counts[key]||0)+1;});
  if(agendaCalendarSelected&&!agendaCalendarSelected.startsWith(agendaCalendarMonth))agendaCalendarSelected='';
  const cells=[];
  for(let i=0;i<offset;i++)cells.push('<div class="agenda-calendar-empty-cell" aria-hidden="true"></div>');
@@ -1248,7 +1248,7 @@ function renderAgendaCalendar(arr){
  if(!agendaCalendarSelected){
   dayList.hidden=true;dayList.innerHTML='';return;
  }
- const dayTours=monthTours.filter(t=>t.date===agendaCalendarSelected).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+ const dayTours=monthTours.filter(t=>normalizeAgendaDate(t.date)===agendaCalendarSelected).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
  dayList.hidden=false;
  dayList.innerHTML=`<h3 class="agenda-day-heading">${dayTours.length?'Passeios em '+dateLabel(agendaCalendarSelected):'Nenhum passeio em '+dateLabel(agendaCalendarSelected)}</h3>${dayTours.length?dayTours.map(t=>{
   const [status,cls]=labelStatus(t),paid=Number(t.paidPeople||0),free=Number(t.freePeople||0),expected=totalFor(t),received=Number(t.received||0),balance=balanceFor(t);
@@ -1260,7 +1260,7 @@ function renderAgendaCalendar(arr){
 function render(){
  dashboard();
  const filter=$('statusFilter').value;
- let arr=[...tours].filter(t=>(t.date||'').startsWith(agendaCalendarMonth)).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+ let arr=[...tours].map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>t.date.slice(0,7)===agendaCalendarMonth).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
  if(filter==='done')arr=arr.filter(t=>t.done);
  $('count').textContent=`${arr.length} passeio(s) · ${agendaMode==='calendar'?'visualização em calendário':'ordenados pela data de realização'}`;
@@ -1452,8 +1452,18 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     }catch(err){list.innerHTML='<p class="hint">Não foi possível carregar usuários: '+esc(err.message)+'</p>';}
   }
 
-  const toTour = r => ({
-    id:r.id, date:r.data, time:r.horario||'', type:r.tipo||'', customer:r.cliente||'',
+  function normalizeAgendaDate(value){
+ const raw=String(value||'').trim();
+ if(!raw)return '';
+ if(/^\d{4}-\d{2}-\d{2}/.test(raw))return raw.slice(0,10);
+ const br=raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+ if(br)return `${br[3]}-${br[2]}-${br[1]}`;
+ const parsed=new Date(raw);
+ if(!Number.isNaN(parsed.getTime()))return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;
+ return raw;
+}
+const toTour = r => ({
+    id:r.id, date:normalizeAgendaDate(r.data), time:r.horario||'', type:r.tipo||'', customer:r.cliente||'',
     phone:r.telefone||'', paidPeople:Number(r.pessoas_pagantes||0),
     freePeople:Number(r.pessoas_gratuitas||0), price:Number(r.valor_por_pessoa||0),
     received:Number(r.valor_recebido||0), guide:r.guia||'', partner:r.parceiro||'',
