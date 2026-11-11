@@ -772,6 +772,90 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 }
 
 </style>
+<style>
+/* ROTA 86 TOUR — acabamento mobile dos relatórios */
+@media screen and (max-width: 600px) {
+  html, body { max-width:100%; overflow-x:hidden; }
+  #view-reports, #view-reports * { box-sizing:border-box; }
+  #view-reports { width:100%; max-width:100%; padding:8px 8px calc(104px + env(safe-area-inset-bottom,0px)); }
+  #view-reports .report-tabs-panel { padding:8px!important; margin:6px 0 10px!important; }
+  #view-reports .report-subtabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+  #view-reports .report-subtab { min-width:0; min-height:36px; padding:7px 4px!important; font-size:clamp(11px,3.1vw,13px)!important; line-height:1.15; white-space:nowrap; }
+  #view-reports .report-subview { width:100%; max-width:100%; min-width:0; }
+  #view-reports .report-controls-panel,
+  #view-reports .report-subview>.panel { width:100%; max-width:100%; min-width:0; margin:8px 0!important; padding:12px!important; border-radius:15px; }
+  #view-reports .report-title-row { display:flex; flex-direction:column; align-items:stretch; gap:7px; }
+  #view-reports .report-title-row>div:first-child { width:100%; min-width:0; flex:1 1 auto; }
+  #view-reports .report-title-row h2 { font-size:15px!important; line-height:1.25; padding:9px 11px!important; }
+  #view-reports .report-title-row .hint,
+  #view-reports .report-title-row p { font-size:12px!important; line-height:1.35; margin:5px 0 2px!important; }
+  #view-reports .report-actions { width:100%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; justify-content:stretch; }
+  #view-reports .report-actions button { width:100%; min-width:0; min-height:34px; padding:7px 5px!important; font-size:11px!important; line-height:1.15; white-space:normal; }
+  #view-reports .report-filter-grid,
+  #view-reports .report-filter-grid.report-filter-grid-compact,
+  #view-reports .report-filter-grid-compact {
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    grid-auto-flow:row;
+    gap:7px!important;
+    width:100%;
+    min-width:0;
+    margin:9px 0!important;
+  }
+  #view-reports .report-filter-field { display:block; width:100%; min-width:0!important; max-width:100%; }
+  #view-reports .report-filter-field>label { display:block; font-size:11px!important; line-height:1.2; margin:0 0 4px!important; }
+  #view-reports .report-filter-field>input,
+  #view-reports .report-filter-field>select,
+  #view-reports .report-filter-field input[type="date"],
+  #view-reports .report-filter-field select,
+  #view-reports .report-multiselect,
+  #view-reports .report-multiselect>summary {
+    display:block;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    height:37px!important;
+    min-height:37px!important;
+    margin:0;
+    padding:6px 7px!important;
+    font-size:12px!important;
+    line-height:1.2;
+    border-radius:8px!important;
+    box-sizing:border-box!important;
+  }
+  #view-reports input[type="date"] { -webkit-appearance:none; appearance:none; }
+  #view-reports .report-filter-grid .report-filter-field { grid-column:auto!important; }
+  #view-reports .report-filter-grid .report-filter-field:nth-child(5) { grid-column:1/-1; }
+  #view-reports .report-filter-grid.is-comparing .report-filter-field { grid-column:auto!important; }
+  #view-reports .report-filter-grid.is-comparing .report-filter-field:last-child { grid-column:1/-1; }
+  #view-reports .report-controls-panel>.actions,
+  #view-reports .report-controls-panel .actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px!important; }
+  #view-reports .report-controls-panel>.actions button,
+  #view-reports .report-controls-panel .actions button { flex:0 1 auto; width:auto; min-height:34px; padding:7px 9px!important; font-size:11px!important; }
+  #view-reports .report-kpi-grid { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:7px!important; }
+  #view-reports .report-kpi { min-width:0!important; padding:9px!important; border-radius:11px; }
+  #view-reports .report-kpi .label,
+  #view-reports .report-kpi span { font-size:10px!important; line-height:1.25; }
+  #view-reports .report-kpi strong { display:block; font-size:14px!important; line-height:1.2; overflow-wrap:anywhere; }
+  #view-reports .report-subview h3 { font-size:13px!important; line-height:1.25; margin:12px 0 7px!important; padding:8px 10px!important; }
+  #view-reports .report-table-wrap { width:100%; max-width:100%; overflow-x:auto!important; -webkit-overflow-scrolling:touch; }
+  #view-reports .report-table { min-width:560px; font-size:11px!important; }
+  #view-reports .report-table th, #view-reports .report-table td { padding:7px 8px!important; font-size:11px!important; }
+  #view-reports .report-chart-grid,
+  #view-reports .people-report-chart { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:8px!important; }
+  #view-reports .report-chart-card { min-width:0; padding:9px!important; }
+}
+@media screen and (max-width:380px) {
+  #view-reports .report-actions button { font-size:10px!important; }
+  #view-reports .report-filter-grid,
+  #view-reports .report-filter-grid.report-filter-grid-compact,
+  #view-reports .report-filter-grid-compact { gap:5px!important; }
+  #view-reports .report-filter-field>input,
+  #view-reports .report-filter-field>select { padding:5px!important; font-size:11px!important; }
+  #view-reports .report-kpi { padding:8px!important; }
+  #view-reports .report-kpi strong { font-size:13px!important; }
+}
+</style>
 </head><body>
 <section id="loginScreen" class="login-screen">
   <form id="loginForm" class="login-card">
@@ -2015,93 +2099,7 @@ const toTour = r => ({
       income:x.type==='receita'
     })).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
     const tr=rows.map(r=>'<tr><td class="date">'+esc(r.date)+'</td><td><span class="tag '+(r.income?(r.type==='Recebimento de passeio'?'tag-tour':'tag-income'):'tag-expense')+'">'+esc(r.type)+'</span></td><td><strong>'+esc(r.category)+'</strong><span class="description">'+esc(r.desc)+'</span></td><td class="num">'+(r.income?fmt(r.amount):'—')+'</td><td class="num">'+(!r.income?fmt(r.amount):'—')+'</td></tr>').join('');
-    const reportHtml='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fluxo de caixa - '+esc(label)+'</title><style>       :root{--navy:#124f70;--navy-dark:#103d58;--ink:#1d2935;--muted:#64748b;--line:#dce5ee;--paper:#fff;--bg:#f3f6fa;--green:#147a45;--green-bg:#e8f6ee;--red:#b93832;--red-bg:#fff0ef;--blue-bg:#eaf2ff}       *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,Segoe UI,Arial,sans-serif}       .page{max-width:1120px;margin:32px auto;padding:0 22px}.toolbar{display:flex;justify-content:flex-end;margin-bottom:14px}       .print-btn{border:0;border-radius:9px;background:var(--navy);color:#fff;padding:11px 17px;font-weight:700;cursor:pointer}       .report{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(20,50,75,.08)}       .report-head{padding:28px 32px;background:linear-gradient(120deg,var(--navy-dark),var(--navy));color:#fff}       .eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;opacity:.8;font-weight:700}       h1{font-size:27px;line-height:1.2;margin:7px 0 5px}.period{margin:0;color:#e1edf5;font-size:14px;text-transform:capitalize}       .content{padding:26px 32px 30px}.section-title{font-size:15px;font-weight:800;margin:0 0 14px}       .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:26px}       .metric{border-radius:13px;padding:16px 18px;border:1px solid transparent;min-height:92px}       .metric span{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px}       .metric strong{font-size:22px;letter-spacing:-.3px}.metric.in{background:var(--green-bg);border-color:#d5eddf}.metric.in strong{color:var(--green)}       .metric.out{background:var(--red-bg);border-color:#f8ddda}.metric.out strong{color:var(--red)}       .metric.balance{background:var(--blue-bg);border-color:#d8e6ff}.metric.balance strong{color:#185aa5}       .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}       table{width:100%;border-collapse:collapse;min-width:720px}thead th{background:#f5f8fb;color:#536477;font-size:11px;text-transform:uppercase;letter-spacing:.55px;text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}       tbody td{padding:13px 14px;border-bottom:1px solid #edf1f5;vertical-align:top}tbody tr:last-child td{border-bottom:0}       tbody tr:nth-child(even){background:#fbfcfe}.date{white-space:nowrap;color:#536477;font-variant-numeric:tabular-nums}       .tag{display:inline-block;border-radius:20px;padding:4px 9px;font-size:11px;font-weight:700;white-space:nowrap}       .tag-tour,.tag-income{background:var(--green-bg);color:var(--green)}.tag-expense{background:var(--red-bg);color:var(--red)}       .description{display:block;color:var(--muted);font-size:12px;margin-top:3px;max-width:420px;overflow-wrap:anywhere}       .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:650}       .empty{text-align:center;color:var(--muted);padding:28px}       .bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:20px;padding:17px 19px;border-radius:12px;background:#f5f8fb;border:1px solid var(--line)}       .bottom span{font-weight:700;color:#536477}.bottom strong{font-size:21px;color:var(--navy)}       .foot{display:flex;justify-content:space-between;gap:12px;margin-top:18px;color:#8794a3;font-size:11px}       @media(max-width:850px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}} @media(max-width:650px){.page{margin:12px auto;padding:0 10px}.report-head{padding:22px}.content{padding:20px 16px}.cards{grid-template-columns:1fr;gap:9px}.metric{min-height:0;padding:13px 15px}.metric strong{font-size:20px}.bottom{align-items:flex-start;flex-direction:column}.foot{flex-direction:column}}       @media print{ @page{size:A4 portrait;margin:12mm}body{background:#fff;font-size:11px}.page{max-width:none;margin:0;padding:0}.toolbar{display:none}.report{border:0;border-radius:0;box-shadow:none}.report-head{print-color-adjust:exact;-webkit-print-color-adjust:exact;padding:20px 24px}.content{padding:20px 24px}.cards{grid-template-columns:repeat(4,1fr);gap:8px}.metric{print-color-adjust:exact;-webkit-print-color-adjust:exact;padding:12px}.metric strong{font-size:17px}table{min-width:0}thead th{print-color-adjust:exact;-webkit-print-color-adjust:exact}tbody tr{break-inside:avoid}.tag,.bottom{print-color-adjust:exact;-webkit-print-color-adjust:exact}.bottom{break-inside:avoid}.foot{margin-top:12px}}     </style><style>
-
-/* ROTA 86 TOUR — acabamento mobile dos relatórios */
-@media screen and (max-width: 600px) {
-  html, body { max-width:100%; overflow-x:hidden; }
-  #view-reports, #view-reports * { box-sizing:border-box; }
-  #view-reports { width:100%; max-width:100%; padding:8px 8px calc(104px + env(safe-area-inset-bottom,0px)); }
-  #view-reports .report-tabs-panel { padding:8px!important; margin:6px 0 10px!important; }
-  #view-reports .report-subtabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
-  #view-reports .report-subtab { min-width:0; min-height:36px; padding:7px 4px!important; font-size:clamp(11px,3.1vw,13px)!important; line-height:1.15; white-space:nowrap; }
-  #view-reports .report-subview { width:100%; max-width:100%; min-width:0; }
-  #view-reports .report-controls-panel,
-  #view-reports .report-subview>.panel { width:100%; max-width:100%; min-width:0; margin:8px 0!important; padding:12px!important; border-radius:15px; }
-  #view-reports .report-title-row { display:flex; flex-direction:column; align-items:stretch; gap:7px; }
-  #view-reports .report-title-row>div:first-child { width:100%; min-width:0; flex:1 1 auto; }
-  #view-reports .report-title-row h2 { font-size:15px!important; line-height:1.25; padding:9px 11px!important; }
-  #view-reports .report-title-row .hint,
-  #view-reports .report-title-row p { font-size:12px!important; line-height:1.35; margin:5px 0 2px!important; }
-  #view-reports .report-actions { width:100%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; justify-content:stretch; }
-  #view-reports .report-actions button { width:100%; min-width:0; min-height:34px; padding:7px 5px!important; font-size:11px!important; line-height:1.15; white-space:normal; }
-  #view-reports .report-filter-grid,
-  #view-reports .report-filter-grid.report-filter-grid-compact,
-  #view-reports .report-filter-grid-compact {
-    display:grid!important;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-    grid-auto-flow:row;
-    gap:7px!important;
-    width:100%;
-    min-width:0;
-    margin:9px 0!important;
-  }
-  #view-reports .report-filter-field { display:block; width:100%; min-width:0!important; max-width:100%; }
-  #view-reports .report-filter-field>label { display:block; font-size:11px!important; line-height:1.2; margin:0 0 4px!important; }
-  #view-reports .report-filter-field>input,
-  #view-reports .report-filter-field>select,
-  #view-reports .report-filter-field input[type="date"],
-  #view-reports .report-filter-field select,
-  #view-reports .report-multiselect,
-  #view-reports .report-multiselect>summary {
-    display:block;
-    width:100%!important;
-    min-width:0!important;
-    max-width:100%!important;
-    height:37px!important;
-    min-height:37px!important;
-    margin:0;
-    padding:6px 7px!important;
-    font-size:12px!important;
-    line-height:1.2;
-    border-radius:8px!important;
-    box-sizing:border-box!important;
-  }
-  #view-reports input[type="date"] { -webkit-appearance:none; appearance:none; }
-  #view-reports .report-filter-grid .report-filter-field { grid-column:auto!important; }
-  #view-reports .report-filter-grid .report-filter-field:nth-child(5) { grid-column:1/-1; }
-  #view-reports .report-filter-grid.is-comparing .report-filter-field { grid-column:auto!important; }
-  #view-reports .report-filter-grid.is-comparing .report-filter-field:last-child { grid-column:1/-1; }
-  #view-reports .report-controls-panel>.actions,
-  #view-reports .report-controls-panel .actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px!important; }
-  #view-reports .report-controls-panel>.actions button,
-  #view-reports .report-controls-panel .actions button { flex:0 1 auto; width:auto; min-height:34px; padding:7px 9px!important; font-size:11px!important; }
-  #view-reports .report-kpi-grid { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:7px!important; }
-  #view-reports .report-kpi { min-width:0!important; padding:9px!important; border-radius:11px; }
-  #view-reports .report-kpi .label,
-  #view-reports .report-kpi span { font-size:10px!important; line-height:1.25; }
-  #view-reports .report-kpi strong { display:block; font-size:14px!important; line-height:1.2; overflow-wrap:anywhere; }
-  #view-reports .report-subview h3 { font-size:13px!important; line-height:1.25; margin:12px 0 7px!important; padding:8px 10px!important; }
-  #view-reports .report-table-wrap { width:100%; max-width:100%; overflow-x:auto!important; -webkit-overflow-scrolling:touch; }
-  #view-reports .report-table { min-width:560px; font-size:11px!important; }
-  #view-reports .report-table th, #view-reports .report-table td { padding:7px 8px!important; font-size:11px!important; }
-  #view-reports .report-chart-grid,
-  #view-reports .people-report-chart { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:8px!important; }
-  #view-reports .report-chart-card { min-width:0; padding:9px!important; }
-}
-@media screen and (max-width:380px) {
-  #view-reports .report-actions button { font-size:10px!important; }
-  #view-reports .report-filter-grid,
-  #view-reports .report-filter-grid.report-filter-grid-compact,
-  #view-reports .report-filter-grid-compact { gap:5px!important; }
-  #view-reports .report-filter-field>input,
-  #view-reports .report-filter-field>select { padding:5px!important; font-size:11px!important; }
-  #view-reports .report-kpi { padding:8px!important; }
-  #view-reports .report-kpi strong { font-size:13px!important; }
-}
-
-</style>
-</head><body><main class="page"><div class="toolbar"><button class="print-btn" onclick="window.print()">Imprimir / Salvar em PDF</button></div><section class="report"><header class="report-head"><div class="eyebrow">Rota 86 Tour · Gestão financeira</div><h1>Fluxo de caixa</h1><p class="period">Período: '+esc(label)+'</p></header><div class="content"><h2 class="section-title">Resumo financeiro</h2><div class="cards"><div class="metric in"><span>Recebimentos de passeios</span><strong>'+fmt(tourIncome)+'</strong></div><div class="metric in"><span>Outras receitas</span><strong>'+fmt(otherIncome)+'</strong></div><div class="metric out"><span>Despesas</span><strong>'+fmt(expenses)+'</strong></div><div class="metric balance"><span>Saldo do período</span><strong>'+fmt(balance)+'</strong></div></div><h2 class="section-title">Movimentações do período</h2><div class="table-wrap"><table><thead><tr><th>Data</th><th>Tipo</th><th>Categoria / descrição</th><th class="num">Entradas</th><th class="num">Saídas</th></tr></thead><tbody>'+(tr||'<tr><td class="empty" colspan="5">Nenhuma movimentação neste período.</td></tr>')+'</tbody></table></div><div class="bottom"><span>Saldo final do período</span><strong>'+fmt(balance)+'</strong></div><div class="foot"><span>Relatório gerado pelo sistema Rota 86 Tour</span><span>Valores em reais (R$)</span></div></div></section></main></body></html>';
+    const reportHtml='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fluxo de caixa - '+esc(label)+'</title><style>       :root{--navy:#124f70;--navy-dark:#103d58;--ink:#1d2935;--muted:#64748b;--line:#dce5ee;--paper:#fff;--bg:#f3f6fa;--green:#147a45;--green-bg:#e8f6ee;--red:#b93832;--red-bg:#fff0ef;--blue-bg:#eaf2ff}       *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,Segoe UI,Arial,sans-serif}       .page{max-width:1120px;margin:32px auto;padding:0 22px}.toolbar{display:flex;justify-content:flex-end;margin-bottom:14px}       .print-btn{border:0;border-radius:9px;background:var(--navy);color:#fff;padding:11px 17px;font-weight:700;cursor:pointer}       .report{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(20,50,75,.08)}       .report-head{padding:28px 32px;background:linear-gradient(120deg,var(--navy-dark),var(--navy));color:#fff}       .eyebrow{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;opacity:.8;font-weight:700}       h1{font-size:27px;line-height:1.2;margin:7px 0 5px}.period{margin:0;color:#e1edf5;font-size:14px;text-transform:capitalize}       .content{padding:26px 32px 30px}.section-title{font-size:15px;font-weight:800;margin:0 0 14px}       .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:26px}       .metric{border-radius:13px;padding:16px 18px;border:1px solid transparent;min-height:92px}       .metric span{display:block;font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px}       .metric strong{font-size:22px;letter-spacing:-.3px}.metric.in{background:var(--green-bg);border-color:#d5eddf}.metric.in strong{color:var(--green)}       .metric.out{background:var(--red-bg);border-color:#f8ddda}.metric.out strong{color:var(--red)}       .metric.balance{background:var(--blue-bg);border-color:#d8e6ff}.metric.balance strong{color:#185aa5}       .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}       table{width:100%;border-collapse:collapse;min-width:720px}thead th{background:#f5f8fb;color:#536477;font-size:11px;text-transform:uppercase;letter-spacing:.55px;text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}       tbody td{padding:13px 14px;border-bottom:1px solid #edf1f5;vertical-align:top}tbody tr:last-child td{border-bottom:0}       tbody tr:nth-child(even){background:#fbfcfe}.date{white-space:nowrap;color:#536477;font-variant-numeric:tabular-nums}       .tag{display:inline-block;border-radius:20px;padding:4px 9px;font-size:11px;font-weight:700;white-space:nowrap}       .tag-tour,.tag-income{background:var(--green-bg);color:var(--green)}.tag-expense{background:var(--red-bg);color:var(--red)}       .description{display:block;color:var(--muted);font-size:12px;margin-top:3px;max-width:420px;overflow-wrap:anywhere}       .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:650}       .empty{text-align:center;color:var(--muted);padding:28px}       .bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:20px;padding:17px 19px;border-radius:12px;background:#f5f8fb;border:1px solid var(--line)}       .bottom span{font-weight:700;color:#536477}.bottom strong{font-size:21px;color:var(--navy)}       .foot{display:flex;justify-content:space-between;gap:12px;margin-top:18px;color:#8794a3;font-size:11px}       @media(max-width:850px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}} @media(max-width:650px){.page{margin:12px auto;padding:0 10px}.report-head{padding:22px}.content{padding:20px 16px}.cards{grid-template-columns:1fr;gap:9px}.metric{min-height:0;padding:13px 15px}.metric strong{font-size:20px}.bottom{align-items:flex-start;flex-direction:column}.foot{flex-direction:column}}       @media print{ @page{size:A4 portrait;margin:12mm}body{background:#fff;font-size:11px}.page{max-width:none;margin:0;padding:0}.toolbar{display:none}.report{border:0;border-radius:0;box-shadow:none}.report-head{print-color-adjust:exact;-webkit-print-color-adjust:exact;padding:20px 24px}.content{padding:20px 24px}.cards{grid-template-columns:repeat(4,1fr);gap:8px}.metric{print-color-adjust:exact;-webkit-print-color-adjust:exact;padding:12px}.metric strong{font-size:17px}table{min-width:0}thead th{print-color-adjust:exact;-webkit-print-color-adjust:exact}tbody tr{break-inside:avoid}.tag,.bottom{print-color-adjust:exact;-webkit-print-color-adjust:exact}.bottom{break-inside:avoid}.foot{margin-top:12px}}     </style></head><body><main class="page"><div class="toolbar"><button class="print-btn" onclick="window.print()">Imprimir / Salvar em PDF</button></div><section class="report"><header class="report-head"><div class="eyebrow">Rota 86 Tour · Gestão financeira</div><h1>Fluxo de caixa</h1><p class="period">Período: '+esc(label)+'</p></header><div class="content"><h2 class="section-title">Resumo financeiro</h2><div class="cards"><div class="metric in"><span>Recebimentos de passeios</span><strong>'+fmt(tourIncome)+'</strong></div><div class="metric in"><span>Outras receitas</span><strong>'+fmt(otherIncome)+'</strong></div><div class="metric out"><span>Despesas</span><strong>'+fmt(expenses)+'</strong></div><div class="metric balance"><span>Saldo do período</span><strong>'+fmt(balance)+'</strong></div></div><h2 class="section-title">Movimentações do período</h2><div class="table-wrap"><table><thead><tr><th>Data</th><th>Tipo</th><th>Categoria / descrição</th><th class="num">Entradas</th><th class="num">Saídas</th></tr></thead><tbody>'+(tr||'<tr><td class="empty" colspan="5">Nenhuma movimentação neste período.</td></tr>')+'</tbody></table></div><div class="bottom"><span>Saldo final do período</span><strong>'+fmt(balance)+'</strong></div><div class="foot"><span>Relatório gerado pelo sistema Rota 86 Tour</span><span>Valores em reais (R$)</span></div></div></section></main></body></html>';
     const w=window.open('','_blank');if(!w){showError('Permita pop-ups para visualizar e imprimir o relatório.');return;}
     w.document.open();w.document.write(reportHtml);w.document.close();
   };
