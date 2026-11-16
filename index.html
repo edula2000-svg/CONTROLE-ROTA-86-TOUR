@@ -19,23 +19,8 @@ button{border:0;border-radius:11px;padding:12px 15px;font:inherit;font-weight:70
 small.hint{display:block;color:var(--muted);font-size:.78rem;margin-top:5px}
 @media(max-width:560px){.form-grid,.detail-grid{grid-template-columns:1fr}.wide{grid-column:auto}.panel,.tour-main{padding:13px}.filters{width:100%}.filters select{flex:1;min-width:0}.card-bottom{align-items:flex-start}.card-bottom button{padding:10px 12px}}
 
-.report-tabs-panel{padding:10px 14px!important;margin-bottom:12px}
-.report-subtabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.report-subtab{border:1px solid var(--line);background:#eef3f8;color:#28445c;border-radius:9px;padding:9px 17px;font-weight:650;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
-.report-subtab.active{background:#145f89;color:#fff;border-color:#145f89;box-shadow:0 2px 5px #123b5622}
-.report-subview[hidden]{display:none!important}
-.people-report-chart{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:12px 0}
-.people-chart-item{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
-.people-chart-title{font-weight:650;margin-bottom:10px}
-.people-chart-row{display:grid;grid-template-columns:64px 1fr 82px;align-items:center;gap:7px;margin:7px 0;font-size:12px}
-.people-chart-track{height:11px;background:#edf1f5;border-radius:99px;overflow:hidden}
-.people-chart-fill{height:100%;border-radius:99px}
-.people-chart-fill.generated{background:#176b9b}
-.people-chart-fill.paid{background:#16834a}
-.people-chart-value{text-align:right;font-variant-numeric:tabular-nums}
-@media(max-width:760px){.report-subtab{flex:1;justify-content:center;padding:9px 8px}.people-chart-row{grid-template-columns:55px 1fr 76px}}
-#agendaMonthFilter{min-width:155px;width:auto;padding:9px 10px;border:1px solid #d5e0e9;border-radius:9px;background:#fff;color:#30465a;font:inherit;font-size:.85rem}
-@media(max-width:620px){.agenda-controls .filters{display:flex;flex-wrap:wrap;gap:8px;width:100%}.agenda-controls .filters select,.agenda-controls .filters input{flex:1;min-width:140px}}</style><style>
+#payablesReport{margin-top:10px}.payable-group{padding:12px;margin:10px 0;background:#f8fafc;border:1px solid #dce5ed;border-radius:12px}.payable-group>.hint{margin:8px 0 0}
+</style><style>
 .app-nav{display:flex;gap:7px;overflow-x:auto;padding:3px 0 7px;position:sticky;top:0;background:var(--bg);z-index:5}
 .navbtn{white-space:nowrap;background:#e7edf2;color:#334455;padding:10px 12px;border-radius:12px}.navbtn.active{background:#123b56;color:white}
 .view{display:grid;gap:15px}.view[hidden]{display:none!important}.dash-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
@@ -329,24 +314,6 @@ header h1,header p{text-align:center!important}
  #cashFlowReport .flow-row{font-size:.82rem;gap:8px}
  #cashFlowReport .flow-row.balance .amount{font-size:1.08rem}
 }
-</style><style>
-/* Relatórios: filtros compactos em linha e seletores suspensos */
-.report-filter-grid-compact{grid-template-columns:1fr 1fr 1.2fr 1.25fr 1.45fr;gap:10px;align-items:end;margin:16px 0 12px}
-.report-filter-field{min-width:0;position:relative}
-.report-filter-field>label{display:block;font-size:.76rem;color:#526579;font-weight:650;margin:0 0 5px}
-.report-filter-field>input,.report-filter-field>select,.report-multiselect>summary{width:100%;height:42px;min-height:42px;box-sizing:border-box;border:1px solid #d5dee8;border-radius:10px;background:#fff;color:#29445d;padding:9px 11px;font:inherit;font-size:.84rem}
-.report-multiselect{position:relative}
-.report-multiselect>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;list-style:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.report-multiselect>summary::-webkit-details-marker{display:none}
-.report-multiselect>summary:after{content:'▾';font-size:.8rem;color:#54718a;flex:0 0 auto}
-.report-multiselect[open]>summary{border-color:#28749a;box-shadow:0 0 0 2px #28749a18}
-.report-dropdown-panel{position:absolute;z-index:30;top:calc(100% + 5px);left:0;width:min(340px,calc(100vw - 48px));max-height:300px;overflow:auto;padding:11px;background:#fff;border:1px solid #d8e1ea;border-radius:12px;box-shadow:0 12px 30px #19344d24}
-.report-dropdown-actions{display:flex;gap:6px;margin-bottom:9px}
-.report-check-grid{display:grid;grid-template-columns:1fr;gap:6px}
-.report-check-grid label{padding:8px 9px;font-size:.8rem;font-weight:550}
-.report-filter-grid-compact+.actions{margin-top:12px}
-@media(max-width:900px){.report-filter-grid-compact{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:560px){.report-filter-grid-compact{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.report-dropdown-panel{width:min(310px,calc(100vw - 40px))}.report-filter-field>input,.report-filter-field>select,.report-multiselect>summary{font-size:.78rem;padding:8px}}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 .login-screen{min-height:100vh;display:grid;place-items:center;padding:20px;background:#f1f4f7}
 .login-card{width:min(100%,420px);background:#fff;border:1px solid #e1e7ee;border-radius:22px;padding:26px;box-shadow:0 8px 30px #1b2b3f12;display:grid;gap:12px}
@@ -568,12 +535,6 @@ button{font-family:inherit!important;box-shadow:none}
 .user-admin-row select{font-size:13px;padding:8px}
 .user-admin-row .user-check{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .user-admin-row .user-check input{width:auto}
-.menu-permissions{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:7px 12px;padding:10px 12px;background:var(--surface-soft,#f3f6fa);border:1px solid var(--border,#dce5ef);border-radius:10px;margin:8px 0}
-.menu-permissions label{display:flex;align-items:center;gap:7px;font-size:12px;margin:0}
-.menu-permissions input{width:auto;margin:0}
-.user-menu-box{grid-column:1/-1}
-.user-admin-row .user-row-actions{display:flex;gap:8px;flex-wrap:wrap;grid-column:1/-1}
-.user-admin-row .user-row-actions button{min-width:110px}
 @media(max-width:700px){.user-admin-grid{grid-template-columns:1fr}.user-admin-row{grid-template-columns:1fr 1fr;gap:8px}.user-admin-row>div:first-child{grid-column:1/-1}.user-admin-row button{justify-self:start}}
 </style>
 <style id="agenda-calendar-styles">
@@ -615,247 +576,6 @@ button{font-family:inherit!important;box-shadow:none}
 
 
 
-
-<style id="rota86-registry-settings-styles">
-.registry-subnav,.theme-options{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
-.registry-subnav button.active,.theme-options button.active{background:#e6f3f4!important;color:#07596d!important;outline:1px solid #b8dfe2}
-.registry-tab[hidden]{display:none!important}
-.catalog-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 0;border-bottom:1px solid var(--line)}
-.catalog-row small{display:block;color:var(--muted);margin-top:4px}
-.catalog-actions{display:flex;gap:6px;flex-wrap:wrap}
-.catalog-origin{font-size:.7rem;border-radius:20px;padding:4px 8px;background:#edf4f8;color:#3d6478}
-.catalog-origin.partner{background:#fff4e5;color:#98601a}
-#settingsButton{padding:7px 10px!important;font-size:1rem!important}
-body.dark-theme{--bg:#141b22;--card:#1d2731;--ink:#e7edf2;--muted:#a3afba;--line:#34414d;color:var(--ink);background:var(--bg)!important}
-body.dark-theme .app-header{background:#1d2731!important;border-color:#34414d!important;color:var(--ink)!important}
-body.dark-theme .app-header h1,body.dark-theme .panel h2,body.dark-theme .panel h3{color:#e7edf2!important}
-body.dark-theme .app-header p,body.dark-theme .app-header .auth-bar span{color:#a3afba!important}
-body.dark-theme .panel,body.dark-theme .tour-card,body.dark-theme .stat,body.dark-theme .catalog-row,body.dark-theme .user-admin-card{background:#1d2731!important;border-color:#34414d!important;color:#e7edf2!important}
-body.dark-theme input,body.dark-theme select,body.dark-theme textarea{background:#141b22!important;color:#e7edf2!important;border-color:#465462!important}
-body.dark-theme .app-nav{background:#141b22!important}
-body.dark-theme .app-nav .navbtn{color:#c4ced7!important}
-body.dark-theme .app-nav .navbtn.active{background:#164d5b!important;color:#fff!important}
-body.dark-theme .secondary{background:#2b3945!important;color:#e1e8ee!important}
-body.dark-theme .detail,body.dark-theme .card-bottom,body.dark-theme #financeList li{background:#18222b!important;color:#d7e0e7!important}
-body.dark-theme .registry-subnav button.active,body.dark-theme .theme-options button.active{background:#164d5b!important;color:#fff!important}
-@media(max-width:600px){.registry-subnav button{flex:1 1 100%;text-align:left}}
-</style>
-
-<style id="rota86-visual-contrast-refresh">
-/* Ajuste visual: contraste mais forte, áreas bem delimitadas e hierarquia clara */
-:root{
- --bg:#eef2f7;--card:#ffffff;--ink:#1d2b3a;--muted:#657589;--line:#d7e0ea;
- --blue:#145b86;--blue-dark:#104767;--soft-teal:#e1f1f4;--soft-blue:#e8f0fb;
-}
-body{background:#eef2f7!important;color:#1d2b3a!important}
-.app-header{background:#fff!important;border-bottom:1px solid #d5dee8!important;box-shadow:0 2px 8px rgba(22,43,65,.06)}
-main{max-width:1220px!important}
-.app-nav{background:#e7edf4!important;border:1px solid #d6e0ea!important;border-radius:14px!important;padding:7px!important;gap:8px!important}
-.app-nav .navbtn{color:#40536a!important;border:1px solid transparent!important;border-radius:10px!important}
-.app-nav .navbtn:hover{background:#fff!important;border-color:#d3deea!important;color:#173e5b!important}
-.app-nav .navbtn.active{background:#145b86!important;color:#fff!important;border-color:#145b86!important;box-shadow:0 3px 8px rgba(20,91,134,.22)!important}
-.app-nav .navbtn.active .nav-icon{color:#fff!important}
-.panel,.tour-card,.stat,.user-admin-card,.shortcut{
- background:#fff!important;border:1px solid #d8e1eb!important;
- box-shadow:0 3px 12px rgba(28,48,70,.065)!important;
-}
-.panel{border-radius:16px!important;padding:19px!important}
-.panel h2{
- display:flex!important;align-items:center!important;min-height:40px!important;
- margin:0 0 16px!important;padding:9px 13px!important;
- background:#e7eff8!important;color:#173f5d!important;
- border-left:5px solid #17658f!important;border-radius:9px!important;
- font-size:1rem!important;font-weight:750!important;letter-spacing:0!important;
-}
-.panel h3{
- margin:17px 0 10px!important;padding:7px 10px!important;
- background:#f0f4f8!important;color:#344c63!important;
- border-left:3px solid #9aafc2!important;border-radius:6px!important;
- font-size:.88rem!important;font-weight:700!important;
-}
-.stat{border-radius:14px!important;border-top:3px solid #6e91ad!important}
-.stat:nth-child(1){border-top-color:#176b9a!important}
-.stat:nth-child(2){border-top-color:#16834a!important}
-.stat:nth-child(3){border-top-color:#c17a18!important}
-.stat:nth-child(4){border-top-color:#64748b!important}
-.quick-alerts .alert{background:#fff8e9!important;border:1px solid #f0dfb9!important;color:#76500d!important;border-radius:12px!important}
-input,select,textarea{background:#fff!important;border:1px solid #c8d4e0!important;color:#243447!important}
-input:focus,select:focus,textarea:focus{outline:0!important;border-color:#287ba6!important;box-shadow:0 0 0 3px rgba(40,123,166,.14)!important}
-button.primary,.primary{background:#145b86!important;color:#fff!important}
-button.secondary,.secondary{background:#e8eef5!important;color:#29445d!important;border:1px solid #d6e0ea!important}
-.view-switch,.registry-subnav,.theme-options{background:#e9eef4!important;border:1px solid #d8e1eb!important;border-radius:11px!important;padding:4px!important}
-.view-switch button.active,.registry-subnav button.active,.theme-options button.active{background:#145b86!important;color:#fff!important;outline:0!important}
-.catalog-row{background:#fbfcfe!important;border:1px solid #e0e7ef!important;border-radius:11px!important;padding:13px 14px!important;margin:8px 0!important}
-.catalog-origin{background:#e5eff8!important;color:#174e73!important}
-.catalog-origin.partner{background:#fff0d9!important;color:#87500a!important}
-.tour-card{border-radius:14px!important}
-.tour-main{background:#fff!important}
-.card-bottom{background:#f3f6fa!important;border-top:1px solid #dce4ed!important}
-.detail{background:#f7f9fc!important;border-top:1px solid #dce4ed!important}
-.badge{border:1px solid #dce4ed!important}
-table thead th{background:#e8eef5!important;color:#314a61!important}
-tbody tr:nth-child(even){background:#f6f8fb!important}
-body.dark-theme .app-nav{background:#202c38!important;border-color:#344554!important}
-body.dark-theme .app-nav .navbtn{color:#c5d1dc!important}
-body.dark-theme .app-nav .navbtn.active{background:#17658f!important;color:#fff!important}
-body.dark-theme .panel h2{background:#263d50!important;color:#eaf2f8!important;border-left-color:#4c9bc0!important}
-body.dark-theme .panel h3{background:#253440!important;color:#d7e2eb!important;border-left-color:#56768d!important}
-body.dark-theme .catalog-row{background:#202c38!important;border-color:#344554!important}
-body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#62502b!important;color:#f4d99c!important}
-@media(max-width:700px){
- .panel{padding:14px!important}
- .panel h2{font-size:.93rem!important;padding:9px 11px!important}
- .app-nav{border-radius:11px!important;padding:5px!important}
-}
-</style>
-
-<style>
-.guide-pay-options{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 10px}
-.guide-pay-option{display:inline-flex;align-items:center;gap:8px;margin:0;padding:9px 12px;border:1px solid #cbd8e5;border-radius:10px;background:#f2f6fa;color:#294156;font-weight:650;cursor:pointer}
-.guide-pay-option input{width:17px;height:17px;margin:0;accent-color:#0d4b73}
-.guide-pay-option:has(input:checked){background:#e2effa;border-color:#0d4b73;box-shadow:0 0 0 1px #0d4b73}
-@media(max-width:560px){.guide-pay-options{display:grid;grid-template-columns:1fr}.guide-pay-option{width:100%}}
-</style>
-
-<style>
-.report-title-row{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}.report-actions{display:flex;gap:8px;flex-wrap:wrap}.report-filter-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:14px 0}.report-filter-grid.is-comparing{grid-template-columns:repeat(6,minmax(0,1fr))}.report-filter-grid .report-filter-field{min-width:0}.report-filter-grid .report-filter-field label{font-size:.75rem;margin-bottom:4px}.report-filter-grid input,.report-filter-grid select,.report-filter-grid summary{min-width:0;width:100%;font-size:.84rem;padding:8px 9px}.report-filter-grid .report-multiselect{min-width:0}.report-filter-block{border:1px solid #dce4eb;border-radius:15px;padding:14px;margin:12px 0;background:#fbfcfd}.report-filter-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}.report-filter-heading>div{display:flex;gap:6px}.small-btn{padding:7px 10px;font-size:.78rem}.report-check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px}.report-check-grid label{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e2e8ef;border-radius:10px;padding:9px;margin:0;font-weight:600}.report-check-grid input{width:auto;margin:0}.report-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 20px}.report-kpi{border:1px solid #dfe7ee;border-radius:14px;padding:14px;background:#fff}.report-kpi span{display:block;color:#667789;font-size:.78rem}.report-kpi strong{display:block;margin-top:5px;font-size:1.15rem}.report-chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0 22px}.report-chart-card{border:1px solid #dfe7ee;border-radius:14px;padding:14px;min-width:0;background:#fff}.report-chart-card h4{margin:0 0 8px}.report-chart-card svg{width:100%;height:auto;display:block;overflow:visible}.report-table-wrap{overflow-x:auto;margin:10px 0 20px} .report-table{width:100%;border-collapse:collapse;min-width:540px}.report-table th,.report-table td{padding:10px;border-bottom:1px solid #e5ebf0;text-align:left;font-size:.86rem}.report-table th{background:#f1f5f8}.report-table td.num,.report-table th.num{text-align:right;white-space:nowrap}.report-empty{padding:18px;text-align:center;color:#687582;background:#f8fafc;border-radius:10px}
-@media(max-width:900px){.report-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:700px){.report-filter-grid,.report-chart-grid{grid-template-columns:1fr}.report-kpi-grid{grid-template-columns:1fr 1fr}.report-actions{width:100%}.report-actions button{flex:1}}
-@media print{body{background:#fff!important}.app-nav,.report-controls-panel,.report-actions,button{display:none!important}#view-reports{display:block!important}#advancedReportOutput{box-shadow:none;border:0;padding:0}.report-kpi-grid{grid-template-columns:repeat(4,1fr)}.report-chart-grid{grid-template-columns:1fr 1fr}.report-chart-card,.report-kpi{break-inside:avoid}.report-table{min-width:0}}
-</style>
-<style>
-
-/* Ajustes de usabilidade dos relatórios — desktop e celular */
-.report-controls-panel{padding:16px!important}
-.report-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.report-title-row>div:first-child{min-width:220px;flex:1}
-.report-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}
-.report-actions button{min-height:36px;padding:8px 11px;font-size:.78rem;line-height:1.2;white-space:nowrap}
-.report-filter-grid-compact{gap:8px;margin:12px 0 10px}
-.report-filter-grid-compact .report-filter-field>label{font-size:.72rem;margin-bottom:4px}
-.report-filter-grid-compact .report-filter-field>input,
-.report-filter-grid-compact .report-filter-field>select,
-.report-filter-grid-compact .report-multiselect>summary{height:38px;min-height:38px;padding:7px 9px;font-size:.8rem}
-.report-controls-panel>.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
-.report-controls-panel>.actions button{min-height:36px;padding:8px 12px;font-size:.8rem}
-#view-reports{padding-bottom:calc(112px + env(safe-area-inset-bottom, 0px))}
-#view-reports>.panel:last-child,
-.report-subview>.panel:last-child{margin-bottom:10px}
-.report-subview .panel{min-width:0}
-.report-table-wrap{max-width:100%;-webkit-overflow-scrolling:touch}
-.report-kpi{min-width:0}
-@media(max-width:760px){
- .report-controls-panel{padding:13px!important}
- .report-title-row{align-items:flex-start}
- .report-title-row>div:first-child{flex-basis:100%}
- .report-actions{width:auto;justify-content:flex-start}
- .report-actions button{flex:0 1 auto;width:auto;min-height:34px;padding:7px 9px;font-size:.74rem}
- .report-filter-grid-compact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .report-filter-grid-compact .report-filter-field{min-width:0}
- #report-subview-guias .report-filter-grid-compact .report-filter-field:nth-child(3),
- #report-subview-comissoes .report-filter-grid-compact .report-filter-field:nth-child(3){grid-column:1/-1}
- .report-filter-grid-compact .report-filter-field>input,
- .report-filter-grid-compact .report-filter-field>select,
- .report-filter-grid-compact .report-multiselect>summary{font-size:16px;min-height:40px;height:40px}
- .report-controls-panel>.actions{gap:7px}
- .report-controls-panel>.actions button{flex:0 1 auto;min-height:36px;font-size:.78rem;padding:8px 10px}
- .report-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .report-kpi{padding:11px}
- .report-kpi strong{font-size:1rem;overflow-wrap:anywhere}
- .report-table th,.report-table td{padding:8px;font-size:.8rem}
- .report-chart-grid{grid-template-columns:1fr}
- .people-report-chart{grid-template-columns:1fr}
-}
-@media(max-width:390px){
- .report-actions{width:100%}
- .report-actions button{font-size:.7rem;padding:7px 8px}
- .report-kpi-grid{grid-template-columns:1fr 1fr}
-}
-
-</style>
-<style>
-/* ROTA 86 TOUR — acabamento mobile dos relatórios */
-@media screen and (max-width: 600px) {
-  html, body { max-width:100%; overflow-x:hidden; }
-  #view-reports, #view-reports * { box-sizing:border-box; }
-  #view-reports { width:100%; max-width:100%; padding:8px 8px calc(104px + env(safe-area-inset-bottom,0px)); }
-  #view-reports .report-tabs-panel { padding:8px!important; margin:6px 0 10px!important; }
-  #view-reports .report-subtabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
-  #view-reports .report-subtab { min-width:0; min-height:36px; padding:7px 4px!important; font-size:clamp(11px,3.1vw,13px)!important; line-height:1.15; white-space:nowrap; }
-  #view-reports .report-subview { width:100%; max-width:100%; min-width:0; }
-  #view-reports .report-controls-panel,
-  #view-reports .report-subview>.panel { width:100%; max-width:100%; min-width:0; margin:8px 0!important; padding:12px!important; border-radius:15px; }
-  #view-reports .report-title-row { display:flex; flex-direction:column; align-items:stretch; gap:7px; }
-  #view-reports .report-title-row>div:first-child { width:100%; min-width:0; flex:1 1 auto; }
-  #view-reports .report-title-row h2 { font-size:15px!important; line-height:1.25; padding:9px 11px!important; }
-  #view-reports .report-title-row .hint,
-  #view-reports .report-title-row p { font-size:12px!important; line-height:1.35; margin:5px 0 2px!important; }
-  #view-reports .report-actions { width:100%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; justify-content:stretch; }
-  #view-reports .report-actions button { width:100%; min-width:0; min-height:34px; padding:7px 5px!important; font-size:11px!important; line-height:1.15; white-space:normal; }
-  #view-reports .report-filter-grid,
-  #view-reports .report-filter-grid.report-filter-grid-compact,
-  #view-reports .report-filter-grid-compact {
-    display:grid!important;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-    grid-auto-flow:row;
-    gap:7px!important;
-    width:100%;
-    min-width:0;
-    margin:9px 0!important;
-  }
-  #view-reports .report-filter-field { display:block; width:100%; min-width:0!important; max-width:100%; }
-  #view-reports .report-filter-field>label { display:block; font-size:11px!important; line-height:1.2; margin:0 0 4px!important; }
-  #view-reports .report-filter-field>input,
-  #view-reports .report-filter-field>select,
-  #view-reports .report-filter-field input[type="date"],
-  #view-reports .report-filter-field select,
-  #view-reports .report-multiselect,
-  #view-reports .report-multiselect>summary {
-    display:block;
-    width:100%!important;
-    min-width:0!important;
-    max-width:100%!important;
-    height:37px!important;
-    min-height:37px!important;
-    margin:0;
-    padding:6px 7px!important;
-    font-size:12px!important;
-    line-height:1.2;
-    border-radius:8px!important;
-    box-sizing:border-box!important;
-  }
-  #view-reports input[type="date"] { -webkit-appearance:none; appearance:none; }
-  #view-reports .report-filter-grid .report-filter-field { grid-column:auto!important; }
-  #view-reports .report-filter-grid .report-filter-field:nth-child(5) { grid-column:1/-1; }
-  #view-reports .report-filter-grid.is-comparing .report-filter-field { grid-column:auto!important; }
-  #view-reports .report-filter-grid.is-comparing .report-filter-field:last-child { grid-column:1/-1; }
-  #view-reports .report-controls-panel>.actions,
-  #view-reports .report-controls-panel .actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px!important; }
-  #view-reports .report-controls-panel>.actions button,
-  #view-reports .report-controls-panel .actions button { flex:0 1 auto; width:auto; min-height:34px; padding:7px 9px!important; font-size:11px!important; }
-  #view-reports .report-kpi-grid { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr))!important; gap:7px!important; }
-  #view-reports .report-kpi { min-width:0!important; padding:9px!important; border-radius:11px; }
-  #view-reports .report-kpi .label,
-  #view-reports .report-kpi span { font-size:10px!important; line-height:1.25; }
-  #view-reports .report-kpi strong { display:block; font-size:14px!important; line-height:1.2; overflow-wrap:anywhere; }
-  #view-reports .report-subview h3 { font-size:13px!important; line-height:1.25; margin:12px 0 7px!important; padding:8px 10px!important; }
-  #view-reports .report-table-wrap { width:100%; max-width:100%; overflow-x:auto!important; -webkit-overflow-scrolling:touch; }
-  #view-reports .report-table { min-width:560px; font-size:11px!important; }
-  #view-reports .report-table th, #view-reports .report-table td { padding:7px 8px!important; font-size:11px!important; }
-  #view-reports .report-chart-grid,
-  #view-reports .people-report-chart { display:grid!important; grid-template-columns:minmax(0,1fr)!important; gap:8px!important; }
-  #view-reports .report-chart-card { min-width:0; padding:9px!important; }
-}
-@media screen and (max-width:380px) {
-  #view-reports .report-actions button { font-size:10px!important; }
-  #view-reports .report-filter-grid,
-  #view-reports .report-filter-grid.report-filter-grid-compact,
-  #view-reports .report-filter-grid-compact { gap:5px!important; }
-  #view-reports .report-filter-field>input,
-  #view-reports .report-filter-field>select { padding:5px!important; font-size:11px!important; }
-  #view-reports .report-kpi { padding:8px!important; }
-  #view-reports .report-kpi strong { font-size:13px!important; }
-}
-</style>
 </head><body>
 <section id="loginScreen" class="login-screen">
   <form id="loginForm" class="login-card">
@@ -873,7 +593,7 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
     <div class="user-avatar" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M4.8 20a7.2 7.2 0 0 1 14.4 0"/></svg></div>
     <div class="greeting-copy"><h1>Olá, <span id="currentUserLabel">Administrador</span></h1><p id="headerDate">Bem-vindo ao ROTA 86 TOUR</p></div>
   </div>
-  <div class="auth-bar"><span id="userRoleLabel">ADMINISTRADOR</span><button id="settingsButton" class="secondary" type="button" aria-label="Configurações" title="Configurações">⚙️</button><button id="logoutButton" class="secondary" type="button">Sair</button></div>
+  <div class="auth-bar"><span id="userRoleLabel">ADMINISTRADOR</span><button id="logoutButton" class="secondary" type="button">Sair</button></div>
 </div></header>
 <main>
 <nav class="app-nav" aria-label="Navegação principal">
@@ -889,121 +609,52 @@ body.dark-theme .quick-alerts .alert{background:#3b3323!important;border-color:#
 <div class="dashboard-shortcuts">
 <button type="button" class="shortcut" onclick="showView('form')"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span><span>Novo passeio</span></button>
 <button type="button" class="shortcut" onclick="showView('finance')"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span><span>Lançamento</span></button>
-<button type="button" class="shortcut" type="button" onclick="window.showView('agenda')"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span><span>Ver agenda</span></button>
+<button type="button" class="shortcut" onclick="showView('agenda')"><span class="shortcut-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span><span>Ver agenda</span></button>
 </div>
 <div class="stats-grid"><div class="stat"><small>Faturamento previsto</small><strong id="statRevenue">R$ 0,00</strong></div><div class="stat"><small>Já recebido</small><strong id="statReceived">R$ 0,00</strong></div><div class="stat"><small>Saldo a receber</small><strong id="statDue">R$ 0,00</strong></div><div class="stat"><small>Passeios no mês</small><strong id="statTours">0</strong></div></div>
-<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">Próximos passeios</h2><button class="secondary" type="button" onclick="window.showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
+<div class="quick-alerts" id="alerts"></div><section class="panel"><div class="topline"><h2 style="margin:0">Próximos passeios</h2><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div><div class="tour-list" id="homeList"></div></section></section>
 <section id="view-form" class="view" hidden><section class="panel"><h2 id="formTitle">Cadastrar passeio</h2><form id="tourForm"><div class="form-grid">
 <div><label for="date">Data do passeio *</label><input id="date" type="date" required></div><div><label for="time">Horário</label><input id="time" type="time"></div>
 <div class="wide"><label for="type">Tipo de passeio *</label><select id="type" required><option value="Passeio de barco + caiaque + degustação (compartilhado)">Barco + caiaque + degustação (compartilhado)</option><option value="Passeio de barco + caiaque + churrasco (coletivo)">Barco + caiaque + churrasco (coletivo)</option><option value="Outro passeio">Outro passeio</option></select></div>
 <div><label for="customer">Cliente / grupo</label><input id="customer" placeholder="Nome do cliente ou grupo"></div><div><label for="phone">Contato</label><input id="phone" type="tel" placeholder="WhatsApp"></div>
 <div><label for="paidPeople">Participantes pagantes *</label><input id="paidPeople" type="number" min="0" value="1" required></div><div><label for="freePeople">Cortesias / não pagantes</label><input id="freePeople" type="number" min="0" value="0"></div>
-<div id="ownSalePriceWrap"><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div>
-<div id="partnerSalePriceWrap" hidden><label for="partnerSalePrice">Valor a vender por pagante (R$)</label><input id="partnerSalePrice" type="number" min="0" step=".01" value="0"></div><div id="partnerCommissionTotalWrap" hidden><label for="partnerCommissionTotal">Comissão total a receber (R$)</label><input id="partnerCommissionTotal" type="number" min="0" step=".01" value="0"></div><div id="partnerCommissionReceivedWrap" hidden><label for="partnerCommissionReceived">Comissão recebida até agora (R$)</label><input id="partnerCommissionReceived" type="number" min="0" step=".01" value="0"><small class="hint">Ao informar o valor recebido, ele será lançado como receita no Financeiro.</small></div>
-<div id="ownGuideSelectWrap"><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div id="ownSellerSelectWrap"><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
-<div id="ownGuidePayWrap"><label>Forma de pagamento do guia</label><div class="guide-pay-options" role="group" aria-label="Forma de pagamento do guia"><label class="guide-pay-option"><input type="checkbox" id="guidePayPerPerson" onchange="setGuidePayModel('por_pessoa')"> <span>Por pagante</span></label><label class="guide-pay-option"><input type="checkbox" id="guidePayPerTour" onchange="setGuidePayModel('fixo')"> <span>Por passeio (valor fixo)</span></label></div><select id="guidePayModel" aria-hidden="true" tabindex="-1" style="display:none"><option value="por_pessoa">Por pessoa pagante</option><option value="fixo">Valor fixo por passeio</option></select><label for="guidePay" id="guidePayValueLabel">Valor do guia por pagante (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"><small class="hint" id="guidePayHint">O valor será multiplicado pela quantidade de participantes pagantes. Você pode ajustar nesta venda.</small></div><div id="ownSellerCommissionWrap"><label for="partnerCommission">Comissão do parceiro/vendedor por pagante (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"><small class="hint" id="commissionCalcHint">Valor calculado pelo cadastro do passeio; você pode ajustar nesta venda.</small></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
-<small class="hint">Os recebimentos serão lançados depois, nos detalhes do passeio, com data e forma de pagamento. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
-<section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary active" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><input type="month" id="agendaMonthFilter" aria-label="Selecionar mês da agenda" title="Selecionar mês da agenda"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" hidden></div><div class="tour-list" id="agendaDayList" hidden></div></section></section>
-<section id="view-registries" class="view" hidden>
- <section class="panel"><h2>Cadastros</h2>
-  <div class="registry-subnav" role="tablist" aria-label="Seções de cadastros">
-   <button type="button" class="secondary active" data-registry-tab="tours">Cadastro de passeios</button>
-   <button type="button" class="secondary" data-registry-tab="team">Equipe e parceiros</button>
-   <button type="button" class="secondary" data-registry-tab="categories">Financeiro</button>
-  </div>
-  <section class="registry-tab" id="registry-tours">
-   <h3>Tipos de passeios disponíveis para venda</h3>
-   <p class="hint">Cadastre os produtos que aparecem no formulário de venda e defina se são próprios ou de parceiros. A comissão configurada é uma sugestão automática e pode ser ajustada em cada venda.</p>
-   <form id="tourCatalogForm"><input type="hidden" id="catalogId"><div class="form-grid">
-    <div class="wide"><label for="catalogName">Nome do passeio *</label><input id="catalogName" required maxlength="160" placeholder="Ex.: Passeio de barco + caiaque"></div>
-    <div><label for="catalogOrigin">Classificação *</label><select id="catalogOrigin"><option value="proprio">Próprio</option><option value="parceiro">Parceiro</option></select></div>
-    <div id="catalogOwnFields" class="wide"><div class="form-grid">
-     <div><label for="catalogOwnPrice">Valor do passeio por pagante (R$)</label><input id="catalogOwnPrice" type="number" min="0" step="0.01" value="0"></div>
-     <div><label><input id="catalogGuideEnabled" type="checkbox" style="width:auto"> Este passeio utiliza guia</label></div>
-     <div id="catalogGuideValueWrap"><label for="catalogGuidePayModel">Como o guia será remunerado?</label><select id="catalogGuidePayModel"><option value="por_pessoa">Por pessoa pagante</option><option value="fixo">Valor fixo por passeio</option></select><label for="catalogGuideValue">Valor do guia neste passeio (R$)</label><input id="catalogGuideValue" type="number" min="0" step="0.01" value="0"></div>
-     <div><label><input id="catalogSellerEnabled" type="checkbox" style="width:auto"> Habilitar parceiro/vendedor e comissão</label></div>
-     <div id="catalogSellerValueWrap"><label for="catalogSellerValue">Comissão do parceiro/vendedor por pagante (R$)</label><input id="catalogSellerValue" type="number" min="0" step="0.01" value="0"></div>
-    </div></div>
-    <div id="catalogPartnerFields" class="wide" hidden><div class="form-grid">
-     <div><label for="catalogPartnerSalePrice">Valor a vender por pagante (R$)</label><input id="catalogPartnerSalePrice" type="number" min="0" step="0.01" value="0"></div>
-     <div><label for="catalogCommissionModel">Modelo da comissão a receber</label><select id="catalogCommissionModel"><option value="fixo">Valor fixo por pagante</option><option value="percentual">Percentual sobre a venda</option></select></div>
-     <div><label for="catalogCommissionValue" id="catalogCommissionLabel">Comissão a receber por pagante (R$)</label><input id="catalogCommissionValue" type="number" min="0" step="0.01" value="0"></div>
-    </div></div>
-    <div class="wide"><label><input id="catalogActive" type="checkbox" checked style="width:auto"> Passeio ativo para novas vendas</label></div>
-   </div><div class="actions"><button class="primary" type="submit" id="catalogSaveButton">Salvar passeio</button><button class="secondary" type="button" id="catalogCancelButton" hidden>Cancelar edição</button></div></form>
-   <p id="catalogStatus" class="hint" role="status"></p><div id="tourCatalogList"></div>
-  </section>
-  <section class="registry-tab" id="registry-team" hidden>
-   <div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div>
-   <div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros / vendedores</h3><ul id="partnerList"></ul></div></div>
-  </section>
-  <section class="registry-tab" id="registry-categories" hidden>
-   <h3>Formas de pagamento</h3><p class="hint">Cadastre as opções utilizadas nos recebimentos e pagamentos.</p><div class="form-grid"><div><label for="newPaymentMethod">Nova forma de pagamento</label><input id="newPaymentMethod" placeholder="Ex.: Pix, dinheiro, cartão"></div><div style="align-self:end"><button class="primary" id="addPaymentMethod" type="button">Adicionar forma</button></div></div><ul id="paymentMethodList"></ul><h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div>
-  </section>
- </section>
-</section>
-<section id="view-settings" class="view" hidden>
- <section class="panel"><h2>Configurações</h2><h3>Aparência do sistema</h3><p class="hint">Escolha como deseja visualizar o ROTA 86 TOUR neste aparelho.</p><div class="theme-options"><button type="button" class="secondary" data-theme-choice="light">☀️ Tema claro</button><button type="button" class="secondary" data-theme-choice="dark">🌙 Tema escuro</button></div><p id="themeStatus" class="hint">A preferência fica salva neste navegador.</p></section>
- <section class="panel" id="userAdminPanel"><h2>Gerenciamento de usuários</h2>
+<div><label for="price">Valor por pagante (R$) *</label><input id="price" type="number" min="0" step=".01" value="250" required></div><div><label for="received">Total já recebido (R$)</label><input id="received" type="number" min="0" step=".01" value="0"></div>
+<div><label for="guide">Guia</label><select id="guide"><option value="">Selecione um guia</option></select></div><div><label for="partner">Parceiro / vendedor</label><select id="partner"><option value="">Selecione um parceiro</option></select></div>
+<div><label for="guidePay">Pagamento do guia (R$)</label><input id="guidePay" type="number" min="0" step=".01" value="30"></div><div><label for="partnerCommission">Comissão do parceiro (R$)</label><input id="partnerCommission" type="number" min="0" step=".01" value="25"></div><div class="wide"><label for="notes">Observações</label><textarea id="notes"></textarea></div></div>
+<small class="hint">A entrada registrada no campo “Total já recebido” confirma o passeio. Cortesias não geram receita.</small><div class="actions"><button class="primary" id="saveBtn" type="submit">Salvar passeio</button><button class="secondary" id="cancelEdit" type="button" hidden>Cancelar edição</button></div></form></section></section>
+<section id="view-agenda" class="view" hidden><section class="panel"><div class="agenda-head"><div><h2 style="margin:0">Agenda de passeios</h2><div class="count" id="count">Passeios organizados por data</div></div><div class="agenda-controls"><div class="view-switch" role="group" aria-label="Visualização da agenda"><button type="button" id="agendaListMode" class="secondary" onclick="setAgendaMode('list')">☷ Lista</button><button type="button" id="agendaCalendarMode" class="secondary active" onclick="setAgendaMode('calendar')">▦ Calendário</button></div><div class="filters"><select id="statusFilter"><option value="all">Todos os status</option><option value="upcoming">Agenda futura</option><option value="done">Concluídos</option></select></div></div></div><div class="tour-list" id="tourList" style="margin-top:14px"></div><div id="agendaCalendar" hidden></div><div class="tour-list" id="agendaDayList" hidden></div></section></section>
+<section id="view-registries" class="view" hidden><section class="panel"><h2>Cadastros</h2>
+<section class="user-admin-card" id="userAdminPanel">
+   <h3>Gerenciamento de usuários</h3>
    <p class="hint">Cadastre colaboradores e defina o perfil e as permissões de cada acesso.</p>
-   <form id="userCreateForm"><div class="user-admin-grid"><div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div><div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div><div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div><div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div></div><div class="user-admin-options"><label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label></div><div id="newUserMenusWrap"><strong>Menus permitidos para a equipe</strong><p class="hint">Selecione quais áreas este usuário poderá acessar. Administradores têm acesso completo.</p><div class="menu-permissions" id="newUserMenus"><label><input type="checkbox" name="newUserMenu" value="home" checked> Resumo</label><label><input type="checkbox" name="newUserMenu" value="agenda" checked> Passeios</label><label><input type="checkbox" name="newUserMenu" value="form" checked> Cadastrar</label><label><input type="checkbox" name="newUserMenu" value="registries" > Cadastros</label><label><input type="checkbox" name="newUserMenu" value="finance" checked> Financeiro</label><label><input type="checkbox" name="newUserMenu" value="reports" checked> Relatórios</label><label><input type="checkbox" name="newUserMenu" value="settings" > Configurações</label></div></div><div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div></form>
-   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div><h3>Usuários cadastrados</h3><div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div><small class="hint" id="assistantPermissionStatus" role="status"></small>
+   <form id="userCreateForm">
+    <div class="user-admin-grid">
+     <div><label for="newUserName">Nome do usuário *</label><input id="newUserName" required maxlength="100" autocomplete="name"></div>
+     <div><label for="newUserEmail">E-mail de acesso *</label><input id="newUserEmail" type="email" required autocomplete="email"></div>
+     <div><label for="newUserPassword">Senha inicial *</label><input id="newUserPassword" type="password" required minlength="8" autocomplete="new-password"><small class="hint">Mínimo de 8 caracteres. Oriente o colaborador a trocar a senha depois.</small></div>
+     <div><label for="newUserRole">Perfil de acesso *</label><select id="newUserRole"><option value="EQUIPE">Equipe</option><option value="ADMINISTRADOR">Administrador</option></select></div>
+    </div>
+    <div class="user-admin-options">
+     <label><input id="newUserActive" type="checkbox" checked> Usuário ativo</label>
+     <label><input id="newUserAssistant" type="checkbox"> Pode usar Assistente IA</label>
+    </div>
+    <div class="actions"><button class="primary" id="createUserButton" type="submit">Adicionar usuário</button></div>
+   </form>
+   <div id="userAdminStatus" class="hint" role="status" aria-live="polite"></div>
+   <h3>Usuários cadastrados</h3>
+   <div id="assistantUsersList"><small class="hint">Carregando usuários...</small></div>
  </section>
-</section>
+ <small class="hint" id="assistantPermissionStatus" role="status"></small><div class="form-grid"><div><label for="newGuide">Adicionar guia</label><input id="newGuide"></div><div style="align-self:end"><button class="primary" id="addGuide" type="button">Adicionar guia</button></div><div><label for="newPartner">Adicionar parceiro / vendedor</label><input id="newPartner"></div><div style="align-self:end"><button class="primary" id="addPartner" type="button">Adicionar parceiro</button></div></div><div class="registry-columns"><div><h3>Guias</h3><ul id="guideList"></ul></div><div><h3>Parceiros</h3><ul id="partnerList"></ul></div></div><hr><h3>Categorias financeiras</h3><div class="form-grid"><div><label for="newCategoryType">Tipo</label><select id="newCategoryType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div><div><label for="newCategoryName">Nome da categoria</label><input id="newCategoryName" placeholder="Ex.: Hospedagem, combustível"></div><div style="align-self:end"><button class="primary" id="addFinanceCategory" type="button">Adicionar categoria</button></div></div><div class="registry-columns"><div><h4>Categorias de receitas</h4><ul id="incomeCategoryList"></ul></div><div><h4>Categorias de despesas</h4><ul id="expenseCategoryList"></ul></div></div></section></section>
 <section id="view-finance" class="view" hidden><section class="panel"><h2>Adicionar receita ou despesa</h2><form id="financeForm"><div class="form-grid">
 <div><label for="finType">Tipo</label><select id="finType"><option value="receita">Receita</option><option value="despesa">Despesa</option></select></div>
 <div><label for="finDate">Data</label><input id="finDate" type="date" required></div>
 <div><label for="finCategory">Categoria</label><select id="finCategory" required><option value="">Selecione uma categoria</option></select></div>
-<div><label for="finAmount">Valor (R$)</label><input id="finAmount" type="number" min="0.01" step=".01" required></div><div><label for="finPaymentMethod">Forma de pagamento</label><select id="finPaymentMethod"><option value="">Selecione</option></select></div>
+<div><label for="finAmount">Valor (R$)</label><input id="finAmount" type="number" min="0.01" step=".01" required></div>
 <div class="wide"><label for="finDescription">Descrição</label><input id="finDescription" placeholder="Detalhes do lançamento"></div>
 </div><div class="actions"><button class="primary" type="submit">Salvar lançamento</button></div></form></section>
 <section class="panel finance-movements"><div class="cashflow-heading"><h2 style="margin:0">Movimentações financeiras</h2><button type="button" class="primary print-flow-btn" onclick="viewPrintCashFlow()">🖨️ Visualizar / Imprimir / PDF</button></div><div id="finTotals"></div><div class="finance-list-wrap"><ul id="financeList"></ul></div></section><div id="cashFlowReport" hidden></div></section>
-<section id="view-reports" class="view" hidden>
- <section class="panel report-tabs-panel"><div class="report-subtabs" role="tablist" aria-label="Tipos de relatório">
-  <button type="button" class="report-subtab active" data-report-tab="gerencial" onclick="setReportSubview('gerencial')"><span>▥</span> Gerencial</button>
-  <button type="button" class="report-subtab" data-report-tab="guias" onclick="setReportSubview('guias')"><span>♙</span> Guias</button>
-  <button type="button" class="report-subtab" data-report-tab="comissoes" onclick="setReportSubview('comissoes')"><span>＄</span> Comissões</button>
- </div></section>
- <div id="report-subview-gerencial" class="report-subview"><section class="panel report-controls-panel">
-  <div class="report-title-row"><div><h2 style="margin:0">Relatórios gerenciais</h2><p class="hint">Escolha os passeios, despesas e período para analisar os resultados.</p></div><div class="report-actions"><button type="button" class="secondary" onclick="printAdvancedReport()">Imprimir / Salvar PDF</button><button type="button" class="primary" onclick="shareAdvancedReport()">Compartilhar arquivo</button></div></div>
-  <div class="report-filter-grid report-filter-grid-compact">
-   <div class="report-filter-field"><label for="reportStart">Data inicial</label><input type="date" id="reportStart"></div>
-   <div class="report-filter-field"><label for="reportEnd">Data final</label><input type="date" id="reportEnd"></div>
-   <div class="report-filter-field"><label for="reportViewMode">Tipo de relatório</label><select id="reportViewMode"><option value="single">Relatório do mês</option><option value="compare">Relatório comparativo</option></select></div>
-   <div class="report-filter-field" id="reportCompareModeWrap" hidden><label for="reportCompareMode">Comparar resultados</label><select id="reportCompareMode"><option value="month">Mês a mês</option><option value="day">Dia a dia</option></select></div>
-   <div class="report-filter-field"><label>Passeios incluídos</label><details class="report-multiselect"><summary id="reportTourSummary">Todos os passeios</summary><div class="report-dropdown-panel"><div class="report-dropdown-actions"><button type="button" class="secondary small-btn" onclick="setReportChecks('reportTourChecks',true)">Todos</button><button type="button" class="secondary small-btn" onclick="setReportChecks('reportTourChecks',false)">Limpar</button></div><div id="reportTourChecks" class="report-check-grid"></div><small class="hint">Selecione os passeios que deseja incluir.</small></div></details></div>
-   <div class="report-filter-field"><label>Tipos de despesas incluídos</label><details class="report-multiselect"><summary id="reportExpenseSummary">Todas as despesas</summary><div class="report-dropdown-panel"><div class="report-dropdown-actions"><button type="button" class="secondary small-btn" onclick="setReportChecks('reportExpenseChecks',true)">Todas</button><button type="button" class="secondary small-btn" onclick="setReportChecks('reportExpenseChecks',false)">Limpar</button></div><div id="reportExpenseChecks" class="report-check-grid"></div><small class="hint">Selecione as categorias de despesas.</small></div></details></div>
-  </div>
-  <div class="actions"><button type="button" class="primary" onclick="renderAdvancedReports()">Atualizar relatório</button><button type="button" class="secondary" onclick="resetAdvancedReportFilters()">Limpar filtros</button></div>
- </section>
- <section class="panel" id="advancedReportOutput"><h3>Resumo do período</h3><div id="advancedReportSummary" class="report-kpi-grid"></div><h3>Comparativo de resultados</h3><p id="advancedReportCompareLabel" class="hint"></p><div class="report-chart-grid"><div class="report-chart-card"><h4>Receitas x despesas</h4><div id="reportRevenueChart"></div></div><div class="report-chart-card"><h4>Resultado líquido</h4><div id="reportProfitChart"></div></div></div><h3>Detalhamento por passeio</h3><div id="reportTourBreakdown" class="report-table-wrap"></div><h3>Despesas por categoria</h3><div id="reportExpenseBreakdown" class="report-table-wrap"></div><p class="hint">Relatório baseado nos lançamentos financeiros registrados e nas datas efetivas de recebimento/pagamento.</p></section>
-</div>
- <section id="report-subview-guias" class="report-subview" hidden>
-  <section class="panel report-controls-panel">
-   <div class="report-title-row"><div><h2 style="margin:0">Relatório dos guias</h2><p class="hint">Acompanhe os valores gerados pelos passeios e os pagamentos realizados aos guias.</p></div><div class="report-actions"><button type="button" class="secondary" onclick="printPeopleReport('guide')">Imprimir / Salvar PDF</button><button type="button" class="primary" onclick="sharePeopleReport('guide')">Compartilhar arquivo</button></div></div>
-   <div class="report-filter-grid report-filter-grid-compact">
-    <div class="report-filter-field"><label for="guideReportStart">Data inicial</label><input type="date" id="guideReportStart"></div>
-    <div class="report-filter-field"><label for="guideReportEnd">Data final</label><input type="date" id="guideReportEnd"></div>
-    <div class="report-filter-field"><label for="guideReportPerson">Selecionar guia</label><select id="guideReportPerson"><option value="">Todos os guias</option></select></div>
-   </div>
-   <div class="actions"><button type="button" class="primary" onclick="renderPeopleReport('guide')">Atualizar relatório</button><button type="button" class="secondary" onclick="resetPeopleReport('guide')">Limpar filtros</button></div>
-  </section>
-  <section class="panel"><h3>Resumo dos guias</h3><div id="guideReportKpis" class="report-kpi-grid"></div><h3>Total por guia</h3><div id="guideReportTotals" class="report-table-wrap"></div><h3>Gerado x pago por guia</h3><div id="guideReportChart" class="people-report-chart"></div><h3>Detalhamento por guia e passeio</h3><div id="guideReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="guideReportPayments" class="report-table-wrap"></div></section>
- </section>
- <section id="report-subview-comissoes" class="report-subview" hidden>
-  <section class="panel report-controls-panel">
-   <div class="report-title-row"><div><h2 style="margin:0">Relatório de comissões</h2><p class="hint">Acompanhe as comissões geradas pelas vendas e os pagamentos realizados aos vendedores.</p></div><div class="report-actions"><button type="button" class="secondary" onclick="printPeopleReport('partner')">Imprimir / Salvar PDF</button><button type="button" class="primary" onclick="sharePeopleReport('partner')">Compartilhar arquivo</button></div></div>
-   <div class="report-filter-grid report-filter-grid-compact">
-    <div class="report-filter-field"><label for="partnerReportStart">Data inicial</label><input type="date" id="partnerReportStart"></div>
-    <div class="report-filter-field"><label for="partnerReportEnd">Data final</label><input type="date" id="partnerReportEnd"></div>
-    <div class="report-filter-field"><label for="partnerReportPerson">Selecionar vendedor</label><select id="partnerReportPerson"><option value="">Todos os vendedores</option></select></div>
-   </div>
-   <div class="actions"><button type="button" class="primary" onclick="renderPeopleReport('partner')">Atualizar relatório</button><button type="button" class="secondary" onclick="resetPeopleReport('partner')">Limpar filtros</button></div>
-  </section>
-  <section class="panel"><h3>Resumo das comissões</h3><div id="partnerReportKpis" class="report-kpi-grid"></div><h3>Total por vendedor</h3><div id="partnerReportTotals" class="report-table-wrap"></div><h3>Comissões geradas x pagas por vendedor</h3><div id="partnerReportChart" class="people-report-chart"></div><h3>Detalhamento por vendedor e venda</h3><div id="partnerReportProduction" class="report-table-wrap"></div><h3>Pagamentos realizados</h3><div id="partnerReportPayments" class="report-table-wrap"></div></section>
- </section>
-</section>
-<section class="panel" id="backupPanel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados principais são sincronizados pelo Supabase. Use a exportação para guardar uma cópia de segurança.</small></section>
+<section id="view-reports" class="view" hidden><section class="panel"><h2>Relatório mensal</h2><p id="reportSummary"></p><div id="reportLines"></div><h3>Comissões — Guias</h3><div id="guideCommissionReport"></div><h3>Comissões — Parceiros</h3><div id="partnerCommissionReport"></div><p id="commissionTotals"></p><h3>Despesas a pagar — Comissões pendentes</h3><div id="payablesReport"></div></section></section>
+<section class="panel"><div class="topline"><h2 style="margin:0">Backup dos dados</h2><button class="secondary" id="exportBtn">Exportar backup</button></div><small class="hint">Os dados ficam neste navegador/aparelho. Para sincronizar entre celulares será necessário conectar um banco de dados.</small></section>
 </main>
 
 
@@ -1013,7 +664,6 @@ const $ = id => document.getElementById(id);
 let tours = JSON.parse(localStorage.getItem('rota86_tours_test') || '[]');
 let editingId = null;
 function refreshRegistrySelects(){
- if(typeof populatePeopleReportSelects==='function')populatePeopleReportSelects();
  const gs=window.rotaRemoteRegistries?.guides ?? JSON.parse(localStorage.getItem('rota86_guides')||'["Márcio","Eduardo"]');
  const ps=window.rotaRemoteRegistries?.partners ?? JSON.parse(localStorage.getItem('rota86_partners')||'[]');
  const fill=(id,arr)=>{const el=$(id),v=el.value;el.innerHTML='<option value="">Selecione</option>'+arr.map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');if(arr.includes(v))el.value=v;};
@@ -1024,49 +674,14 @@ function commissionDefaults(){
  $('guidePay').value=type.includes('coletivo')?'200':'30';
  $('partnerCommission').value=type.includes('coletivo')?'20':'25';
 }
-$('type').addEventListener('change',()=>{commissionDefaults();applyTourCommissionDefault();});
-$('price').addEventListener('input',()=>{if(findCatalog($('type').value)?.comissao_modelo==='percentual')applyTourCommissionDefault();});
-$('catalogCommissionModel').addEventListener('change',updateCatalogCommissionLabel);$('catalogOrigin').addEventListener('change',updateCatalogOriginFields);$('catalogGuideEnabled').addEventListener('change',()=>{$('catalogGuideValueWrap').hidden=!$('catalogGuideEnabled').checked;});$('catalogSellerEnabled').addEventListener('change',()=>{$('catalogSellerValueWrap').hidden=!$('catalogSellerEnabled').checked;});$('type').addEventListener('change',applyTourCommissionDefault);$('paidPeople').addEventListener('input',()=>{updateSaleOriginFields();refreshPartnerCommissionSuggestion();});$('partnerSalePrice').addEventListener('input',refreshPartnerCommissionSuggestion);updateCatalogOriginFields();
-$('catalogCancelButton').addEventListener('click',resetCatalogForm);
-document.querySelectorAll('[data-registry-tab]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-registry-tab]').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.registry-tab').forEach(p=>p.hidden=p.id!=='registry-'+btn.dataset.registryTab);}));
-document.querySelectorAll('[data-theme-choice]').forEach(btn=>btn.addEventListener('click',()=>setTheme(btn.dataset.themeChoice)));
-function setTheme(theme){document.body.classList.toggle('dark-theme',theme==='dark');localStorage.setItem('rota86_theme',theme);document.querySelectorAll('[data-theme-choice]').forEach(b=>b.classList.toggle('active',b.dataset.themeChoice===theme));$('themeStatus').textContent=theme==='dark'?'Tema escuro ativado neste navegador.':'Tema claro ativado neste navegador.';}
-setTheme(localStorage.getItem('rota86_theme')||'light');
-$('settingsButton').addEventListener('click',()=>showView('settings'));
-
-let tourCatalog=[];
-function findCatalog(name){return tourCatalog.find(x=>x.nome===name&&x.ativo!==false)||null;}
-function commissionPerPerson(name,price){const item=findCatalog(name);if(!item||item.origem!=='parceiro')return 0;const value=Number(item.comissao_valor||0);return item.comissao_modelo==='percentual'?(Number(price||0)*value/100):value;}
-function refreshTourTypeOptions(selected){const el=$('type');if(!el)return;const old=selected??el.value;const active=tourCatalog.filter(x=>x.ativo!==false);const names=[...new Set([...active.map(x=>x.nome),...['Passeio de barco + caiaque + degustação (compartilhado)','Passeio de barco + caiaque + churrasco (coletivo)','Outro passeio']])];el.innerHTML=names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');if(names.includes(old))el.value=old;}
-function updateCatalogCommissionLabel(){const pct=$('catalogCommissionModel').value==='percentual';$('catalogCommissionLabel').textContent=pct?'Comissão a receber sobre a venda (%)':'Comissão a receber por pagante (R$)';$('catalogCommissionValue').max=pct?'100':'';}
-function updateCatalogOriginFields(){const partner=$('catalogOrigin').value==='parceiro';$('catalogOwnFields').hidden=partner;$('catalogPartnerFields').hidden=!partner;$('catalogGuideValueWrap').hidden=!$('catalogGuideEnabled').checked;$('catalogSellerValueWrap').hidden=!$('catalogSellerEnabled').checked;updateCatalogCommissionLabel();}
-function updateSaleOriginFields(){const item=findCatalog($('type').value);const partner=item?.origem==='parceiro';$('ownSalePriceWrap').hidden=partner;$('ownGuideSelectWrap').hidden=false;$('ownGuidePayWrap').hidden=false;$('ownSellerSelectWrap').hidden=false;$('ownSellerCommissionWrap').hidden=false;$('partnerSalePriceWrap').hidden=!partner;$('partnerCommissionTotalWrap').hidden=!partner;$('partnerCommissionReceivedWrap').hidden=!partner;}
-function refreshPartnerCommissionSuggestion(){const item=findCatalog($('type').value);if(!item||item.origem!=='parceiro')return;const model=item.comissao_modelo||'fixo',v=Number(item.comissao_valor||0),n=Number($('paidPeople').value||0),sale=Number($('partnerSalePrice').value||0);$('partnerCommissionTotal').value=((model==='percentual'?sale*v/100:v)*n).toFixed(2);}
-window.setGuidePayModel=function(model){const normalized=model==='fixo'?'fixo':'por_pessoa';const select=document.getElementById('guidePayModel');if(select)select.value=normalized;const perPerson=document.getElementById('guidePayPerPerson');const perTour=document.getElementById('guidePayPerTour');if(perPerson)perPerson.checked=normalized==='por_pessoa';if(perTour)perTour.checked=normalized==='fixo';const label=document.getElementById('guidePayValueLabel');const hint=document.getElementById('guidePayHint');if(label)label.textContent=normalized==='fixo'?'Valor fixo do guia por passeio (R$)':'Valor do guia por pagante (R$)';if(hint)hint.textContent=normalized==='fixo'?'Este valor será pago uma única vez pelo passeio, independentemente da quantidade de participantes. Você pode ajustar nesta venda.':'O valor será multiplicado pela quantidade de participantes pagantes. Você pode ajustar nesta venda.';};
-function applyTourCommissionDefault(){const name=$('type').value,item=findCatalog(name);if(!item){updateSaleOriginFields();return;}if(item.origem==='parceiro'){$('partnerSalePrice').value=Number(item.valor_venda_parceiro||0);updateSaleOriginFields();refreshPartnerCommissionSuggestion();return;}$('price').value=Number(item.valor_passeio||0);$('guidePay').value=Number(item.valor_guia||0);setGuidePayModel(item.modelo_pagamento_guia||'por_pessoa');$('partnerCommission').value=Number(item.comissao_vendedor||0);$('commissionCalcHint').textContent='Valores sugeridos pelo cadastro. Você pode ajustar nesta venda.';updateSaleOriginFields();}
-function renderTourCatalog(){const target=$('tourCatalogList');if(!target)return;target.innerHTML=tourCatalog.map(x=>{const detail=x.origem==='parceiro'?`Venda: ${money(x.valor_venda_parceiro||0)} por pagante · Comissão: ${x.comissao_modelo==='percentual'?`${Number(x.comissao_valor||0)}%`:`${money(x.comissao_valor||0)} por pagante`}`:`Passeio: ${money(x.valor_passeio||0)} por pagante · Guia: ${x.usa_guia?`${money(x.valor_guia||0)} ${x.modelo_pagamento_guia==='fixo'?'fixo por passeio':'por pagante'}`:'Não utiliza'} · Vendedor: ${x.habilita_vendedor?money(x.comissao_vendedor||0):'Não habilitado'}`;return `<div class="catalog-row"><div><strong>${esc(x.nome)}</strong><small><span class="catalog-origin ${x.origem==='parceiro'?'partner':''}">${x.origem==='parceiro'?'Parceiro':'Próprio'}</span> · ${detail} · ${x.ativo?'Ativo':'Inativo'}</small></div><div class="catalog-actions"><button class="secondary" type="button" onclick="editCatalogTour('${x.id}')">Editar</button><button class="danger" type="button" onclick="toggleCatalogTour('${x.id}',${!x.ativo})">${x.ativo?'Desativar':'Ativar'}</button><button class="danger" type="button" onclick="deleteCatalogTour('${x.id}')">Excluir</button></div></div>`}).join('')||'<p class="empty">Nenhum passeio cadastrado no catálogo.</p>';refreshTourTypeOptions();}
-function resetCatalogForm(){$('catalogId').value='';$('tourCatalogForm').reset();$('catalogCommissionValue').value=0;$('catalogOwnPrice').value=0;$('catalogGuideValue').value=0;$('catalogGuidePayModel').value='por_pessoa';$('catalogSellerValue').value=0;$('catalogPartnerSalePrice').value=0;$('catalogActive').checked=true;$('catalogSaveButton').textContent='Salvar passeio';$('catalogCancelButton').hidden=true;updateCatalogOriginFields();}
-window.editCatalogTour=id=>{const x=tourCatalog.find(v=>String(v.id)===String(id));if(!x)return;$('catalogId').value=x.id;$('catalogName').value=x.nome;$('catalogOrigin').value=x.origem;$('catalogOwnPrice').value=x.valor_passeio||0;$('catalogGuideEnabled').checked=!!x.usa_guia;$('catalogGuideValue').value=x.valor_guia||0;$('catalogGuidePayModel').value=x.modelo_pagamento_guia||'por_pessoa';$('catalogSellerEnabled').checked=!!x.habilita_vendedor;$('catalogSellerValue').value=x.comissao_vendedor||0;$('catalogPartnerSalePrice').value=x.valor_venda_parceiro||0;$('catalogCommissionModel').value=x.comissao_modelo||'fixo';$('catalogCommissionValue').value=x.comissao_valor||0;$('catalogActive').checked=x.ativo;$('catalogSaveButton').textContent='Salvar alterações';$('catalogCancelButton').hidden=false;updateCatalogOriginFields();$('catalogName').focus();};
-window.toggleCatalogTour=async(id,active)=>{if(!confirm(active?'Reativar este passeio para novas vendas?':'Desativar este passeio para novas vendas?'))return;const {error}=await window.rota86Supabase.from('catalogo_passeios').update({ativo:active}).eq('id',id);if(error){alert('Não foi possível atualizar: '+error.message);return;}await window.rota86ReloadCatalog();};
-window.deleteCatalogTour=async(id)=>{
- const item=tourCatalog.find(x=>String(x.id)===String(id));if(!item)return;
- if(!confirm(`Excluir definitivamente o cadastro “${item.nome}”? Esta ação só será permitida se ele nunca tiver sido utilizado em uma venda.`))return;
- const {count,error}=await window.rota86Supabase.from('passeios').select('id',{count:'exact',head:true}).eq('tipo',item.nome);
- if(error){alert('Não foi possível verificar se o passeio possui vendas vinculadas: '+error.message+'\nPor segurança, o cadastro não foi excluído.');return;}
- if((count||0)>0){alert('Este passeio já possui '+count+' venda(s) vinculada(s). Para preservar o histórico e o financeiro, ele não pode ser excluído. Você pode desativá-lo.');return;}
- const result=await window.rota86Supabase.from('catalogo_passeios').delete().eq('id',id);
- if(result.error){alert('Não foi possível excluir. Verifique se o SQL complementar foi executado e tente novamente. Detalhe: '+result.error.message);return;}
- if($('catalogId').value===String(id))resetCatalogForm();
- await window.rota86ReloadCatalog();
-};
+$('type').addEventListener('change',commissionDefaults);
 
 let financeEntries=JSON.parse(localStorage.getItem('rota86_finance')||'[]');
 
 let commissionPayments=JSON.parse(localStorage.getItem('rota86_commission_payments')||'[]');
   let financeCategories=[];
-let paymentMethods=[];
 function saveCommissionPayments(){localStorage.setItem('rota86_commission_payments',JSON.stringify(commissionPayments));}
-function commissionDue(t,kind){const prop=kind==='guide'?'guidePay':'partnerCommission';const amount=Number(t[prop]||0);if(kind==='guide'){const model=t.guidePayModel||(String(t.type||'').toLowerCase().includes('coletivo')?'fixo':'por_pessoa');return model==='fixo'?amount:amount*Number(t.paidPeople||0);}return amount*Number(t.paidPeople||0);}
+function commissionDue(t,kind){const prop=kind==='guide'?'guidePay':'partnerCommission';const amount=Number(t[prop]||0);return kind==='guide'?(amount*(String(t.type||'').toLowerCase().includes('coletivo')?1:Number(t.paidPeople||0))):(amount*(String(t.type||'').toLowerCase().includes('coletivo')?Number(t.paidPeople||0):Number(t.paidPeople||0)));}
 function registerCommissionPayment(kind,name){
  const amount=Number(document.getElementById('payamount-'+kind+'-'+name).value||0);
  const date=document.getElementById('paydate-'+kind+'-'+name).value;
@@ -1094,13 +709,12 @@ window.deleteFinance=id=>{if(confirm('Excluir este lançamento?')){financeEntrie
 $('financeForm').addEventListener('submit',e=>{e.preventDefault();financeEntries.push({id:crypto.randomUUID(),type:$('finType').value,date:$('finDate').value,category:$('finCategory').value.trim(),amount:Number($('finAmount').value),description:$('finDescription').value.trim()});$('financeForm').reset();$('finDate').value=new Date().toISOString().slice(0,10);saveFinance();});
 
 const money = n => Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const totalFor = t => t.origin==='parceiro'?0:Number(t.paidPeople||0)*Number(t.price||0);
+const totalFor = t => Number(t.paidPeople||0)*Number(t.price||0);
 const balanceFor = t => Math.max(0,totalFor(t)-Number(t.received||0));
 function save(){localStorage.setItem('rota86_tours_test',JSON.stringify(tours));render();}
 function paymentStatus(t){if(Number(t.received||0)<=0)return 'pending';if(balanceFor(t)>0.009)return 'debt';return 'paid';}
 function labelStatus(t){
  if(t.done)return ['Passeio concluído','green'];
- if(t.origin==='parceiro'){const due=Number(t.partnerCommissionTotal||0),got=Number(t.partnerCommissionReceived||0);if(due<=0)return ['Comissão não configurada','orange'];if(got<=0)return ['Comissão a receber','orange'];if(got+0.009<due)return ['Comissão recebida parcialmente','orange'];return ['Comissão recebida','green'];}
  const p=paymentStatus(t);
  if(p==='pending')return ['Aguardando entrada','orange'];
  if(p==='debt')return ['Confirmado · saldo devedor','orange'];
@@ -1126,7 +740,7 @@ window.viewPrintCashFlow=function(){
 };
 
 function homeTourCard(t){
- return `<article class="tour-card"><div class="tour-main"><div class="tour-date">📅 ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo não informado')} · ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" type="button" onclick="window.showView('agenda')">Ver agenda</button></div></article>`;
+ return `<article class="tour-card"><div class="tour-main"><div class="tour-date">📅 ${dateLabel(t.date)} ${t.time||''}</div><div class="tour-title">${esc(t.type)}</div><div class="tour-meta">${esc(t.customer||'Grupo não informado')} · ${t.paidPeople} pagante(s)</div><div class="badges"><span class="badge ${labelStatus(t)[1]}">${esc(labelStatus(t)[0])}</span></div></div><div class="card-bottom"><span>${money(totalFor(t))}</span><button class="secondary" onclick="showView('agenda')">Ver agenda</button></div></article>`;
 }
 function renderHomeUpcoming(){
  const list=$('homeList');if(!list)return;
@@ -1143,280 +757,68 @@ function dashboard(){
  $('alerts').innerHTML=`<div class="alert">◷ ${a.filter(t=>!t.done&&Number(t.received||0)<=0).length} aguardando entrada</div><div class="alert">🛶 ${a.filter(t=>!t.done).length} passeio(s) a realizar</div>`;
  const next=[...tours].filter(t=>!t.done).sort((x,y)=>(x.date+(x.time||'')).localeCompare(y.date+(y.time||''))).slice(0,4);
  renderHomeUpcoming();
- const reportSummary=$('reportSummary');
- if(reportSummary)reportSummary.innerHTML=`<div class="report-line"><span>Mês de referência</span><strong>${esc($('monthLabel')?.textContent||'')}</strong></div><div class="report-line"><span>Passeios</span><strong>${a.length}</strong></div><div class="report-line"><span>Valor previsto</span><strong>${money(rev)}</strong></div><div class="report-line"><span>Valor recebido</span><strong>${money(got)}</strong></div><div class="report-line"><span>Valor a receber</span><strong>${money(due)}</strong></div>`;
- const reportLines=$('reportLines');
- if(reportLines)reportLines.innerHTML=`<div class="report-line"><span>Pagantes</span><strong>${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</strong></div><div class="report-line"><span>Cortesias</span><strong>${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</strong></div><div class="report-line"><span>Concluídos</span><strong>${a.filter(t=>t.done).length}</strong></div>`;
+ $('reportSummary').innerHTML=`<div class="report-line"><span>Mês de referência</span><strong>${esc($('monthLabel').textContent)}</strong></div><div class="report-line"><span>Passeios</span><strong>${a.length}</strong></div><div class="report-line"><span>Valor previsto</span><strong>${money(rev)}</strong></div><div class="report-line"><span>Valor recebido</span><strong>${money(got)}</strong></div><div class="report-line"><span>Valor a receber</span><strong>${money(due)}</strong></div>`;
+ $('reportLines').innerHTML=`<div class="report-line"><span>Pagantes</span><strong>${a.reduce((s,t)=>s+Number(t.paidPeople||0),0)}</strong></div><div class="report-line"><span>Cortesias</span><strong>${a.reduce((s,t)=>s+Number(t.freePeople||0),0)}</strong></div><div class="report-line"><span>Concluídos</span><strong>${a.filter(t=>t.done).length}</strong></div>`;
  const gRecords=a.filter(t=>(t.date||'').startsWith(m));
+ $('guideCommissionReport').innerHTML=renderCommissionRows('guide',gRecords);
+ $('partnerCommissionReport').innerHTML=renderCommissionRows('partner',gRecords);
+ const gTotal=gRecords.reduce((sum,t)=>sum+commissionDue(t,'guide'),0),pTotal=gRecords.reduce((sum,t)=>sum+commissionDue(t,'partner'),0);
+ $('commissionTotals').textContent='Total de comissões do mês: '+money(gTotal+pTotal);
+ // Despesas a pagar: comissões geradas no mês de referência menos pagamentos já registrados.
+ const payableGroups=[
+   {kind:'guide',label:'Guias',records:gRecords},
+   {kind:'partner',label:'Vendedores / parceiros',records:gRecords}
+ ];
+ let payableTotal=0;
+ const payableHtml=payableGroups.map(group=>{
+   const accrued={};
+   group.records.forEach(t=>{const name=t[group.kind==='guide'?'guide':'partner'];if(name)accrued[name]=(accrued[name]||0)+commissionDue(t,group.kind);});
+   const paid={};
+   commissionPayments.filter(p=>p.kind===group.kind).forEach(p=>{paid[p.name]=(paid[p.name]||0)+Number(p.amount||0);});
+   const rows=Object.keys(accrued).map(name=>{
+     const pending=Math.max(0,accrued[name]-(paid[name]||0));
+     payableTotal+=pending;
+     return pending>0?`<div class="report-line"><span>${esc(name)}</span><strong>${money(pending)}</strong></div>`:'';
+   }).filter(Boolean).join('');
+   return `<div class="payable-group"><b>${group.label}</b>${rows||'<p class="hint">Nenhuma comissão pendente neste grupo.</p>'}</div>`;
+ }).join('');
+ $('payablesReport').innerHTML=`<div class="report-line"><span><b>Total de despesas a pagar</b></span><strong>${money(payableTotal)}</strong></div>${payableHtml}`;
  const other=financeEntries.filter(x=>(x.date||'').startsWith(m));
  const tourReceived=gRecords.reduce((sum,t)=>sum+Number(t.received||0),0);
  const extraIncome=other.filter(x=>x.type==='receita').reduce((sum,x)=>sum+Number(x.amount||0),0);
  const expenses=other.filter(x=>x.type==='despesa').reduce((sum,x)=>sum+Number(x.amount||0),0);
  $('cashFlowReport').innerHTML=`<div class="flow-row in"><span class="flow-icon">↑</span><span>Recebimentos dos passeios:</span><strong class="amount">${money(tourReceived)}</strong></div><div class="flow-row in"><span class="flow-icon">↑</span><span>Outras receitas:</span><strong class="amount">${money(extraIncome)}</strong></div><div class="flow-row out"><span class="flow-icon">↓</span><span>Despesas pagas:</span><strong class="amount">${money(expenses)}</strong></div><div class="flow-row balance"><span>🪙 Saldo do mês:</span><strong class="amount">${money(tourReceived+extraIncome-expenses)}</strong></div>`;
 
- if($('advancedReportSummary')){buildReportFilterOptions();renderAdvancedReports();}
 }
-
-function reportDateRange(){
- const now=new Date(),first=new Date(now.getFullYear(),now.getMonth(),1),last=new Date(now.getFullYear(),now.getMonth()+1,0);
- const start=$('reportStart')?.value||first.getFullYear()+'-'+String(first.getMonth()+1).padStart(2,'0')+'-01';
- const end=$('reportEnd')?.value||last.getFullYear()+'-'+String(last.getMonth()+1).padStart(2,'0')+'-'+String(last.getDate()).padStart(2,'0');
- return {start,end};
-}
-function refreshReportFilterSummaries(){
- const update=(containerId,summaryId,allLabel)=>{const box=$(containerId),summary=$(summaryId);if(!box||!summary)return;const checks=[...box.querySelectorAll('input[type=checkbox]')],chosen=checks.filter(c=>c.checked).length;summary.textContent=chosen===0||chosen===checks.length?allLabel:`${chosen} selecionado(s)`;};
- update('reportTourChecks','reportTourSummary','Todos os passeios');update('reportExpenseChecks','reportExpenseSummary','Todas as despesas');
-}
-window.setReportChecks=(id,checked)=>{document.querySelectorAll('#'+id+' input[type="checkbox"]').forEach(x=>x.checked=checked);refreshReportFilterSummaries();renderAdvancedReports();};
-function reportChecked(id){return [...document.querySelectorAll('#'+id+' input[type="checkbox"]:checked')].map(x=>x.value);}
-function buildReportFilterOptions(){
- const tourNames=[...new Set([...tourCatalog.map(x=>x.nome),...tours.map(x=>x.type)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
- const expenseNames=[...new Set([...financeCategories.filter(x=>x.tipo==='despesa').map(x=>x.nome),...financeEntries.filter(x=>x.type==='despesa').map(x=>x.category)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
- const fill=(id,values)=>{const el=$(id);if(!el)return;const previous=new Set([...el.querySelectorAll('input:checked')].map(x=>x.value));el.innerHTML=values.map((v,i)=>`<label><input type="checkbox" value="${esc(v)}" ${previous.size? (previous.has(v)?'checked':''):'checked'}> ${esc(v)}</label>`).join('')||'<span class="hint">Nenhuma opção cadastrada.</span>';el.querySelectorAll('input').forEach(x=>x.addEventListener('change',()=>{refreshReportFilterSummaries();renderAdvancedReports();}));};
- fill('reportTourChecks',tourNames);fill('reportExpenseChecks',expenseNames);refreshReportFilterSummaries();
-}
-function periodBuckets(start,end,mode){
- const out=[];const a=new Date(start+'T12:00:00'),b=new Date(end+'T12:00:00');if(isNaN(a)||isNaN(b)||a>b)return out;
- if(mode==='day'){for(let d=new Date(a);d<=b;d.setDate(d.getDate()+1)){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0'),key=`${y}-${m}-${day}`;out.push({key,label:`${day}/${m}`,start:key,end:key});}}
- else if(mode==='single'){out.push({key:start+'_'+end,label:'Período',start,end});}
- else {let d=new Date(a.getFullYear(),a.getMonth(),1,12);while(d<=b){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0');out.push({key:`${y}-${m}`,label:d.toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}),start:`${y}-${m}-01`,end:new Date(y,d.getMonth()+1,0,12).toISOString().slice(0,10)});d.setMonth(d.getMonth()+1);}}
- return out.map(x=>({...x,start:x.start<start?start:x.start,end:x.end>end?end:x.end}));
-}
-function reportBarChart(buckets,series,unit){
- if(!buckets.length)return '<div class="report-empty">Selecione um período válido.</div>';
- const W=620,H=245,left=48,right=12,top=18,bottom=52,plotH=H-top-bottom,plotW=W-left-right;
- const max=Math.max(1,...buckets.flatMap(b=>series.map(s=>Number(b[s.key]||0))));const group=plotW/buckets.length,barW=Math.max(5,Math.min(24,group/(series.length+1)));
- let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico comparativo"><line x1="${left}" y1="${top+plotH}" x2="${W-right}" y2="${top+plotH}" stroke="#aebbc7"/>`;
- for(let i=0;i<=4;i++){const y=top+plotH-(plotH*i/4);svg+=`<line x1="${left}" y1="${y}" x2="${W-right}" y2="${y}" stroke="#e8edf2"/><text x="${left-7}" y="${y+4}" text-anchor="end" font-size="10" fill="#718096">${(max*i/4).toLocaleString('pt-BR',{maximumFractionDigits:0})}</text>`;}
- buckets.forEach((b,i)=>{const gx=left+i*group+group/2;series.forEach((s,j)=>{const val=Number(b[s.key]||0),h=val/max*plotH,x=gx-(series.length*barW+(series.length-1)*4)/2+j*(barW+4);svg+=`<rect x="${x}" y="${top+plotH-h}" width="${barW}" height="${Math.max(0,h)}" rx="3" fill="${s.color}"><title>Indicador: ${esc(s.label)} | Período: ${esc(b.label)} | Valor: ${money(val)}. ${esc(s.key==='receita'?'Total de receitas recebidas no período.':s.key==='despesa'?'Total de despesas pagas/lançadas no período.':'Resultado líquido: receitas menos despesas.')}</title></rect>`;});svg+=`<text x="${gx}" y="${H-27}" text-anchor="middle" font-size="10" fill="#536477">${esc(b.label)}</text>`;});
- svg+='</svg><div style="display:flex;gap:14px;flex-wrap:wrap;font-size:.78rem;color:#667789">'+series.map(s=>`<span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${s.color};margin-right:5px"></i>${esc(s.label)}</span>`).join('')+'</div>';return svg;
-}
-function renderAdvancedReports(){
- if(!$('advancedReportSummary'))return;
- if(!$('reportStart').value||!$('reportEnd').value){const range=reportDateRange();$('reportStart').value=range.start;$('reportEnd').value=range.end;}
- const isCompare=$('reportViewMode')?.value==='compare';$('reportCompareModeWrap').hidden=!isCompare;$('reportCompareModeWrap').parentElement.classList.toggle('is-comparing',isCompare);
- if(!$('reportTourChecks').children.length||!$('reportExpenseChecks').children.length)buildReportFilterOptions();
- const {start,end}=reportDateRange();if(start>end){$('advancedReportSummary').innerHTML='<div class="report-empty">A data inicial não pode ser posterior à data final.</div>';return;}
- const selectedTours=reportChecked('reportTourChecks'),selectedExpenses=reportChecked('reportExpenseChecks');
- const allTourNames=[...new Set([...tourCatalog.map(x=>x.nome),...tours.map(x=>x.type)].filter(Boolean))];
- const tourFilter=selectedTours.length?selectedTours:allTourNames,expenseFilter=selectedExpenses.length?selectedExpenses:[...new Set(financeEntries.filter(x=>x.type==='despesa').map(x=>x.category).filter(Boolean))];
- const tourIds=new Set(tours.filter(t=>tourFilter.includes(t.type)).map(t=>String(t.id)));
- const inRange=x=>(x.date||'')>=start&&(x.date||'')<=end;
- const relevant=financeEntries.filter(x=>inRange(x));
- const linkedIncome=relevant.filter(x=>x.type==='receita'&&x.passeioId&&tourIds.has(String(x.passeioId)));
- const otherIncome=relevant.filter(x=>x.type==='receita'&&!x.passeioId);
- const expenses=relevant.filter(x=>x.type==='despesa'&&expenseFilter.includes(x.category));
- const incomeTotal=linkedIncome.reduce((a,x)=>a+Number(x.amount||0),0)+otherIncome.reduce((a,x)=>a+Number(x.amount||0),0);
- const expenseTotal=expenses.reduce((a,x)=>a+Number(x.amount||0),0),profit=incomeTotal-expenseTotal;
- const countTours=tours.filter(t=>tourFilter.includes(t.type)&&(t.date||'')>=start&&(t.date||'')<=end).length;
- const kpis=[['Receitas consideradas',money(incomeTotal)],['Despesas selecionadas',money(expenseTotal)],['Resultado líquido',money(profit)],['Passeios realizados/cadastrados',countTours]];
- $('advancedReportSummary').innerHTML=kpis.map((x,i)=>`<div class="report-kpi"><span>${x[0]}</span><strong style="${i===2?(profit>=0?'color:#16834a':'color:#b42318'):''}">${x[1]}</strong></div>`).join('');
- const mode=$('reportViewMode').value==='compare'?$('reportCompareMode').value:'single',buckets=periodBuckets(start,end,mode);
- const seriesData=buckets.map(b=>{const e=financeEntries.filter(x=>(x.date||'')>=b.start&&(x.date||'')<=b.end);const inc=e.filter(x=>x.type==='receita'&&((x.passeioId&&tourIds.has(String(x.passeioId)))||!x.passeioId)).reduce((a,x)=>a+Number(x.amount||0),0);const out=e.filter(x=>x.type==='despesa'&&expenseFilter.includes(x.category)).reduce((a,x)=>a+Number(x.amount||0),0);return {...b,receita:inc,despesa:out,resultado:inc-out};});
- $('advancedReportOutput').querySelector('h3:nth-of-type(2)').textContent=mode==='single'?'Resultado do período': 'Comparativo de resultados';
- $('advancedReportCompareLabel').textContent=(mode==='single'?'Visão do mês':mode==='month'?'Comparação mês a mês':'Comparação dia a dia')+' · '+start.split('-').reverse().join('/')+' até '+end.split('-').reverse().join('/');
- $('reportRevenueChart').innerHTML=reportBarChart(seriesData,[{key:'receita',label:'Receitas',color:'#16834a'},{key:'despesa',label:'Despesas',color:'#d93422'}]);
- $('reportProfitChart').innerHTML=reportBarChart(seriesData,[{key:'resultado',label:'Resultado líquido',color:'#24669d'}]);
- const tourRows=tours.filter(t=>tourFilter.includes(t.type)&&(t.date||'')>=start&&(t.date||'')<=end).map(t=>{const rec=financeEntries.filter(x=>x.type==='receita'&&String(x.passeioId)===String(t.id)&&inRange(x)).reduce((a,x)=>a+Number(x.amount||0),0);return {name:t.type,date:t.date,client:t.customer||'—',people:Number(t.paidPeople||0),received:rec};});
- const grouped={};tourRows.forEach(r=>{const k=r.name;grouped[k]??={name:k,count:0,people:0,received:0};grouped[k].count++;grouped[k].people+=r.people;grouped[k].received+=r.received;});
- const table=(headers,rows)=>`<table class="report-table"><thead><tr>${headers.map((h,i)=>`<th class="${i>0?'num':''}">${h}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${headers.length}" class="report-empty">Nenhum registro no período.</td></tr>`}</tbody></table>`;
- $('reportTourBreakdown').innerHTML=table(['Passeio','Quantidade','Pagantes','Recebido'],Object.values(grouped).sort((a,b)=>b.received-a.received).map(x=>`<tr><td>${esc(x.name)}</td><td class="num">${x.count}</td><td class="num">${x.people}</td><td class="num">${money(x.received)}</td></tr>`).join(''));
- const expGroup={};expenses.forEach(x=>{const k=x.category||'Sem categoria';expGroup[k]=(expGroup[k]||0)+Number(x.amount||0);});
- const expenseCategoryRows=Object.entries(expGroup).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(k)}</td><td class="num">${expenses.filter(x=>(x.category||'Sem categoria')===k).length}</td><td class="num">${money(v)}</td></tr>`).join('');
- const expenseDetailRows=expenses.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.category||'Sem categoria')}</td><td>${esc(x.description||'—')}</td><td class="num">${money(x.amount)}</td></tr>`).join('');
- $('reportExpenseBreakdown').innerHTML='<h4>Resumo por categoria</h4>'+table(['Categoria','Lançamentos','Total'],expenseCategoryRows)+'<h4 style="margin-top:16px">Lançamentos detalhados de despesas</h4>'+table(['Data','Categoria','Descrição','Valor'],expenseDetailRows);
- window.rota86AdvancedReport={start,end,mode,selectedTours:tourFilter,selectedExpenses:expenseFilter,kpis,seriesData,tourRows,expenses,expenseDetailRows,linkedIncome,otherIncome,expenseTotal,incomeTotal,profit,grouped,expGroup};
-}
-window.resetAdvancedReportFilters=()=>{const now=new Date(),y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,'0'),last=new Date(y,now.getMonth()+1,0).getDate();$('reportStart').value=`${y}-${m}-01`;$('reportEnd').value=`${y}-${m}-${String(last).padStart(2,'0')}`;$('reportViewMode').value='single';$('reportCompareMode').value='month';$('reportCompareModeWrap').hidden=true;$('reportCompareModeWrap').parentElement.classList.remove('is-comparing');buildReportFilterOptions();renderAdvancedReports();};
-function advancedReportDocument(){
- const r=window.rota86AdvancedReport;if(!r)return null;
- const title='Relatório gerencial Rota 86 Tour';const moneyFmt=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
- const svg1=$('reportRevenueChart').innerHTML,svg2=$('reportProfitChart').innerHTML;
- const rows=Object.values(r.grouped).map(x=>`<tr><td>${esc(x.name)}</td><td>${x.count}</td><td>${x.people}</td><td>${moneyFmt(x.received)}</td></tr>`).join('');
- const exp=Object.entries(r.expGroup).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${moneyFmt(v)}</td></tr>`).join('');
- const expDetails=(r.expenses||[]).map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.category||'Sem categoria')}</td><td>${esc(x.description||'—')}</td><td>${moneyFmt(x.amount)}</td></tr>`).join('');
- return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>body{font:14px Arial,sans-serif;color:#263344;margin:24px}h1{color:#123f5b}h2{margin-top:26px;font-size:18px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{border:1px solid #dfe7ee;border-radius:10px;padding:12px}.card span{display:block;color:#667789;font-size:12px}.card b{font-size:18px}.charts{display:grid;grid-template-columns:1fr 1fr;gap:15px}.chart{border:1px solid #dfe7ee;border-radius:10px;padding:10px}.chart svg{width:100%;height:auto}table{width:100%;border-collapse:collapse}td,th{padding:9px;border-bottom:1px solid #e5ebf0;text-align:left}th{background:#f1f5f8}.toolbar{text-align:right;margin-bottom:15px}button{background:#24669d;color:white;border:0;border-radius:8px;padding:10px 14px}@media(max-width:700px){.cards,.charts{grid-template-columns:1fr}}@media print{.toolbar{display:none}body{margin:10mm}.cards{grid-template-columns:repeat(4,1fr)}.charts{grid-template-columns:1fr 1fr}}</style></head><body><div class="toolbar"><button onclick="window.print()">Imprimir / Salvar PDF</button></div><h1>${title}</h1><p>Período: ${r.start.split('-').reverse().join('/')} a ${r.end.split('-').reverse().join('/')} · ${r.mode==='single'?'Relatório do período':r.mode==='month'?'Comparativo mês a mês':'Comparativo dia a dia'}</p><p><b>Passeios:</b> ${esc(r.selectedTours.join(', '))}<br><b>Despesas:</b> ${esc(r.selectedExpenses.join(', '))}</p><div class="cards">${r.kpis.map(x=>`<div class="card"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div><div class="charts"><div class="chart"><h2>Receitas x despesas</h2>${svg1}</div><div class="chart"><h2>Resultado líquido</h2>${svg2}</div></div><h2>Detalhamento por passeio</h2><table><thead><tr><th>Passeio</th><th>Quantidade</th><th>Pagantes</th><th>Recebido</th></tr></thead><tbody>${rows||'<tr><td colspan="4">Sem registros</td></tr>'}</tbody></table><h2>Despesas por categoria</h2><table><thead><tr><th>Categoria</th><th>Total</th></tr></thead><tbody>${exp||'<tr><td colspan="2">Sem despesas</td></tr>'}</tbody></table><h2>Despesas detalhadas</h2><table><thead><tr><th>Data</th><th>Categoria</th><th>Descrição</th><th>Valor</th></tr></thead><tbody>${expDetails||'<tr><td colspan="4">Sem despesas</td></tr>'}</tbody></table></body></html>`;
-}
-window.printAdvancedReport=()=>{renderAdvancedReports();const html=advancedReportDocument();if(!html)return;const w=window.open('','_blank');if(!w){showError('Permita pop-ups para imprimir ou salvar em PDF.');return;}w.document.open();w.document.write(html);w.document.close();w.onload=()=>w.print();};
-window.shareAdvancedReport=async()=>{renderAdvancedReports();const html=advancedReportDocument();if(!html)return;const file=new File([html],'relatorio-rota86-tour.html',{type:'text/html'});if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){try{await navigator.share({title:'Relatório Rota 86 Tour',text:'Relatório gerencial',files:[file]});return;}catch(e){if(e.name==='AbortError')return;}}
- const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='relatorio-rota86-tour.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);alert('O arquivo do relatório foi baixado. Você pode anexá-lo no WhatsApp ou e-mail.');};
-$('reportViewMode')?.addEventListener('change',()=>{const compare=$('reportViewMode').value==='compare';$('reportCompareModeWrap').hidden=!compare;$('reportCompareModeWrap').parentElement.classList.toggle('is-comparing',compare);renderAdvancedReports();});$('reportCompareMode')?.addEventListener('change',renderAdvancedReports);$('reportStart')?.addEventListener('change',renderAdvancedReports);$('reportEnd')?.addEventListener('change',renderAdvancedReports);
-function setReportSubview(tab){
- const allowed=['gerencial','guias','comissoes'];if(!allowed.includes(tab))tab='gerencial';
- document.querySelectorAll('.report-subview').forEach(el=>el.hidden=el.id!=='report-subview-'+tab);
- document.querySelectorAll('[data-report-tab]').forEach(el=>el.classList.toggle('active',el.dataset.reportTab===tab));
- if(tab==='guias'||tab==='comissoes'){populatePeopleReportSelects();renderPeopleReport(tab);}
-}
-function currentMonthRange(){
- const n=new Date(),y=n.getFullYear(),m=String(n.getMonth()+1).padStart(2,'0'),last=new Date(y,n.getMonth()+1,0).getDate();
- return {start:`${y}-${m}-01`,end:`${y}-${m}-${String(last).padStart(2,'0')}`};
-}
-function populatePeopleReportSelects(){
- const fill=(id,values,allLabel)=>{
-  const el=$(id);if(!el)return;
-  const current=el.value;
-  const unique=[...new Set(values.map(v=>String(v||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-  el.innerHTML=`<option value="">${allLabel}</option>`+unique.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
-  if(unique.includes(current))el.value=current;
- };
- const remote=window.rotaRemoteRegistries||{};
- const registryGuides=Array.isArray(remote.guides)?remote.guides.map(x=>typeof x==='string'?x:(x?.nome||x?.name||'')):[];
- const registryPartners=Array.isArray(remote.partners)?remote.partners.map(x=>typeof x==='string'?x:(x?.nome||x?.name||'')):[];
- const tourGuides=tours.map(t=>t.guide);
- const tourPartners=tours.map(t=>t.partner);
- const paidGuides=commissionPayments.filter(p=>p.kind==='guide').map(p=>p.name);
- const paidPartners=commissionPayments.filter(p=>p.kind==='partner').map(p=>p.name);
- fill('guideReportPerson',[...registryGuides,...tourGuides,...paidGuides],'Todos os guias');
- fill('partnerReportPerson',[...registryPartners,...tourPartners,...paidPartners],'Todos os vendedores');
- ['guide','partner'].forEach(kind=>{
-  const ids=kind==='guide'?['guideReportStart','guideReportEnd']:['partnerReportStart','partnerReportEnd'];
-  const range=currentMonthRange();
-  if($(ids[0])&&!$(ids[0]).value)$(ids[0]).value=range.start;
-  if($(ids[1])&&!$(ids[1]).value)$(ids[1]).value=range.end;
- });
-}
-function peopleReportData(kind){
- const prefix=kind==='guide'?'guide':'partner',start=$(prefix+'ReportStart').value,end=$(prefix+'ReportEnd').value,selected=$(prefix+'ReportPerson').value;
- if(!start||!end||start>end)return {error:'Confira as datas: a data inicial deve ser anterior ou igual à data final.'};
- const nameKey=kind==='guide'?'guide':'partner';
- const relevantTours=tours.filter(t=>t[nameKey]&&(!selected||t[nameKey]===selected));
- const inPeriod=relevantTours.filter(t=>(t.date||'')>=start&&(t.date||'')<=end);
- const generatedToEnd=relevantTours.filter(t=>(t.date||'')<=end);
- const payments=commissionPayments.filter(p=>p.kind===kind&&(!selected||p.name===selected));
- const paymentsInPeriod=payments.filter(p=>(p.date||'')>=start&&(p.date||'')<=end);
- const paymentsToEnd=payments.filter(p=>(p.date||'')<=end);
- const names=[...new Set([...generatedToEnd.map(t=>t[nameKey]),...paymentsToEnd.map(p=>p.name)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
- const summaries=names.map(name=>{
-  const production=relevantTours.filter(t=>t[nameKey]===name);
-  const generated=production.filter(t=>(t.date||'')>=start&&(t.date||'')<=end).reduce((sum,t)=>sum+commissionDue(t,kind),0);
-  const cumulativeGenerated=production.filter(t=>(t.date||'')<=end).reduce((sum,t)=>sum+commissionDue(t,kind),0);
-  const paid=payments.filter(p=>p.name===name&&(p.date||'')>=start&&(p.date||'')<=end).reduce((sum,p)=>sum+Number(p.amount||0),0);
-  const cumulativePaid=payments.filter(p=>p.name===name&&(p.date||'')<=end).reduce((sum,p)=>sum+Number(p.amount||0),0);
-  return {name,generated,paid,pending:Math.max(0,cumulativeGenerated-cumulativePaid),cumulativeGenerated,cumulativePaid};
- });
- const totalGenerated=summaries.reduce((a,x)=>a+x.generated,0),totalPaid=paymentsInPeriod.reduce((a,x)=>a+Number(x.amount||0),0),totalPending=summaries.reduce((a,x)=>a+x.pending,0);
- return {kind,start,end,selected,summaries,totalGenerated,totalPaid,totalPending,production:inPeriod.filter(t=>!selected||t[nameKey]===selected).map(t=>({date:t.date,name:t[nameKey],tour:t.type,client:t.customer||'—',people:Number(t.paidPeople||0),amount:commissionDue(t,kind)})).sort((a,b)=>(a.date||'').localeCompare(b.date||'')),payments:paymentsInPeriod.map(p=>({date:p.date,name:p.name,amount:Number(p.amount||0),method:p.method||'—'})).sort((a,b)=>(a.date||'').localeCompare(b.date||''))};
-}
-function peopleChartHTML(data){
- const max=Math.max(1,...data.summaries.flatMap(x=>[x.generated,x.paid]));
- if(!data.summaries.length)return '<p class="report-empty">Nenhum registro para o filtro selecionado.</p>';
- return data.summaries.map(x=>`<div class="people-chart-item"><div class="people-chart-title">${esc(x.name)}</div><div class="people-chart-row"><span>Gerado</span><div class="people-chart-track" title="Comissões geradas por passeios/vendas no período: ${money(x.generated)}"><div class="people-chart-fill generated" style="width:${Math.max(0,x.generated/max*100)}%"></div></div><span class="people-chart-value">${money(x.generated)}</span></div><div class="people-chart-row"><span>Pago</span><div class="people-chart-track" title="Pagamentos efetivamente realizados no período: ${money(x.paid)}"><div class="people-chart-fill paid" style="width:${Math.max(0,x.paid/max*100)}%"></div></div><span class="people-chart-value">${money(x.paid)}</span></div></div>`).join('');
-}
-function reportTableHTML(headers,rows){
- return `<table class="report-table"><thead><tr>${headers.map((h,i)=>`<th class="${i?'num':''}">${h}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${headers.length}" class="report-empty">Nenhum registro no período.</td></tr>`}</tbody></table>`;
-}
-function renderPeopleReport(kind){
- const d=peopleReportData(kind),prefix=kind==='guide'?'guide':'partner';
- if(!d.error){
-  const select=$(prefix+'ReportPerson');
-  if(select){
-   const current=select.value;
-   const allLabel=kind==='guide'?'Todos os guias':'Todos os vendedores';
-   const names=[...new Set([
-    ...(d.summaries||[]).map(x=>x.name),
-    ...(d.production||[]).map(x=>x.name),
-    ...(d.payments||[]).map(x=>x.name)
-   ].map(x=>String(x||'').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-   select.innerHTML=`<option value="">${allLabel}</option>`+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
-   if(names.includes(current))select.value=current;
-  }
- }
- if(d.error){$(prefix+'ReportKpis').innerHTML=`<p class="report-empty">${esc(d.error)}</p>`;return;}
- $(prefix+'ReportKpis').innerHTML=[
-  ['Gerado no período',money(d.totalGenerated)],
-  ['Pago no período',money(d.totalPaid)],
-  ['Pendente acumulado',money(d.totalPending)]
- ].map((x,i)=>`<div class="report-kpi"><span>${x[0]}</span><strong>${x[1]}</strong></div>`).join('');
- const totalsRows=d.summaries.map(x=>`<tr><td>${esc(x.name)}</td><td class="num">${money(x.generated)}</td><td class="num">${money(x.paid)}</td><td class="num">${money(x.pending)}</td></tr>`).join('');
- $(prefix+'ReportTotals').innerHTML=reportTableHTML([kind==='guide'?'Guia':'Vendedor','Total gerado','Total pago no período','Pendente acumulado'],totalsRows);
- $(prefix+'ReportChart').innerHTML=peopleChartHTML(d);
- const productionRows=d.production.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.tour)}</td><td>${esc(x.client)}</td><td class="num">${x.people}</td><td class="num">${money(x.amount)}</td></tr>`).join('');
- $(prefix+'ReportProduction').innerHTML=reportTableHTML(['Data do passeio/venda',kind==='guide'?'Guia':'Vendedor','Passeio','Cliente / reserva','Pagantes','Valor gerado'],productionRows);
- const paymentRows=d.payments.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.method)}</td><td class="num">${money(x.amount)}</td></tr>`).join('');
- $(prefix+'ReportPayments').innerHTML=reportTableHTML(['Data efetiva do pagamento',kind==='guide'?'Guia':'Vendedor','Forma de pagamento','Valor pago'],paymentRows);
- window['rota86PeopleReport_'+kind]=d;
-}
-function resetPeopleReport(kind){
- const prefix=kind==='guide'?'guide':'partner',r=currentMonthRange();
- $(prefix+'ReportStart').value=r.start;$(prefix+'ReportEnd').value=r.end;$(prefix+'ReportPerson').value='';
- renderPeopleReport(kind);
-}
-function peopleReportDocument(kind){
- const d=window['rota86PeopleReport_'+kind];if(!d)return null;
- const title=kind==='guide'?'Relatório dos guias — Rota 86 Tour':'Relatório de comissões — Rota 86 Tour';
- const fmt=n=>money(n),person=kind==='guide'?'Guia':'Vendedor';
- const table=(heads,rows)=>`<table><thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${heads.length}">Nenhum registro no período.</td></tr>`}</tbody></table>`;
- const production=d.production.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.tour)}</td><td>${esc(x.client)}</td><td>${x.people}</td><td>${fmt(x.amount)}</td></tr>`).join('');
- const payments=d.payments.map(x=>`<tr><td>${dateLabel(x.date)}</td><td>${esc(x.name)}</td><td>${esc(x.method)}</td><td>${fmt(x.amount)}</td></tr>`).join('');
- const totals=d.summaries.map(x=>`<tr><td>${esc(x.name)}</td><td>${fmt(x.generated)}</td><td>${fmt(x.paid)}</td><td>${fmt(x.pending)}</td></tr>`).join('');
- return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>${title}</title><style>body{font:14px Arial;color:#263344;margin:24px}h1{color:#145d88}.cards{display:flex;gap:12px;flex-wrap:wrap}.card{border:1px solid #dfe7ee;border-radius:9px;padding:12px;min-width:180px}.card b{display:block;font-size:19px;margin-top:5px}table{width:100%;border-collapse:collapse;margin:14px 0 24px}td,th{padding:8px;border-bottom:1px solid #dfe7ee;text-align:left}th{background:#eef3f8}@media print{.no-print{display:none}body{margin:12mm}}</style></head><body><button class="no-print" onclick="window.print()">Imprimir / Salvar PDF</button><h1>${title}</h1><p>Período de produção: ${dateLabel(d.start)} a ${dateLabel(d.end)} · Filtro: ${esc(d.selected||'Todos')}</p><div class="cards"><div class="card">Gerado no período<b>${fmt(d.totalGenerated)}</b></div><div class="card">Pago no período<b>${fmt(d.totalPaid)}</b></div><div class="card">Pendente acumulado até ${dateLabel(d.end)}<b>${fmt(d.totalPending)}</b></div></div><h2>Total por ${person.toLowerCase()}</h2>${table([person,'Total gerado','Total pago no período','Pendente acumulado'],totals)}<h2>Produção por ${person.toLowerCase()}</h2>${table(['Data do passeio/venda',person,'Passeio','Cliente / reserva','Pagantes','Valor gerado'],production)}<h2>Pagamentos realizados</h2>${table(['Data efetiva do pagamento',person,'Forma de pagamento','Valor pago'],payments)}</body></html>`;
-}
-window.printPeopleReport=kind=>{renderPeopleReport(kind);const html=peopleReportDocument(kind);if(!html)return;const w=window.open('','_blank');if(!w){showError('Permita pop-ups para imprimir ou salvar em PDF.');return;}w.document.open();w.document.write(html);w.document.close();w.onload=()=>w.print();};
-window.sharePeopleReport=async kind=>{renderPeopleReport(kind);const html=peopleReportDocument(kind);if(!html)return;const file=new File([html],'relatorio-'+(kind==='guide'?'guias':'comissoes')+'-rota86-tour.html',{type:'text/html'});if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){try{await navigator.share({title:kind==='guide'?'Relatório dos guias':'Relatório de comissões',files:[file]});return;}catch(e){if(e.name==='AbortError')return;}}const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);alert('O arquivo foi baixado. Você pode anexá-lo no WhatsApp ou e-mail.');};
-['guideReportStart','guideReportEnd','guideReportPerson'].forEach(id=>$(id)?.addEventListener('change',()=>renderPeopleReport('guide')));
-['partnerReportStart','partnerReportEnd','partnerReportPerson'].forEach(id=>$(id)?.addEventListener('change',()=>renderPeopleReport('partner')));
-
-
 window.showView=v=>{
   document.querySelectorAll('.view').forEach(el=>{
     const active=el.id==='view-'+v;
     el.hidden=!active;
     el.style.display=active?'grid':'none';
   });
-  if(v==='agenda'&&typeof render==='function'){requestAnimationFrame(()=>{const input=$('agendaMonthFilter');if(input&&/^\d{4}-\d{2}$/.test(input.value))agendaCalendarMonth=input.value;render();});}
   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
   window.scrollTo({top:0,behavior:'smooth'});
 };
-let agendaMode='list';
+let agendaMode='calendar';
 let agendaCalendarMonth=new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0');
 let agendaCalendarSelected='';
-window.setAgendaMode=function(mode){
- agendaMode=mode==='calendar'?'calendar':'list';
- const list=$('tourList'),cal=$('agendaCalendar'),dayList=$('agendaDayList');
- if(list){list.hidden=agendaMode!=='list';list.style.display=agendaMode==='list'?'grid':'none';}
- if(cal){cal.hidden=agendaMode!=='calendar';cal.style.display=agendaMode==='calendar'?'block':'none';}
- if(dayList&&agendaMode!=='calendar'){dayList.hidden=true;dayList.style.display='none';}
- $('agendaListMode')?.classList.toggle('active',agendaMode==='list');
- $('agendaCalendarMode')?.classList.toggle('active',agendaMode==='calendar');
- render();
-};
-window.openAgendaFromDashboard=function(){
- const normalized=(Array.isArray(tours)?tours:[]).map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.date)).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
- const today=todayKeyLocal();
- const next=normalized.find(t=>!t.done&&t.date>=today)||normalized.find(t=>!t.done)||normalized[0];
- agendaCalendarMonth=next?agendaMonthOf(next.date):today.slice(0,7);
- agendaCalendarSelected='';
- agendaMode='list';
- const monthInput=$('agendaMonthFilter');
- if(monthInput)monthInput.value=agendaCalendarMonth;
- const nav=document.querySelector('.navbtn[data-view="agenda"]');
- if(nav)nav.click(); else if(typeof window.showView==='function')window.showView('agenda');
- requestAnimationFrame(()=>{
-  const input=$('agendaMonthFilter');
-  if(input)input.value=agendaCalendarMonth;
-  window.setAgendaMode('list');
-  const panel=$('view-agenda');
-  if(panel)panel.scrollIntoView({behavior:'smooth',block:'start'});
- });
-};
-function todayKeyLocal(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-
+window.setAgendaMode=function(mode){agendaMode=mode==='calendar'?'calendar':'list';render();};
 window.changeAgendaCalendarMonth=function(delta){
  const [y,m]=agendaCalendarMonth.split('-').map(Number);const d=new Date(y,m-1+delta,1,12);
- agendaCalendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');agendaCalendarSelected='';if($('agendaMonthFilter'))$('agendaMonthFilter').value=agendaCalendarMonth;render();
+ agendaCalendarMonth=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');agendaCalendarSelected='';render();
 };
 window.selectAgendaCalendarDay=function(date){agendaCalendarSelected=date;render();};
 window.openAgendaTour=function(id){
- agendaMode='list';render();
+ agendaMode='calendar';render();
  requestAnimationFrame(()=>{const detail=document.getElementById('detail-'+CSS.escape(String(id)));if(detail){detail.classList.add('open');detail.scrollIntoView({behavior:'smooth',block:'center'});}});
 };
 function renderAgendaCalendar(arr){
- const cal=$('agendaCalendar'),dayList=$('agendaDayList');if(!cal||!dayList)return;cal.style.display='block';
+ const cal=$('agendaCalendar'),dayList=$('agendaDayList');if(!cal||!dayList)return;
  const [year,month]=agendaCalendarMonth.split('-').map(Number);
  const first=new Date(year,month-1,1,12),lastDay=new Date(year,month,0,12),offset=(first.getDay()+6)%7;
  const today=new Date(),todayKey=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
- const monthTours=arr.filter(t=>agendaMonthOf(t.date)===agendaCalendarMonth),counts={};
- monthTours.forEach(t=>{const key=normalizeAgendaDate(t.date);counts[key]=(counts[key]||0)+1;});
+ const monthTours=arr.filter(t=>(t.date||'').startsWith(agendaCalendarMonth)),counts={};
+ monthTours.forEach(t=>counts[t.date]=(counts[t.date]||0)+1);
  if(agendaCalendarSelected&&!agendaCalendarSelected.startsWith(agendaCalendarMonth))agendaCalendarSelected='';
  const cells=[];
  for(let i=0;i<offset;i++)cells.push('<div class="agenda-calendar-empty-cell" aria-hidden="true"></div>');
@@ -1427,10 +829,10 @@ function renderAgendaCalendar(arr){
  const monthLabel=first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
  cal.innerHTML=`<div class="agenda-calendar-toolbar"><button type="button" class="secondary" onclick="changeAgendaCalendarMonth(-1)">‹ Anterior</button><strong>${esc(monthLabel)}</strong><button type="button" class="secondary" onclick="changeAgendaCalendarMonth(1)">Próximo ›</button></div><div class="agenda-calendar-grid">${['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'].map(d=>`<div class="agenda-calendar-weekday">${d}</div>`).join('')}${cells.join('')}</div>`;
  if(!agendaCalendarSelected){
-  dayList.hidden=true;dayList.style.display='none';dayList.innerHTML='';return;
+  dayList.hidden=true;dayList.innerHTML='';return;
  }
- const dayTours=monthTours.filter(t=>normalizeAgendaDate(t.date)===agendaCalendarSelected).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
- dayList.hidden=false;dayList.style.display='grid';
+ const dayTours=monthTours.filter(t=>t.date===agendaCalendarSelected).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+ dayList.hidden=false;
  dayList.innerHTML=`<h3 class="agenda-day-heading">${dayTours.length?'Passeios em '+dateLabel(agendaCalendarSelected):'Nenhum passeio em '+dateLabel(agendaCalendarSelected)}</h3>${dayTours.length?dayTours.map(t=>{
   const [status,cls]=labelStatus(t),paid=Number(t.paidPeople||0),free=Number(t.freePeople||0),expected=totalFor(t),received=Number(t.received||0),balance=balanceFor(t);
   const id=String(t.id).replace(/'/g,"\\'");
@@ -1438,40 +840,17 @@ function renderAgendaCalendar(arr){
  }).join(''):'<div class="agenda-day-empty">Não há passeios cadastrados para esta data.</div>'}`;
 }
 
-// Normalização de datas da agenda no escopo global: a tela de Passeios e os atalhos do Resumo usam estas funções.
-function normalizeAgendaDate(value){
- const raw=String(value??'').trim();
- if(!raw)return '';
- if(/^\d{4}-\d{2}-\d{2}/.test(raw))return raw.slice(0,10);
- const br=raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
- if(br)return `${br[3]}-${br[2]}-${br[1]}`;
- const parsed=new Date(raw);
- if(!Number.isNaN(parsed.getTime()))return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;
- return raw;
-}
-function agendaMonthOf(value){return normalizeAgendaDate(value).slice(0,7);}
-
 function render(){
- // A atualização da agenda não deve executar a rotina do Resumo.
- // Isso evita que componentes exclusivos do Resumo interrompam a lista/calendário.
- const agendaView=document.getElementById('view-agenda');
- if(!agendaView || agendaView.hidden)dashboard();
- const monthInput=$('agendaMonthFilter');
- if(monthInput && /^\d{4}-\d{2}$/.test(monthInput.value))agendaCalendarMonth=String(monthInput.value);
- const filter=$('statusFilter')?.value||'all';
- const normalizedTours=(Array.isArray(tours)?tours:[]).map(t=>({...t,date:normalizeAgendaDate(t.date)})).filter(t=>/^\d{4}-\d{2}-\d{2}$/.test(t.date));
- let arr=normalizedTours.filter(t=>agendaMonthOf(t.date)===agendaCalendarMonth).sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
+ dashboard();
+ const filter=$('statusFilter').value;
+ let arr=[...tours].sort((a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||'')));
  if(filter==='upcoming')arr=arr.filter(t=>!t.done);
  if(filter==='done')arr=arr.filter(t=>t.done);
  $('count').textContent=`${arr.length} passeio(s) · ${agendaMode==='calendar'?'visualização em calendário':'ordenados pela data de realização'}`;
  const list=$('tourList'),cal=$('agendaCalendar'),dayList=$('agendaDayList');
  const listBtn=$('agendaListMode'),calBtn=$('agendaCalendarMode');
- if(!list || !cal){console.error('Agenda: elementos tourList/agendaCalendar não encontrados no HTML.');return;}
- const showList=agendaMode==='list',showCalendar=agendaMode==='calendar';
- list.hidden=!showList;list.style.display=showList?'grid':'none';
- cal.hidden=!showCalendar;cal.style.display=showCalendar?'block':'none';
- if(dayList){const showDay=showCalendar&&!!agendaCalendarSelected;dayList.hidden=!showDay;dayList.style.display=showDay?'grid':'none';}
- listBtn?.classList.toggle('active',showList);calBtn?.classList.toggle('active',showCalendar);
+ list.hidden=agendaMode!=='list';cal.hidden=agendaMode!=='calendar';if(dayList)dayList.hidden=agendaMode!=='calendar'||!agendaCalendarSelected;
+ listBtn?.classList.toggle('active',agendaMode==='list');calBtn?.classList.toggle('active',agendaMode==='calendar');
  if(agendaMode==='calendar'){renderAgendaCalendar(arr);return;}
  if(!arr.length){list.innerHTML='<div class="empty">Nenhum passeio nesta lista ainda.<br>Cadastre o primeiro passeio acima.</div>';return;}
  list.innerHTML=arr.map(t=>{
@@ -1487,20 +866,10 @@ function render(){
    <div class="card-bottom"><span class="count">${t.done?'Registro finalizado':paymentStatus(t)==='pending'?'Aguardando pagamento da entrada':balance>0.009?'Pagamento parcial':'Pagamento quitado'}</span><button class="secondary" type="button" onclick="toggleDetail('${t.id}')">Ver detalhes⌄</button></div>
    <div class="detail" id="detail-${t.id}">
     <div class="detail-grid">
-     <div class="detail-item"><small>Contato</small><div class="contact-actions">${esc(t.phone||'—')}${t.phone?`<a class="contact-icon whatsapp-link" href="https://wa.me/${String(t.phone).replace(/\\D/g,'')}" target="_blank" rel="noopener noreferrer" aria-label="Conversar pelo WhatsApp" title="Abrir WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7A8.5 8.5 0 1 1 20.5 11.7Z"/><path d="M8.2 7.8c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 2 .2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .4-.2 1-.6 1.3-.4.4-1 .6-1.6.5-1-.1-2.3-.7-3.5-1.8-1.4-1.2-2.3-2.7-2.5-3.7-.2-.8.1-1.5.5-1.9Z"/></svg></a><a class="contact-icon phone-link" href="tel:${String(t.phone).replace(/[^0-9+]/g,'')}" aria-label="Ligar para o cliente" title="Ligar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.5 2l2 4.8-2.1 1.7a15 15 0 0 0 6.1 6.1l1.7-2.1 4.8 2-.8 2.9c-.3 1.1-1.4 1.8-2.5 1.7C10.8 18.3 5.7 13.2 4.9 5.3c-.1-1.1.6-2.2 1.7-2.5Z"/></svg></a>`:''}</div></div><div class="detail-item"><small>Valor por pagante</small>${money(t.origin==='parceiro'?t.partnerSalePrice:t.price)}</div>
+     <div class="detail-item"><small>Contato</small><div class="contact-actions">${esc(t.phone||'—')}${t.phone?`<a class="contact-icon whatsapp-link" href="https://wa.me/${String(t.phone).replace(/\\D/g,'')}" target="_blank" rel="noopener noreferrer" aria-label="Conversar pelo WhatsApp" title="Abrir WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7A8.5 8.5 0 1 1 20.5 11.7Z"/><path d="M8.2 7.8c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 2 .2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .4-.2 1-.6 1.3-.4.4-1 .6-1.6.5-1-.1-2.3-.7-3.5-1.8-1.4-1.2-2.3-2.7-2.5-3.7-.2-.8.1-1.5.5-1.9Z"/></svg></a><a class="contact-icon phone-link" href="tel:${String(t.phone).replace(/[^0-9+]/g,'')}" aria-label="Ligar para o cliente" title="Ligar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.5 2l2 4.8-2.1 1.7a15 15 0 0 0 6.1 6.1l1.7-2.1 4.8 2-.8 2.9c-.3 1.1-1.4 1.8-2.5 1.7C10.8 18.3 5.7 13.2 4.9 5.3c-.1-1.1.6-2.2 1.7-2.5Z"/></svg></a>`:''}</div></div><div class="detail-item"><small>Valor por pagante</small>${money(t.price)}</div>
      <div class="detail-item"><small>Guia</small>${esc(t.guide||'—')}</div><div class="detail-item"><small>Parceiro / vendedor</small>${esc(t.partner||'—')}</div>
      <div class="detail-item"><small>Saldo restante</small>${money(balance)}</div><div class="detail-item"><small>Situação</small>${esc(status)}</div>
      <div class="detail-item" style="grid-column:1/-1"><small>Observações</small>${esc(t.notes||'—')}</div>
-    </div>
-    <div class="receipt-entry" style="margin-top:14px;padding:13px;border:1px solid var(--line);border-radius:12px;background:#fff">
-      <strong>Lançar recebimento</strong>
-      <div class="form-grid" style="margin-top:9px">
-        <div><label for="receipt-amount-${t.id}">Valor recebido (R$)</label><input id="receipt-amount-${t.id}" type="number" min="0.01" step="0.01" placeholder="0,00"></div>
-        <div><label for="receipt-date-${t.id}">Data do recebimento</label><input id="receipt-date-${t.id}" type="date" value="${new Date().toISOString().slice(0,10)}"></div>
-        <div><label for="receipt-method-${t.id}">Forma de pagamento</label><select id="receipt-method-${t.id}">${paymentMethods.map(m=>`<option value="${esc(m.nome)}">${esc(m.nome)}</option>`).join('')||'<option value="">Cadastre uma forma de pagamento</option>'}</select></div>
-      </div>
-      <button class="primary" type="button" style="margin-top:9px" onclick="registerTourReceipt('${t.id}')">Registrar recebimento</button>
-      <div style="margin-top:12px"><strong>Histórico de recebimentos</strong><div id="receipt-history-${t.id}">${financeEntries.filter(x=>x.passeioId===t.id && x.type==='receita' && !x.commissionKind).sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<div class="hint">${esc(x.date)} · ${money(x.amount)} · ${esc(x.paymentMethod||'Forma não informada')}</div>`).join('')||'<small class="hint">Nenhum recebimento registrado.</small>'}</div></div>
     </div>
     <div class="detail-actions">
       <button class="share-tour-btn" type="button" onclick="shareTourWhatsApp('${t.id}')">📲 Compartilhar no WhatsApp</button>
@@ -1526,8 +895,8 @@ window.shareTourWhatsApp=id=>{
   '*Cliente / grupo:* '+(t.customer||'Não informado'),
   '*Participantes:* '+(paid+free)+' pessoa(s) — '+paid+' pagante(s) e '+free+' cortesia(s)',
   '*Guia:* '+(t.guide||'A definir'),
-  '*Valor por pagante:* '+money(t.origin==='parceiro'?t.partnerSalePrice:t.price),
-  '*Valor total previsto:* '+money(t.origin==='parceiro'?Number(t.partnerSalePrice||0)*paid:total),
+  '*Valor por pagante:* '+money(t.price),
+  '*Valor total previsto:* '+money(total),
   '*Valor recebido:* '+money(received),
   '*Saldo pendente:* '+money(balance),
   '*Situação:* '+(t.done?'Passeio realizado':balance>0.009?'Pagamento pendente/parcial':'Pagamento quitado')
@@ -1543,23 +912,20 @@ window.undoDone=id=>{const t=tours.find(x=>x.id===id);if(t){t.done=false;save();
 window.deleteTour=id=>{if(confirm('Excluir este passeio?')){tours=tours.filter(x=>x.id!==id);if(editingId===id)resetForm();save();}};
 window.editTour=id=>{
  const t=tours.find(x=>x.id===id);if(!t)return;editingId=id;
- ['date','time','type','customer','phone','paidPeople','freePeople','price','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
+ ['date','time','type','customer','phone','paidPeople','freePeople','price','received','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
  $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
  window.scrollTo({top:0,behavior:'smooth'});
 };
-function resetForm(){editingId=null;$('tourForm').reset();refreshTourTypeOptions();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('partnerSalePrice').value=0;$('partnerCommissionTotal').value=0;$('partnerCommissionReceived').value=0;refreshRegistrySelects();commissionDefaults();applyTourCommissionDefault();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
+function resetForm(){editingId=null;$('tourForm').reset();$('paidPeople').value=1;$('freePeople').value=0;$('price').value=250;$('received').value=0;refreshRegistrySelects();commissionDefaults();$('formTitle').textContent='Cadastrar passeio';$('saveBtn').textContent='Salvar passeio';$('cancelEdit').hidden=true;}
 $('tourForm').addEventListener('submit',e=>{
  e.preventDefault();
- const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:0,guide:$('guide').value,partner:$('partner').value,guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),notes:$('notes').value.trim(),done:false};
+ const t={id:editingId||crypto.randomUUID(),date:$('date').value,time:$('time').value,type:$('type').value,customer:$('customer').value.trim(),phone:$('phone').value.trim(),paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),price:Number($('price').value||0),received:Number($('received').value||0),guide:$('guide').value,partner:$('partner').value,guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),notes:$('notes').value.trim(),done:false};
+ if(t.received>totalFor(t)){if(!confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?'))return;}
  if(editingId){const old=tours.find(x=>x.id===editingId);t.done=old?.done||false;tours=tours.map(x=>x.id===editingId?t:x);}else tours.push(t);
  resetForm();save();
 });
 $('cancelEdit').addEventListener('click',resetForm);
 $('statusFilter').addEventListener('change',render);
-if($('agendaMonthFilter')){$('agendaMonthFilter').value=agendaCalendarMonth;$('agendaMonthFilter').addEventListener('change',()=>{const value=$('agendaMonthFilter').value;if(!/^\d{4}-\d{2}$/.test(value))return;agendaCalendarMonth=value;agendaCalendarSelected='';render();});}
-$('agendaListMode')?.addEventListener('click',()=>window.setAgendaMode('list'));
-$('agendaCalendarMode')?.addEventListener('click',()=>window.setAgendaMode('calendar'));
-
 $('exportBtn').addEventListener('click',()=>{
  const blob=new Blob([JSON.stringify(tours,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='backup-rota86-passeios.json';a.click();URL.revokeObjectURL(url);
@@ -1588,7 +954,6 @@ window.deleteRegistry=(kind,i)=>{
 $('addGuide').onclick=()=>{let n=$('newGuide').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_guides')||'["Márcio","Eduardo"]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_guides',JSON.stringify(a));$('newGuide').value='';renderRegistry('guide');}};
 $('addPartner').onclick=()=>{let n=$('newPartner').value.trim();if(n){let a=JSON.parse(localStorage.getItem('rota86_partners')||'[]');if(!a.includes(n))a.push(n);localStorage.setItem('rota86_partners',JSON.stringify(a));$('newPartner').value='';renderRegistry('partner');}};
 renderRegistry('guide');renderRegistry('partner');
-updateCatalogCommissionLabel();
 $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render();showView('home');
 </script>
 <script>
@@ -1600,9 +965,6 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
 
   let currentUser = null;
   let currentRole = null;
-  const ALL_MENUS = ["home", "agenda", "form", "registries", "finance", "reports", "settings"];
-  const DEFAULT_TEAM_MENUS = ["home","agenda","form","finance","reports"];
-  let allowedMenus = [...ALL_MENUS];
   let guides = [];
   let partners = [];
   let ready = false;
@@ -1617,79 +979,58 @@ $('finDate').value=new Date().toISOString().slice(0,10);renderFinance();render()
     return data;
   }
 
-  function menuCheckboxMarkup(userId, selected, disabled=false){
-    const labels=[['home','Resumo'],['agenda','Passeios'],['form','Cadastrar'],['registries','Cadastros'],['finance','Financeiro'],['reports','Relatórios'],['settings','Configurações']];
-    return `<div class="menu-permissions" data-user-menus="${esc(userId)}">${labels.map(([key,label])=>`<label><input type="checkbox" data-menu-choice="${key}" ${selected.includes(key)?'checked':''} ${disabled?'disabled':''}> ${label}</label>`).join('')}</div>`;
-  }
-  function selectedNewUserMenus(){return [...document.querySelectorAll('input[name="newUserMenu"]:checked')].map(x=>x.value);}
-  function updateNewUserMenuVisibility(){ $('newUserMenusWrap').hidden=$('newUserRole').value!=='EQUIPE'; }
   async function loadAssistantUsers(){
     if(!isAdmin()) return;
     const list=$('assistantUsersList'),status=$('assistantPermissionStatus');
     list.innerHTML='<small class="hint">Carregando usuários...</small>';status.textContent='';
     try{
-      const result=await callAdminUsers({action:'list'});const users=result.users||[];
+      const result=await callAdminUsers({action:'list'});
+      const users=result.users||[];
       if(!users.length){list.innerHTML='<p class="hint">Nenhum usuário cadastrado.</p>';return;}
       list.innerHTML=users.map(u=>{
-        const admin=u.funcao==='ADMINISTRADOR',selected=admin?ALL_MENUS:(Array.isArray(u.menus_permitidos)?u.menus_permitidos:DEFAULT_TEAM_MENUS),self=u.id===currentUser.id;
+        const admin=u.funcao==='ADMINISTRADOR';
+        const checked=admin||u.pode_usar_assistente===true;
         return `<div class="user-admin-row" data-user-row="${esc(u.id)}">
           <div><strong>${esc(u.nome||'Usuário sem nome')}</strong><small>${esc(u.email||'E-mail não disponível')} · ${admin?'Administrador':'Equipe'} · ${u.ativo?'Ativo':'Inativo'}</small></div>
-          <div><label for="role-${esc(u.id)}">Perfil</label><select id="role-${esc(u.id)}" data-user-role="${esc(u.id)}" ${self?'disabled':''}><option value="EQUIPE" ${!admin?'selected':''}>Equipe</option><option value="ADMINISTRADOR" ${admin?'selected':''}>Administrador</option></select></div>
-          <label class="user-check"><input type="checkbox" data-user-active="${esc(u.id)}" ${u.ativo?'checked':''} ${self?'disabled':''}> Ativo</label>
-          <div class="user-menu-box"><strong>Menus permitidos</strong>${menuCheckboxMarkup(u.id,selected,admin)}</div>
-          <div class="user-row-actions"><button class="secondary" type="button" data-save-user="${esc(u.id)}">Salvar</button><button class="danger" type="button" data-delete-user="${esc(u.id)}" ${self?'disabled':''}>Excluir usuário</button></div>
+          <div><label for="role-${esc(u.id)}">Perfil</label><select id="role-${esc(u.id)}" data-user-role="${esc(u.id)}" ${u.id===currentUser.id?'disabled':''}><option value="EQUIPE" ${!admin?'selected':''}>Equipe</option><option value="ADMINISTRADOR" ${admin?'selected':''}>Administrador</option></select></div>
+          <label class="user-check"><input type="checkbox" data-user-active="${esc(u.id)}" ${u.ativo?'checked':''} ${u.id===currentUser.id?'disabled':''}> Ativo</label>
+          <label class="user-check"><input type="checkbox" data-assistant-user="${esc(u.id)}" ${checked?'checked':''} ${admin||!u.ativo?'disabled':''}> Pode usar IA</label>
+          <button class="secondary" type="button" data-save-user="${esc(u.id)}">Salvar</button>
         </div>`;
       }).join('');
-      list.querySelectorAll('[data-user-role]').forEach(sel=>sel.addEventListener('change',()=>{const row=sel.closest('[data-user-row]'),adminRole=sel.value==='ADMINISTRADOR';row.querySelectorAll('[data-menu-choice]').forEach(c=>{c.disabled=adminRole;if(adminRole)c.checked=true;});}));
       list.querySelectorAll('[data-save-user]').forEach(button=>button.addEventListener('click',async()=>{
-        const id=button.dataset.saveUser,row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`),role=row.querySelector('[data-user-role]').value,active=row.querySelector('[data-user-active]').checked,menus=[...row.querySelectorAll('[data-menu-choice]:checked')].map(x=>x.dataset.menuChoice);
-        if(role==='EQUIPE'&&!menus.length){status.textContent='Selecione pelo menos um menu para o usuário da equipe.';return;}
-        if(id===currentUser.id&&(!active||role!=='ADMINISTRADOR')){status.textContent='Não é permitido desativar ou rebaixar seu próprio usuário.';return;}
-        button.disabled=true;button.textContent='Salvando...';status.textContent='Atualizando acesso...';
-        try{await callAdminUsers({action:'update',id,funcao:role,ativo:active,menus_permitidos:role==='ADMINISTRADOR'?ALL_MENUS:menus});status.textContent='Usuário atualizado com sucesso.';await loadAssistantUsers();}
+        const id=button.dataset.saveUser,row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`);
+        const role=row.querySelector('[data-user-role]').value;
+        const active=row.querySelector('[data-user-active]').checked;
+        const assistant=row.querySelector('[data-assistant-user]').checked;
+        if(id===currentUser.id && (!active || role!=='ADMINISTRADOR')){status.textContent='Não é permitido desativar ou rebaixar seu próprio usuário.';return;}
+        button.disabled=true;button.textContent='Salvando...';status.textContent='Atualizando permissões...';
+        try{await callAdminUsers({action:'update',id,funcao:role,ativo:active,pode_usar_assistente:assistant});status.textContent='Usuário atualizado com sucesso.';await loadAssistantUsers();}
         catch(err){status.textContent='Não foi possível atualizar: '+err.message;button.disabled=false;button.textContent='Salvar';}
-      }));
-      list.querySelectorAll('[data-delete-user]').forEach(button=>button.addEventListener('click',async()=>{
-        const id=button.dataset.deleteUser,row=list.querySelector(`[data-user-row="${CSS.escape(id)}"]`),name=row.querySelector('strong')?.textContent||'este usuário';
-        if(!confirm(`Tem certeza de que deseja excluir ${name}? Esta ação remove o acesso da conta e não pode ser desfeita.`))return;
-        button.disabled=true;button.textContent='Excluindo...';status.textContent='Excluindo usuário...';
-        try{await callAdminUsers({action:'delete',id});status.textContent='Usuário excluído.';await loadAssistantUsers();}
-        catch(err){status.textContent='Não foi possível excluir: '+err.message;button.disabled=false;button.textContent='Excluir usuário';}
       }));
     }catch(err){list.innerHTML='<p class="hint">Não foi possível carregar usuários: '+esc(err.message)+'</p>';}
   }
 
-  function normalizeAgendaDate(value){
- const raw=String(value||'').trim();
- if(!raw)return '';
- if(/^\d{4}-\d{2}-\d{2}/.test(raw))return raw.slice(0,10);
- const br=raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
- if(br)return `${br[3]}-${br[2]}-${br[1]}`;
- const parsed=new Date(raw);
- if(!Number.isNaN(parsed.getTime()))return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;
- return raw;
-}
-function agendaMonthOf(value){return normalizeAgendaDate(value).slice(0,7);}
-const toTour = r => ({
-    id:r.id, date:normalizeAgendaDate(r.data), time:r.horario||'', type:r.tipo||'', customer:r.cliente||'',
+  const toTour = r => ({
+    id:r.id, date:r.data, time:r.horario||'', type:r.tipo||'', customer:r.cliente||'',
     phone:r.telefone||'', paidPeople:Number(r.pessoas_pagantes||0),
     freePeople:Number(r.pessoas_gratuitas||0), price:Number(r.valor_por_pessoa||0),
     received:Number(r.valor_recebido||0), guide:r.guia||'', partner:r.parceiro||'',
-    guidePay:Number(r.pagamento_guia||0), guidePayModel:r.modelo_pagamento_guia||null, partnerCommission:Number(r.comissao_parceiro||0), origin:r.origem_passeio||'proprio', partnerSalePrice:Number(r.valor_venda_parceiro||0), partnerCommissionTotal:Number(r.comissao_a_receber||0), partnerCommissionReceived:Number(r.comissao_recebida||0),
+    guidePay:Number(r.pagamento_guia||0), partnerCommission:Number(r.comissao_parceiro||0),
     notes:r.observacoes||'', done:!!r.realizado
   });
   const fromTour = t => ({
     id:t.id, data:t.date, horario:t.time||null, tipo:t.type, cliente:t.customer||null,
     telefone:t.phone||null, pessoas_pagantes:Number(t.paidPeople||0),
     pessoas_gratuitas:Number(t.freePeople||0), valor_por_pessoa:Number(t.price||0),
-    valor_recebido:0, guia:t.guide||null, parceiro:t.partner||null,
-    pagamento_guia:Number(t.guidePay||0), modelo_pagamento_guia:t.guidePayModel||'por_pessoa', comissao_parceiro:Number(t.partnerCommission||0), origem_passeio:t.origin||'proprio', valor_venda_parceiro:Number(t.partnerSalePrice||0), comissao_a_receber:Number(t.partnerCommissionTotal||0), comissao_recebida:Number(t.partnerCommissionReceived||0),
+    valor_recebido:Number(t.received||0), guia:t.guide||null, parceiro:t.partner||null,
+    pagamento_guia:Number(t.guidePay||0), comissao_parceiro:Number(t.partnerCommission||0),
     observacoes:t.notes||null, realizado:!!t.done, criado_por:currentUser?.id||null
   });
   const toFinance = r => ({
     id:r.id, type:r.tipo, date:r.data, category:r.categoria||'',
     amount:Number(r.valor||0), description:r.descricao||'',
-    linkedCommission:!!r.vinculado_comissao, commissionKind:r.comissao_tipo||null, paymentMethod:r.forma_pagamento||'', passeioId:r.passeio_id||null
+    linkedCommission:!!r.vinculado_comissao, passeioId:r.passeio_id||null
   });
   const fromFinance = x => ({
     id:x.id, tipo:x.type, data:x.date, categoria:x.category,
@@ -1704,85 +1045,68 @@ const toTour = r => ({
   function requireAdmin(){ if(!isAdmin()){ showError('Somente o ADMINISTRADOR pode realizar esta operação.'); return false; } return true; }
 
   async function loadAll(){
-    const profileRes=await db.from('perfis').select('nome,funcao,ativo,menus_permitidos').eq('id',currentUser.id).single();
-    if(profileRes.error)throw profileRes.error;
-    if(!profileRes.data||!profileRes.data.ativo)throw new Error('Seu usuário está sem perfil ativo. Peça ao administrador para verificar o cadastro.');
-    currentRole=profileRes.data.funcao;
-    if(!['ADMINISTRADOR','EQUIPE'].includes(currentRole))throw new Error('Perfil de acesso inválido.');
-    allowedMenus=isAdmin()?[...ALL_MENUS]:(Array.isArray(profileRes.data.menus_permitidos)?profileRes.data.menus_permitidos.filter(x=>ALL_MENUS.includes(x)):[...DEFAULT_TEAM_MENUS]);
-    await loadAssistantPermission();
-    const has=(...keys)=>isAdmin()||keys.some(k=>allowedMenus.includes(k));
-    const empty={data:[],error:null};
-    const [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes,methodsRes,financeRes,catalogRes]=await Promise.all([
-      has('home','agenda','form','finance','reports')?db.from('passeios').select('*').order('data',{ascending:true}):Promise.resolve(empty),
-      has('form','registries','finance','reports')?db.from('guias').select('*').eq('ativo',true).order('nome'):Promise.resolve(empty),
-      has('form','registries','finance','reports')?db.from('parceiros').select('*').eq('ativo',true).order('nome'):Promise.resolve(empty),
-      has('reports')?db.from('pagamentos_comissoes').select('*').order('data',{ascending:false}):Promise.resolve(empty),
-      has('finance','registries')?db.from('categorias_financeiras').select('*').eq('ativo',true).order('tipo').order('nome'):Promise.resolve(empty),
-      has('agenda','finance','registries')?db.from('formas_pagamento').select('*').eq('ativo',true).order('nome'):Promise.resolve(empty),
-      has('home','finance','reports')?db.from('lancamentos_financeiros').select('*').order('data',{ascending:false}):Promise.resolve(empty),
-      has('form','registries')?db.from('catalogo_passeios').select('*').order('nome'):Promise.resolve(empty)
+    const [profileRes,toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes] = await Promise.all([
+      db.from('perfis').select('nome,funcao,ativo').eq('id',currentUser.id).single(),
+      db.from('passeios').select('*').order('data',{ascending:true}),
+      db.from('guias').select('*').eq('ativo',true).order('nome'),
+      db.from('parceiros').select('*').eq('ativo',true).order('nome'),
+      db.from('pagamentos_comissoes').select('*').order('data',{ascending:false}),
+      db.from('categorias_financeiras').select('*').eq('ativo',true).order('tipo').order('nome')
     ]);
-    for(const res of [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes,methodsRes,financeRes,catalogRes])if(res.error)throw res.error;
+    if(profileRes.error) throw profileRes.error;
+    if(!profileRes.data || !profileRes.data.ativo) throw new Error('Seu usuário está sem perfil ativo. Peça ao administrador para verificar o cadastro.');
+    currentRole=profileRes.data.funcao;
+    if(!['ADMINISTRADOR','EQUIPE'].includes(currentRole)) throw new Error('Perfil de acesso inválido.');
+    await loadAssistantPermission();
+    for(const res of [toursRes,guidesRes,partnersRes,paymentsRes,categoriesRes]) if(res.error) throw res.error;
     tours=(toursRes.data||[]).map(toTour);
+
+    // Reconcilia os recebimentos dos passeios antes de montar o Financeiro.
+    // Assim, passeios já cadastrados também aparecem na lista de movimentações.
+    for(const tour of tours) await syncTourReceipt(tour);
+    const financeRes=await db.from('lancamentos_financeiros').select('*').order('data',{ascending:false});
+    if(financeRes.error) throw financeRes.error;
     financeEntries=(financeRes.data||[]).map(toFinance);
-    for(const tour of tours){if(tour.origin==='parceiro')continue;tour.received=financeEntries.filter(x=>x.passeioId===tour.id&&x.type==='receita'&&!x.commissionKind).reduce((sum,x)=>sum+Number(x.amount||0),0);}
-    paymentMethods=methodsRes.data||[];renderPaymentMethods();refreshPaymentMethodOptions();
-    guides=(guidesRes.data||[]).map(x=>x.nome);partners=(partnersRes.data||[]).map(x=>x.nome);window.rotaRemoteRegistries={guides,partners};
-    refreshFinanceCategoryOptions();commissionPayments=(paymentsRes.data||[]).map(toPayment);financeCategories=categoriesRes.data||[];
-    if(typeof populatePeopleReportSelects==='function'){populatePeopleReportSelects();}
-    tourCatalog=catalogRes.data||[];
-    if(has('form','registries'))$('catalogStatus').textContent='Catálogo sincronizado com o Supabase.';
-    currentUser.profileName=profileRes.data.nome;ready=true;
+
+    guides=(guidesRes.data||[]).map(x=>x.nome);
+    partners=(partnersRes.data||[]).map(x=>x.nome);
+    window.rotaRemoteRegistries={guides,partners};
+    refreshFinanceCategoryOptions();
+    commissionPayments=(paymentsRes.data||[]).map(toPayment);
+    financeCategories=categoriesRes.data||[];
+    currentUser.profileName=profileRes.data.nome;
+    ready=true;
   }
 
   function refreshIdentity(){
-    document.body.classList.add('authenticated');document.body.classList.toggle('team-mode',!isAdmin());
+    document.body.classList.add('authenticated');
+    document.body.classList.toggle('team-mode',!isAdmin());
     $('currentUserLabel').textContent=(currentUser.profileName||currentUser.email);$('userRoleLabel').textContent=currentRole;
-    $('userAdminPanel').hidden=!isAdmin();$('settingsButton').hidden=!isAdmin()&&!allowedMenus.includes('settings');
+    $('view-registries').hidden=!isAdmin();
+    $('view-form').hidden=false;
     if(!isAdmin()){
-      $('addGuide').disabled=true;$('addPartner').disabled=true;$('newGuide').disabled=true;$('newPartner').disabled=true;
-      $('addFinanceCategory').disabled=true;$('newCategoryName').disabled=true;$('newCategoryType').disabled=true;$('exportBtn').hidden=true;
-    }else{
-      $('addGuide').disabled=false;$('addPartner').disabled=false;$('newGuide').disabled=false;$('newPartner').disabled=false;
-      $('addFinanceCategory').disabled=false;$('newCategoryName').disabled=false;$('newCategoryType').disabled=false;$('exportBtn').hidden=false;
+      $('addGuide').disabled=true;$('addPartner').disabled=true;
+      $('newGuide').disabled=true;$('newPartner').disabled=true;
+      $('addFinanceCategory').disabled=true;$('newCategoryName').disabled=true;$('newCategoryType').disabled=true;
+      $('exportBtn').hidden=true;
+    } else {
+      $('addGuide').disabled=false;$('addPartner').disabled=false;
+      $('newGuide').disabled=false;$('newPartner').disabled=false;
+      $('addFinanceCategory').disabled=false;$('newCategoryName').disabled=false;$('newCategoryType').disabled=false;
+      $('exportBtn').hidden=false;
     }
   }
 
   async function loadApp(){
-    await loadAll();refreshIdentity();if(isAdmin())await loadAssistantUsers();
-    refreshRegistrySelects();renderRegistry('guide');renderRegistry('partner');renderTourCatalog();refreshTourTypeOptions();applyTourCommissionDefault();
-    renderFinanceCategories();renderFinance();render();
-    const firstAllowed=ALL_MENUS.find(k=>allowedMenus.includes(k)&&k!=='settings')||(allowedMenus.includes('settings')?'settings':null);
-    if(firstAllowed)showView(firstAllowed);else showError('Este usuário ainda não possui menus liberados. Peça ao administrador para configurar o acesso.');
+    await loadAll();
+    refreshIdentity();
+    if(isAdmin()) await loadAssistantUsers();
+    refreshRegistrySelects();
+    renderRegistry('guide'); renderRegistry('partner');
+    renderFinanceCategories();
+    renderFinance(); render();
+    showView('home');
   }
-
-  function refreshPaymentMethodOptions(){
-    const select=$('finPaymentMethod'); if(!select)return; const current=select.value;
-    select.innerHTML='<option value="">Selecione</option>'+paymentMethods.map(m=>`<option value="${esc(m.nome)}">${esc(m.nome)}</option>`).join('');
-    if(paymentMethods.some(m=>m.nome===current))select.value=current;
-  }
-  function renderPaymentMethods(){
-    const list=$('paymentMethodList');if(!list)return;
-    list.innerHTML=paymentMethods.map(m=>`<li class="registry-item"><span class="registry-name">${esc(m.nome)}</span><button class="registry-icon edit-icon" type="button" onclick="editPaymentMethod('${m.id}')">✏️</button><button class="registry-icon delete-icon" type="button" onclick="disablePaymentMethod('${m.id}')">🗑️</button></li>`).join('')||'<li>Nenhuma forma cadastrada.</li>';
-  }
-  $('addPaymentMethod').addEventListener('click',async()=>{
-    if(!requireAdmin())return;const nome=$('newPaymentMethod').value.trim();if(!nome){showError('Informe o nome da forma de pagamento.');return;}
-    if(paymentMethods.some(m=>m.nome.toLowerCase()===nome.toLowerCase())){showError('Essa forma de pagamento já existe.');return;}
-    const {data,error}=await db.from('formas_pagamento').insert({nome,ativo:true}).select().single();if(error){showError('Não foi possível cadastrar: '+error.message);return;}
-    paymentMethods.push(data);$('newPaymentMethod').value='';renderPaymentMethods();refreshPaymentMethodOptions();
-  });
-  window.editPaymentMethod=async id=>{if(!requireAdmin())return;const m=paymentMethods.find(x=>x.id===id);if(!m)return;const nome=prompt('Novo nome da forma de pagamento:',m.nome);if(nome===null||!nome.trim())return;const {data,error}=await db.from('formas_pagamento').update({nome:nome.trim()}).eq('id',id).select().single();if(error){showError(error.message);return;}paymentMethods=paymentMethods.map(x=>x.id===id?data:x);renderPaymentMethods();refreshPaymentMethodOptions();};
-  window.disablePaymentMethod=async id=>{if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}if(!confirm('Desativar esta forma de pagamento? Lançamentos anteriores serão preservados.'))return;const {error}=await db.from('formas_pagamento').update({ativo:false}).eq('id',id);if(error){showError(error.message);return;}paymentMethods=paymentMethods.filter(x=>x.id!==id);renderPaymentMethods();refreshPaymentMethodOptions();};
-  window.registerTourReceipt=async id=>{
-    const t=tours.find(x=>String(x.id)===String(id));if(!t)return;
-    const amount=Number($('receipt-amount-'+id).value||0),date=$('receipt-date-'+id).value,method=$('receipt-method-'+id).value;
-    if(amount<=0||!date||!method){showError('Informe valor, data e forma de pagamento.');return;}
-    const due=Math.max(0,totalFor(t)-Number(t.received||0));if(amount>due+0.001&&!confirm('O recebimento supera o saldo previsto. Deseja continuar?'))return;
-    const x={id:crypto.randomUUID(),type:'receita',date,category:'Recebimentos dos passeios',amount,description:`Recebimento do passeio: ${t.customer||'Cliente'} - ${t.type||'Passeio'}`,paymentMethod:method,passeioId:t.id};
-    const {error}=await db.from('lancamentos_financeiros').insert(fromFinance(x));if(error){showError('Não foi possível registrar: '+error.message);return;}
-    await loadApp();showView('agenda');requestAnimationFrame(()=>{const d=document.getElementById('detail-'+id);if(d)d.classList.add('open');});
-  };
 
   $('addFinanceCategory').addEventListener('click',async()=>{
     if(!requireAdmin()) return;
@@ -1816,7 +1140,6 @@ const toTour = r => ({
     catch(err){ await db.auth.signOut(); currentUser=null; $('loginError').textContent='Falha ao carregar os dados: '+(err.message||'verifique as permissões do banco.'); button.disabled=false;button.textContent='Entrar'; }
   });
 
-  $('newUserRole').addEventListener('change',updateNewUserMenuVisibility);updateNewUserMenuVisibility();
   $('userCreateForm').addEventListener('submit',async e=>{
     e.preventDefault();
     if(!requireAdmin()) return;
@@ -1824,14 +1147,13 @@ const toTour = r => ({
     const payload={
       action:'create',nome:$('newUserName').value.trim(),email:$('newUserEmail').value.trim(),
       password:$('newUserPassword').value,funcao:$('newUserRole').value,
-      ativo:$('newUserActive').checked,menus_permitidos:$('newUserRole').value==='ADMINISTRADOR'?ALL_MENUS:selectedNewUserMenus()
+      ativo:$('newUserActive').checked,pode_usar_assistente:$('newUserAssistant').checked
     };
     if(!payload.nome||!payload.email||payload.password.length<8){status.textContent='Preencha nome, e-mail e senha com pelo menos 8 caracteres.';return;}
-    if(payload.funcao==='EQUIPE'&&!payload.menus_permitidos.length){status.textContent='Selecione pelo menos um menu para o usuário da equipe.';return;}
     button.disabled=true;button.textContent='Criando usuário...';status.textContent='Criando acesso com segurança...';
     try{
       await callAdminUsers(payload);
-      $('userCreateForm').reset();$('newUserActive').checked=true;$('newUserRole').value='EQUIPE';updateNewUserMenuVisibility();
+      $('userCreateForm').reset();$('newUserActive').checked=true;$('newUserRole').value='EQUIPE';
       status.textContent='Usuário criado com sucesso. Ele já pode entrar com o e-mail e a senha inicial.';
       await loadAssistantUsers();
     }catch(err){status.textContent='Não foi possível criar o usuário: '+err.message;}
@@ -1845,28 +1167,47 @@ const toTour = r => ({
   });
 
   // Mantém no Financeiro somente o valor efetivamente recebido em cada passeio.
-  async function syncTourReceipt(t){ /* Recebimentos individuais são gravados diretamente no financeiro. */ return; }
+  async function syncTourReceipt(t){
+    // Busca todos os lançamentos ligados a este passeio para corrigir também
+    // eventuais duplicidades antigas, mantendo apenas um recebimento.
+    const {data:linked,error:findError}=await db.from('lancamentos_financeiros')
+      .select('id,valor,data').eq('passeio_id',t.id);
+    if(findError) throw findError;
+    const existing=linked||[];
+    const received=Number(t.received||0);
 
-  async function syncPartnerCommissionReceipt(t){
-    const {data:linked,error}=await db.from('lancamentos_financeiros').select('id').eq('passeio_id',t.id).eq('comissao_tipo','recebimento_parceiro');
-    if(error) throw error;
-    const rows=linked||[],received=Number(t.partnerCommissionReceived||0);
-    if(received<=0){if(rows.length){const del=await db.from('lancamentos_financeiros').delete().in('id',rows.map(x=>x.id));if(del.error)throw del.error;}return;}
-    const entry={tipo:'receita',data:t.date,categoria:'Comissões recebidas de parceiros',valor:received,descricao:`Comissão recebida: ${t.customer||'Cliente'} - ${t.type||'Passeio de parceiro'}`,vinculado_comissao:true,comissao_tipo:'recebimento_parceiro',comissao_nome:t.type,forma_pagamento:null,passeio_id:t.id,criado_por:currentUser?.id||null};
-    if(rows.length){const up=await db.from('lancamentos_financeiros').update(entry).eq('id',rows[0].id);if(up.error)throw up.error;if(rows.length>1){const del=await db.from('lancamentos_financeiros').delete().in('id',rows.slice(1).map(x=>x.id));if(del.error)throw del.error;}}
-    else {const ins=await db.from('lancamentos_financeiros').insert(entry);if(ins.error)throw ins.error;}
+    // Se o passeio não tem valor recebido, remove qualquer receita vinculada.
+    if(received<=0){
+      if(existing.length){
+        const {error}=await db.from('lancamentos_financeiros').delete().in('id',existing.map(x=>x.id));
+        if(error) throw error;
+      }
+      return;
+    }
+
+    const entry={
+      tipo:'receita', data:t.date, categoria:'Recebimentos dos passeios',
+      valor:received,
+      descricao:`Recebimento do passeio: ${t.customer||'Cliente'} - ${t.type||'Passeio'}`,
+      vinculado_comissao:false, comissao_tipo:null, comissao_nome:null,
+      forma_pagamento:null, passeio_id:t.id, criado_por:currentUser?.id||null
+    };
+
+    if(existing.length){
+      // Atualiza o lançamento existente para refletir valor e data atuais.
+      const {error}=await db.from('lancamentos_financeiros').update(entry).eq('id',existing[0].id);
+      if(error) throw error;
+      // Remove somente duplicatas vinculadas ao mesmo passeio.
+      const duplicates=existing.slice(1).map(x=>x.id);
+      if(duplicates.length){
+        const {error:deleteError}=await db.from('lancamentos_financeiros').delete().in('id',duplicates);
+        if(deleteError) throw deleteError;
+      }
+    }else{
+      const {error}=await db.from('lancamentos_financeiros').insert(entry);
+      if(error) throw error;
+    }
   }
-
-  $('tourCatalogForm').addEventListener('submit',async e=>{
-    e.preventDefault();if(!requireAdmin())return;
-    const id=$('catalogId').value;const nome=$('catalogName').value.trim();const origem=$('catalogOrigin').value;const valor=Number($('catalogCommissionValue').value||0);const modelo=$('catalogCommissionModel').value;
-    if(!nome){showError('Informe o nome do passeio.');return;}if(origem==='parceiro'&&modelo==='percentual'&&valor>100){showError('O percentual não pode ser maior que 100%.');return;}
-    const record={nome,origem,comissao_modelo:modelo,comissao_valor:origem==='parceiro'?valor:0,valor_passeio:origem==='proprio'?Number($('catalogOwnPrice').value||0):0,usa_guia:origem==='proprio'&&$('catalogGuideEnabled').checked,valor_guia:origem==='proprio'&&$('catalogGuideEnabled').checked?Number($('catalogGuideValue').value||0):0,modelo_pagamento_guia:origem==='proprio'&&$('catalogGuideEnabled').checked?$('catalogGuidePayModel').value:'por_pessoa',habilita_vendedor:origem==='proprio'&&$('catalogSellerEnabled').checked,comissao_vendedor:origem==='proprio'&&$('catalogSellerEnabled').checked?Number($('catalogSellerValue').value||0):0,valor_venda_parceiro:origem==='parceiro'?Number($('catalogPartnerSalePrice').value||0):0,ativo:$('catalogActive').checked};
-    const result=id?await db.from('catalogo_passeios').update(record).eq('id',id):await db.from('catalogo_passeios').insert(record);
-    if(result.error){showError('Não foi possível salvar no catálogo: '+result.error.message);return;}
-    resetCatalogForm();await window.rota86ReloadCatalog();
-  });
-  window.rota86ReloadCatalog=async()=>{const {data,error}=await db.from('catalogo_passeios').select('*').order('nome');if(error){$('catalogStatus').textContent='Erro ao carregar catálogo: '+error.message;return;}tourCatalog=data||[];$('catalogStatus').textContent='Catálogo sincronizado com o Supabase.';renderTourCatalog();};
 
   // Intercepta os formulários originais para gravar diretamente no Supabase.
   document.addEventListener('submit',async e=>{
@@ -1878,17 +1219,16 @@ const toTour = r => ({
       const t={id,date:$('date').value,time:$('time').value,type:$('type').value,
         customer:$('customer').value.trim(),phone:$('phone').value.trim(),
         paidPeople:Number($('paidPeople').value||0),freePeople:Number($('freePeople').value||0),
-        price:Number($('price').value||0),received:0,
+        price:Number($('price').value||0),received:Number($('received').value||0),
         guide:$('guide').value,partner:$('partner').value,
-        guidePay:Number($('guidePay').value||0),guidePayModel:$('guidePayModel').value,partnerCommission:Number($('partnerCommission').value||0),
-        origin:findCatalog($('type').value)?.origem||'proprio',partnerSalePrice:Number($('partnerSalePrice').value||0),partnerCommissionTotal:Number($('partnerCommissionTotal').value||0),partnerCommissionReceived:Number($('partnerCommissionReceived').value||0), notes:$('notes').value.trim(),done:false};
-      if(t.origin==='parceiro'){t.price=0;t.received=0;if(t.partnerCommissionReceived>t.partnerCommissionTotal+0.001){showError('A comissão recebida não pode superar a comissão total a receber.');return;}}
-      
+        guidePay:Number($('guidePay').value||0),partnerCommission:Number($('partnerCommission').value||0),
+        notes:$('notes').value.trim(),done:false};
+      if(t.received>totalFor(t) && !confirm('O valor recebido é maior que o total previsto. Deseja salvar assim?')) return;
       const {error}=editingId
         ? await db.from('passeios').update(fromTour(t)).eq('id',id)
         : await db.from('passeios').insert(fromTour(t));
       if(error){showError('Não foi possível salvar o passeio: '+error.message);return;}
-      try { if(t.origin==='parceiro') await syncPartnerCommissionReceipt(t); else await syncTourReceipt(t); }
+      try { await syncTourReceipt(t); }
       catch(syncError){showError('O passeio foi salvo, mas não foi possível sincronizar o recebimento no Financeiro: '+syncError.message);return;}
       await loadApp(); resetForm(); showView('agenda');
     }
@@ -1897,7 +1237,7 @@ const toTour = r => ({
       const category=$('finCategory').value.trim();
       const commission=parseCommissionCategory(category);
       const x={id:crypto.randomUUID(),type:$('finType').value,date:$('finDate').value,
-        category,amount:Number($('finAmount').value),description:$('finDescription').value.trim(),paymentMethod:$('finPaymentMethod').value||null,
+        category,amount:Number($('finAmount').value),description:$('finDescription').value.trim(),
         linkedCommission:!!commission,commissionKind:commission&&$('finType').value==='despesa'?commission.kind:null,
         commissionName:commission&&$('finType').value==='despesa'?commission.name:null,paymentMethod:'Pix'};
       if(commission && $('finType').value!=='despesa'){showError('Categorias de comissão devem ser lançadas como despesa.');return;}
@@ -1918,14 +1258,13 @@ const toTour = r => ({
   window.editTour=id=>{
     if(!requireAdmin())return;
     const t=tours.find(x=>x.id===id);if(!t)return;editingId=id;
-    refreshTourTypeOptions(t.type);refreshRegistrySelects();['date','time','type','customer','phone','paidPeople','freePeople','price','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
-    $('guidePay').value=t.guidePay??0;setGuidePayModel(t.guidePayModel||(String(t.type||'').toLowerCase().includes('coletivo')?'fixo':'por_pessoa'));$('partnerCommission').value=t.partnerCommission??0;$('partnerSalePrice').value=t.partnerSalePrice??0;$('partnerCommissionTotal').value=t.partnerCommissionTotal??0;$('partnerCommissionReceived').value=t.partnerCommissionReceived??0;updateSaleOriginFields();
+    ['date','time','type','customer','phone','paidPeople','freePeople','price','received','guide','partner','notes'].forEach(k=>$(k).value=t[k]??'');
+    $('guidePay').value=t.guidePay??0;$('partnerCommission').value=t.partnerCommission??0;
     $('formTitle').textContent='Editar passeio';$('saveBtn').textContent='Salvar alterações';$('cancelEdit').hidden=false;
     showView('form');
   };
   window.deleteTour=async id=>{
-    if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}
-    if(!confirm('Excluir este passeio?'))return;
+    if(!requireAdmin()||!confirm('Excluir este passeio?'))return;
     const {error:financeError}=await db.from('lancamentos_financeiros').delete().eq('passeio_id',id);
     if(financeError){showError('Não foi possível excluir as movimentações vinculadas: '+financeError.message);return;}
     const {error}=await db.from('passeios').delete().eq('id',id);
@@ -1943,8 +1282,7 @@ const toTour = r => ({
   };
 
   window.deleteFinance=async id=>{
-    if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}
-    if(!confirm('Excluir este lançamento?'))return;
+    if(!requireAdmin()||!confirm('Excluir este lançamento?'))return;
     const {error}=await db.from('lancamentos_financeiros').delete().eq('id',id);
     if(error){showError(error.message);return;} await loadApp();
   };
@@ -1969,7 +1307,7 @@ const toTour = r => ({
     refreshFinanceCategoryOptions();
   }
   window.deleteFinanceCategory=async id=>{
-    if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}
+    if(!requireAdmin())return;
     if(!confirm('Excluir esta categoria? Os lançamentos já realizados serão preservados.'))return;
     const {error}=await db.from('categorias_financeiras').update({ativo:false}).eq('id',id);
     if(error){showError(error.message);return;}
@@ -2016,8 +1354,7 @@ const toTour = r => ({
     if(error){showError(error.message);return;}await loadApp();
   };
   window.deleteRegistry=async(kind,i)=>{
-    if(!isAdmin()){showError('Usuários da equipe não podem excluir registros.');return;}
-    if(!confirm('Desativar este cadastro?'))return;
+    if(!requireAdmin()||!confirm('Excluir este cadastro?'))return;
     const arr=kind==='guide'?guides:partners,old=arr[i],table=kind==='guide'?'guias':'parceiros';
     const {error}=await db.from(table).update({ativo:false}).eq('nome',old);
     if(error){showError(error.message);return;}await loadApp();
@@ -2033,32 +1370,31 @@ const toTour = r => ({
     $('newPartner').value='';await loadApp();
   };
 
-  // Menus personalizados e proteção contra exclusões para todos os usuários EQUIPE.
+  // Interface em modo somente leitura para a equipe.
   const originalRender=window.render;
   window.render=()=>{originalRender();applyRoleUI();};
   const originalShowView=window.showView;
   window.showView=v=>{
-    if(!isAdmin()&&!allowedMenus.includes(v)){
-      showError('Você não tem permissão para acessar este menu.');
-      const fallback=ALL_MENUS.find(k=>allowedMenus.includes(k)&&k!=='settings')||(allowedMenus.includes('settings')?'settings':null);
-      if(!fallback)return;v=fallback;
-    }
-    originalShowView(v);if(v==='settings'&&isAdmin())loadAssistantUsers();applyRoleUI();
+    if(v==='registries'&&!isAdmin()){showError('A área de cadastros é exclusiva do administrador.');v='home';}
+    originalShowView(v);
+    if(v==='registries'&&isAdmin()) loadAssistantUsers();
+    applyRoleUI();
   };
   function applyRoleUI(){
     if(!ready)return;
-    document.querySelectorAll('.app-nav .navbtn[data-view]').forEach(el=>{el.hidden=!isAdmin()&&!allowedMenus.includes(el.dataset.view);});
-    $('settingsButton').hidden=!isAdmin()&&!allowedMenus.includes('settings');$('userAdminPanel').hidden=!isAdmin();
-    $('view-registries').hidden=!isAdmin()&&!allowedMenus.includes('registries');$('exportBtn').hidden=!isAdmin();$('backupPanel').hidden=!isAdmin();
-    document.querySelectorAll('.dashboard-shortcuts .shortcut').forEach(el=>{const m=(el.getAttribute('onclick')||'').match(/showView\('([^']+)'\)/);if(m)el.hidden=!isAdmin()&&!allowedMenus.includes(m[1]);});
-    if(!isAdmin())document.querySelectorAll('#tourList .detail-actions .danger,#financeList .danger,#paymentMethodList .delete-icon,#incomeCategoryList button,#expenseCategoryList button,#guideList .delete-icon,#partnerList .delete-icon').forEach(el=>el.remove());
+    document.querySelectorAll('.app-nav .navbtn[data-view="registries"]').forEach(el=>{el.hidden=!isAdmin();});
+    document.querySelectorAll('#tourList .detail-actions').forEach(el=>{if(!isAdmin()){const share=el.querySelector('.share-tour-btn');el.innerHTML='<span class="hint">Apenas o administrador pode editar ou excluir passeios.</span>';if(share)el.prepend(share);}});
+    document.querySelectorAll('#financeList button').forEach(el=>{if(!isAdmin())el.remove();});
+    document.querySelectorAll('#guideList .edit-icon,#guideList .delete-icon,#partnerList .edit-icon,#partnerList .delete-icon').forEach(el=>{if(!isAdmin())el.remove();});
+    $('view-registries').hidden=!isAdmin();
+    $('exportBtn').hidden=!isAdmin();
   }
   const originalRenderFinance=window.renderFinance;
   window.renderFinance=()=>{
     const income=financeEntries.filter(x=>x.type==='receita').reduce((a,x)=>a+Number(x.amount||0),0);
     const expenses=financeEntries.filter(x=>x.type==='despesa').reduce((a,x)=>a+Number(x.amount||0),0);
     $('finTotals').innerHTML=`<div class="finance-total-grid"><div class="finance-total income-total"><span>Receitas</span><strong>${money(income)}</strong></div><div class="finance-total expense-total"><span>Despesas</span><strong>${money(expenses)}</strong></div><div class="finance-total balance-total"><span>Saldo</span><strong>${money(income-expenses)}</strong></div></div>`;
-    $('financeList').innerHTML=financeEntries.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<li>${esc(x.date)} — <b>${x.type==='receita'?'Receita':'Despesa'}</b> ${esc(x.category)}: ${money(x.amount)} ${esc(x.description||'')}${x.paymentMethod?' · '+esc(x.paymentMethod):''}${isAdmin()?` <button class="danger" onclick="deleteFinance('${x.id}')">Excluir</button>`:''}</li>`).join('')||'<li>Nenhum lançamento ainda.</li>';
+    $('financeList').innerHTML=financeEntries.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(x=>`<li>${esc(x.date)} — <b>${x.type==='receita'?'Receita':'Despesa'}</b> ${esc(x.category)}: ${money(x.amount)} ${esc(x.description||'')}${isAdmin()?` <button class="danger" onclick="deleteFinance('${x.id}')">Excluir</button>`:''}</li>`).join('')||'<li>Nenhum lançamento ainda.</li>';
   };
   window.renderCommissionRows=(kind,monthRecords)=>{
     const nameKey=kind==='guide'?'guide':'partner';
